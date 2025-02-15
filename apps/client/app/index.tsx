@@ -1,11 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import TestComp from "@components/TestComp";
 
 const App = () => {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
+    <View className="flex-1 items-center justify-center">
       <Text className="text-blue-700">
-        Open up App.js to start working on your app! asdasdasdasd
+        Open up App.js to start working on your app!
+        <TestComp />
       </Text>
       <StatusBar style="auto" />
     </View>
