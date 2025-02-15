@@ -6,14 +6,19 @@ module.exports = function (api) {
       "nativewind/babel",
     ],
     plugins: [
-      "module-resolver",
-      {
-        root: ".",
-        extensions: [".ts", ".tsx", ".jsx", ".js", ".json", ".svg", ".jpg"],
-        alias: {
-          "@components": "./components",
+      [
+        "module-resolver",
+        {
+          root: ".",
+          extensions: [".ts", ".tsx", ".jsx", ".js", ".json", ".svg", ".jpg"],
+          alias: {
+            "~/*": "./src",
+            "@components": "./src/components",
+            "@screens": "./src/screens",
+            "@routes": "./src/routes",
+          },
         },
-      },
+      ],
     ],
   };
 };
