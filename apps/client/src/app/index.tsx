@@ -6,7 +6,7 @@ import "expo-router/entry";
 const App = () => {
   return (
     <View className="flex-1 items-center justify-center">
-      <Text className="text-blue-700">
+      <Text className="text-blue-700 font-Poppins-Regular">
         Open up App.js to start working on your app!
         <TestComp />
       </Text>

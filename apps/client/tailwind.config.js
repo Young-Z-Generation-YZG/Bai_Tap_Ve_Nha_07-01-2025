@@ -3,7 +3,19 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        ["Poppins-Thin"]: ["Poppins-Thin"],
+        ["Poppins-ExtraLight"]: ["Poppins-ExtraLight"],
+        ["Poppins-Light"]: ["Poppins-Light"],
+        ["Poppins-Regular"]: ["Poppins-Regular"],
+        ["Poppins-Medium"]: ["Poppins-Medium"],
+        ["Poppins-SemiBold"]: ["Poppins-SemiBold"],
+        ["Poppins-Bold"]: ["Poppins-Bold"],
+        ["Poppins-ExtraBold"]: ["Poppins-ExtraBold"],
+        ["Poppins-Black"]: ["Poppins-Black"],
+      },
+    },
   },
   plugins: [],
 };
