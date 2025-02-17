@@ -14,8 +14,8 @@ module.exports = function (api) {
           alias: {
             "~/*": "./src",
             "@components": "./src/components",
-            "@screens": "./src/screens",
-            "@routes": "./src/routes",
+            // "@screens": "./src/screens",
+            // "@routes": "./src/routes",
           },
         },
       ],
