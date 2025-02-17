@@ -1,16 +1,21 @@
-import { baseApi } from "~/infrastructure/redux/apis/base.api";
 import logger from "react-native-logger";
 import { setAccessToken } from "~/infrastructure/redux/slices/auth/auth.slice";
 import {
   loginPayloadType,
   loginResponseType,
 } from "~/infrastructure/types/auth.type";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const authApi = baseApi.injectEndpoints({
+export const authApi = createApi({
+  reducerPath: "auth-api",
+  tagTypes: ["auth"],
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://dummyjson.com/auth/",
+  }),
   endpoints: (builder) => ({
     loginAsync: builder.mutation({
       query: (payload: loginPayloadType) => ({
-        url: "api/v1/auth/login",
+        url: "login",
         method: "POST",
         body: payload,
       }),

@@ -1,10 +1,18 @@
 import React, { useEffect } from "react";
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { persistStore } from "redux-persist";
 import "../../global.css";
+import rtkStore from "~/infrastructure/redux/store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Text } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const persistor = persistStore(rtkStore);
 
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
@@ -36,13 +44,20 @@ const RootLayout = () => {
     return null;
   }
   return (
-    <>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      ></Stack>
-    </>
+    <Provider store={rtkStore}>
+      <PersistGate
+        loading={<Text>Loading persisted data... !!!!</Text>}
+        persistor={persistor}
+      >
+        <SafeAreaProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          ></Stack>
+        </SafeAreaProvider>
+      </PersistGate>
+    </Provider>
   );
 };
 
