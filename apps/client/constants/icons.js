@@ -1,3 +1,5 @@
 export default {
-  play: require("assets/icons/play.png"),
+  menu: require("assets/icons/menu.png"),
+  search: require("assets/icons/search.png"),
+  shoppingBag: require("assets/icons/shopping-bag.png"),
 };

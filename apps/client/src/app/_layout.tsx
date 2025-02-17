@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
-import { Slot, SplashScreen } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import "../../global.css";
 
@@ -9,6 +8,7 @@ SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
+    "TenorSans-Regular": require("assets/fonts/TenorSans-Regular.ttf"),
     "Poppins-Black": require("assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("assets/fonts/Poppins-Bold.ttf"),
     "Poppins-ExtraBold": require("assets/fonts/Poppins-ExtraBold.ttf"),
@@ -37,9 +37,11 @@ const RootLayout = () => {
   }
   return (
     <>
-      <Text>Header</Text>
-      <Slot />
-      <Text className="text-red-600">Footer</Text>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      ></Stack>
     </>
   );
 };
