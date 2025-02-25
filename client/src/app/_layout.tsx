@@ -1,13 +1,14 @@
+import "../../global.css";
 import React, { useEffect } from "react";
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { Text } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 import { persistStore } from "redux-persist";
-import "../../global.css";
 import rtkStore from "~/infrastructure/redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Text } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

@@ -1,4 +1,3 @@
-import logger from "react-native-logger";
 import { setAccessToken } from "~/infrastructure/redux/slices/auth/auth.slice";
 import {
   loginPayloadType,
@@ -26,7 +25,7 @@ export const authApi = createApi({
           // Dispatch the action to set the access token (to store it in the Redux store)
           dispatch(setAccessToken(data.accessToken));
         } catch (error) {
-          logger.error(error);
+          console.error(error);
         }
       },
     }),
