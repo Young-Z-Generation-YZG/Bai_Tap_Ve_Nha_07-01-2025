@@ -6,15 +6,20 @@ import {
   Theme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { Platform } from "react-native";
+import { Platform, Text } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
+import { persistStore } from "redux-persist";
+import { SplashScreen, Stack } from "expo-router";
+import { PersistGate } from "redux-persist/integration/react";
+
+import rtkStore from "~/src/infrastructure/redux/store";
+import { Provider } from "react-redux";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -24,6 +29,8 @@ const DARK_THEME: Theme = {
   ...DarkTheme,
   colors: NAV_THEME.dark,
 };
+
+const persistor = persistStore(rtkStore);
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -54,20 +61,27 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: "Starter Base",
-            headerRight: () => <ThemeToggle />,
-            headerShown: false,
-          }}
-        />
-      </Stack>
-      <PortalHost />
-    </ThemeProvider>
+    <Provider store={rtkStore}>
+      <PersistGate
+        loading={<Text>Loading persisted data... !!!!</Text>}
+        persistor={persistor}
+      >
+        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <Stack>
+            <Stack.Screen
+              name="index"
+              options={{
+                title: "Starter Base",
+                headerRight: () => <ThemeToggle />,
+                headerShown: false,
+              }}
+            />
+          </Stack>
+          <PortalHost />
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 
