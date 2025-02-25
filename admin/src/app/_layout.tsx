@@ -67,18 +67,22 @@ export default function RootLayout() {
         persistor={persistor}
       >
         <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-          <Stack>
+          {/* <StatusBar style={isDarkColorScheme ? "light" : "dark"} /> */}
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
             <Stack.Screen
               name="index"
               options={{
-                title: "Starter Base",
+                title: "Onboarding",
                 headerRight: () => <ThemeToggle />,
-                headerShown: false,
+                headerShown: true,
               }}
             />
           </Stack>
-          <PortalHost />
+          {/* <PortalHost /> */}
         </ThemeProvider>
       </PersistGate>
     </Provider>

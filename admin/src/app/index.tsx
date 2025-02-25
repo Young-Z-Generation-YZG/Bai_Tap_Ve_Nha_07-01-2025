@@ -25,6 +25,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@components/ui/tooltip";
+import { router } from "expo-router";
 
 const GITHUB_AVATAR_URI =
   "https://i.pinimg.com/originals/ef/a2/8d/efa28d18a04e7fa40ed49eeb0ab660db.jpg";
@@ -33,7 +34,8 @@ export default function Screen() {
   const [progress, setProgress] = React.useState(78);
 
   function updateProgressValue() {
-    setProgress(Math.floor(Math.random() * 100));
+    // setProgress(Math.floor(Math.random() * 100));
+    setProgress(90);
   }
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
@@ -46,10 +48,10 @@ export default function Screen() {
             </AvatarFallback>
           </Avatar>
           <View className="p-3" />
-          <CardTitle className="pb-2 text-center">Rick Sanchez</CardTitle>
+          <CardTitle className="pb-2 text-center">Lê Xuân Bách</CardTitle>
           <View className="flex-row">
             <CardDescription className="text-base font-semibold">
-              Scientist
+              Administrator
             </CardDescription>
             <Tooltip delayDuration={150}>
               <TooltipTrigger className="px-2 pb-0.5 active:opacity-50">
@@ -60,7 +62,7 @@ export default function Screen() {
                 />
               </TooltipTrigger>
               <TooltipContent className="py-2 px-4 shadow">
-                <Text className="native:text-lg">Freelance</Text>
+                <Text className="native:text-lg">Fullstack Developer</Text>
               </TooltipContent>
             </Tooltip>
           </View>
@@ -73,7 +75,7 @@ export default function Screen() {
             </View>
             <View className="items-center">
               <Text className="text-sm text-muted-foreground">Age</Text>
-              <Text className="text-xl font-semibold">70</Text>
+              <Text className="text-xl font-semibold">21</Text>
             </View>
             <View className="items-center">
               <Text className="text-sm text-muted-foreground">Species</Text>
@@ -106,9 +108,11 @@ export default function Screen() {
           <Button
             variant="outline"
             className="shadow shadow-foreground/5"
-            onPress={updateProgressValue}
+            onPress={() => {
+              router.navigate("/sign-in");
+            }}
           >
-            <Text>Update</Text>
+            <Text>Login</Text>
           </Button>
         </CardFooter>
       </Card>
