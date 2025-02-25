@@ -67,7 +67,7 @@ export default function RootLayout() {
         persistor={persistor}
       >
         <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-          {/* <StatusBar style={isDarkColorScheme ? "light" : "dark"} /> */}
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
           <Stack
             screenOptions={{
               headerShown: false,
@@ -82,7 +82,7 @@ export default function RootLayout() {
               }}
             />
           </Stack>
-          {/* <PortalHost /> */}
+          <PortalHost />
         </ThemeProvider>
       </PersistGate>
     </Provider>

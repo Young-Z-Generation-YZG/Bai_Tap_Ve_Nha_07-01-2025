@@ -1,6 +1,5 @@
 {
   "expo": {
-    "main": "./src/app/index.tsx",
     "scheme": "myapp",
     "slug": ".",
     "version": "1.0.0",
