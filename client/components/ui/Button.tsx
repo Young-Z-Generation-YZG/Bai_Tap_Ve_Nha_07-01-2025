@@ -4,7 +4,7 @@ import React from "react";
 export type ButtonProps = {
   title: string;
   // styles
-  containerStyles?: string;
+  className?: string;
   textStyles?: string;
   // states
   isLoading?: boolean;
@@ -18,7 +18,7 @@ const Button = (props: ButtonProps) => {
       onPress={props.onPress}
       disabled={props.isLoading}
       activeOpacity={0.7}
-      className={`w-max h-max bg-blue-400 py-2 px-5 rounded-full {${props.containerStyles}}`}
+      className={`w-max h-max bg-blue-400 py-2 px-5 rounded-full ${props.className}`}
     >
       <Text className={`text-white ${props.textStyles}`}>{props.title}</Text>
     </TouchableOpacity>

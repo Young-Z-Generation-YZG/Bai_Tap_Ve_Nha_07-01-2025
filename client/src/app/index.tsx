@@ -22,10 +22,18 @@ const App = () => {
           </View>
 
           <Button
-            title="Login to continue"
-            containerStyles="bg-blue-950"
+            title="Login to continue login"
+            className="bg-blue-950"
             onPress={() => {
               router.push("/sign-in");
+            }}
+          />
+
+          <Button
+            title="Login to continue register"
+            className="mt-5 bg-blue-950"
+            onPress={() => {
+              router.push("/sign-up");
             }}
           />
 

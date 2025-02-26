@@ -25,6 +25,7 @@ const HomeLayout = () => {
           options={{
             drawerLabel: "Home",
             title: "overview",
+            headerShown: true,
           }}
         />
       </Drawer>
