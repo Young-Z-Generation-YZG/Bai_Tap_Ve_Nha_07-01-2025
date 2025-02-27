@@ -1,27 +1,47 @@
-import * as LabelPrimitive from '@rn-primitives/label';
-import * as React from 'react';
-import { cn } from '~/lib/utils';
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React from "react";
 
-const Label = React.forwardRef<LabelPrimitive.TextRef, LabelPrimitive.TextProps>(
-  ({ className, onPress, onLongPress, onPressIn, onPressOut, ...props }, ref) => (
-    <LabelPrimitive.Root
-      className='web:cursor-default'
-      onPress={onPress}
-      onLongPress={onLongPress}
-      onPressIn={onPressIn}
-      onPressOut={onPressOut}
+export type LabelProps = {
+  text: string;
+  variant?: 'default' | 'primary' | 'secondary' | 'error' | 'success';
+  size?: 'sm' | 'md' | 'lg';
+  weight?: 'normal' | 'medium' | 'bold';
+  className?: string;
+};
+
+const Label = (props: LabelProps) => {
+  const variantStyles = {
+    default: 'text-gray-700',
+    primary: 'text-blue-600',
+    secondary: 'text-gray-500',
+    error: 'text-red-500',
+    success: 'text-green-500',
+  };
+
+  const sizeStyles = {
+    sm: 'text-sm',
+    md: 'text-base',
+    lg: 'text-lg',
+  };
+
+  const weightStyles = {
+    normal: 'font-normal',
+    medium: 'font-medium',
+    bold: 'font-bold',
+  };
+  return (
+    <Text
+      className={`
+        ${variantStyles[props.variant || 'default']}
+        ${sizeStyles[props.size || 'sm']}
+        ${weightStyles[props.weight || 'normal']}
+        ${props.className}
+      `}
     >
-      <LabelPrimitive.Text
-        ref={ref}
-        className={cn(
-          'text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70',
-          className
-        )}
-        {...props}
-      />
-    </LabelPrimitive.Root>
-  )
-);
-Label.displayName = LabelPrimitive.Root.displayName;
+      {props.text}
+    </Text>
+  );
+};
 
-export { Label };
+export default Label;
+
