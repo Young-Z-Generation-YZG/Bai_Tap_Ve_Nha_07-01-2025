@@ -1,10 +1,7 @@
-import { ScrollView, Text, View, StyleSheet, TextInput } from "react-native";
+import { Text, View, TextInput } from "react-native";
 import React, { useRef, useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthLayout from "@components/layouts/auth.layout";
-import { useForm } from "react-hook-form";
-import { InputField } from "~/components/ui/input-field";
-import SvgIcons from "~/constants/svg-icons"; 
 import Button from "~/components/ui/Button";
 import { Link } from "expo-router";
 
@@ -19,28 +16,47 @@ const VerifyOTPScreen = () => {
 
   // Handle input change and auto-focus
   const handleOtpChange = (text:any, index:any) => {
-    const newOtp = [...otp];
-    newOtp[index] = text.replace(/[^0-9]/g, "");
-    setOtp(newOtp);
+    // if (text.length > 0 && text.length < 2){
+      const newOtp = [...otp];
+      newOtp[index] = text.replace(/[^0-9]/g, "");
+      setOtp(newOtp);
 
-    // Move to next input if a digit is entered
-    if (text && index < otp.length - 1) {
-      inputRefs.current[index + 1].focus();
-    }
+      // console.log("text:",text.length);
 
-    // Handle backspace or clearing input
-    if (!text && index > 0) {
+      // Move to next input if a digit is entered
+      
+      // if (text.length>1 && index < otp.length - 1){
+      //   const newOtp = [...otp];
+      //   newOtp[index] = text[0];
+      //   newOtp[index+1] = text[1];
+      //   setOtp(newOtp);
+      //   if (index < otp.length - 2){
+      //     inputRefs.current[index + 2].focus();
+      //   }
+      // }else {
+        if (text && index < otp.length - 1) {
+          inputRefs.current[index + 1].focus();
+        }
+      // }
+
+      // Handle backspace or clearing input
+      if (!text && index > 0) {
+        inputRefs.current[index - 1].focus();
+      }
+    // } else {
+    //   const newOtp = [...otp];
+    //   newOtp[index] = text.replace(/[^0-9]/g, "");
+    //   setOtp(newOtp);
+    //   inputRefs.current[index + 1].focus();
+    // }
+  };
+
+  // Handle backspace or clearing input
+  const handleKeyPress = (e:any, index:any) => {
+    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1].focus();
     }
   };
-
-  // // Handle backspace or clearing input
-  // const handleKeyPress = (e:any, index:any) => {
-  //   console.log(e.nativeEvent.key);
-  //   if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
-  //     inputRefs.current[index - 1].focus();
-  //   }
-  // };
 
   // Timer countdown
   useEffect(() => {
@@ -54,6 +70,7 @@ const VerifyOTPScreen = () => {
     }
   }, [timer]);
 
+  // Handle submit verify OTP
   const handleSubmit = () => {
     const otpCode = otp.join('');
     if (otpCode.length === 6) {
@@ -63,7 +80,7 @@ const VerifyOTPScreen = () => {
       alert('Please enter a complete 6-digit OTP');
     }
   };
-
+  // Handle resend verify OTP
   const handleResend = () => {
     if (canResend) {
       // Add resend OTP API call here
@@ -77,6 +94,7 @@ const VerifyOTPScreen = () => {
     <AuthLayout className="">
       <SafeAreaView className="">
         <View className="h-full w-full flex justify-center items-center">
+          {/* Title OTP verify */}
           <Text className="text-3xl font-Poppins-SemiBold mb-2">Verify Your Code</Text>
           <Text className="text-base font-Poppins-Regular mb-2">
             Enter the 6-digit code sent to your email/phone
@@ -90,9 +108,9 @@ const VerifyOTPScreen = () => {
                 className="w-12 h-12 border border-gray-300 rounded-lg text-center text-xl bg-gray-50"
                 value={digit}
                 onChangeText={(text) => handleOtpChange(text, index)}
-                // onKeyPress={(e) => handleKeyPress(e, index)}
+                onKeyPress={(e) => handleKeyPress(e, index)}
                 keyboardType="numeric"
-                maxLength={1}
+                // maxLength={1}
                 autoFocus={index === 0} // Auto-focus on the first input
               />
             ))}
