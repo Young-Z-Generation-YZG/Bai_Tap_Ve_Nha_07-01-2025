@@ -19,6 +19,7 @@ import { Button } from "~/components/ui/button";
 import { InputField } from "~/components/ui/input-field";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginFormType, loginResolver } from "~/src/domain/schemas/auth.schema";
+import { router } from "expo-router";
 
 const GITHUB_AVATAR_URI =
   "https://i.pinimg.com/originals/ef/a2/8d/efa28d18a04e7fa40ed49eeb0ab660db.jpg";
@@ -47,9 +48,11 @@ const SignInScreen = () => {
 
       console.log(data);
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       alert("Login success");
+
+      router.push("/home");
     } catch (error) {
       alert(error);
     } finally {
@@ -59,7 +62,7 @@ const SignInScreen = () => {
 
   return (
     <AuthLayout>
-      <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
+      <View className="items-center justify-center flex-1 gap-5 p-6 bg-secondary/30">
         <Card className="w-full max-w-sm p-6 rounded-2xl">
           <CardHeader className="items-center">
             <Avatar alt="Rick Sanchez's Avatar" className="w-24 h-24">
@@ -82,7 +85,7 @@ const SignInScreen = () => {
                     className="w-4 h-4 text-foreground/70"
                   />
                 </TooltipTrigger>
-                <TooltipContent className="py-2 px-4 shadow">
+                <TooltipContent className="px-4 py-2 shadow">
                   <Text className="native:text-lg">Fullstack Developer</Text>
                 </TooltipContent>
               </Tooltip>
@@ -112,11 +115,11 @@ const SignInScreen = () => {
           </CardContent>
 
           <Button
-            variant="outline"
+            variant="default"
             className="shadow shadow-foreground/5"
             onPress={handleSubmit(onSubmit)}
           >
-            <Text className="font-bold">
+            <Text className="font-bold text-primary-foreground">
               {isSubmitting ? "Submitting..." : "Login as admin"}
             </Text>
           </Button>

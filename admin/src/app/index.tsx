@@ -38,7 +38,7 @@ export default function Screen() {
     setProgress(90);
   }
   return (
-    <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
+    <View className="items-center justify-center flex-1 gap-5 p-6 bg-secondary/30">
       <Card className="w-full max-w-sm p-6 rounded-2xl">
         <CardHeader className="items-center">
           <Avatar alt="Rick Sanchez's Avatar" className="w-24 h-24">
@@ -61,7 +61,7 @@ export default function Screen() {
                   className="w-4 h-4 text-foreground/70"
                 />
               </TooltipTrigger>
-              <TooltipContent className="py-2 px-4 shadow">
+              <TooltipContent className="px-4 py-2 shadow">
                 <Text className="native:text-lg">Fullstack Developer</Text>
               </TooltipContent>
             </Tooltip>
@@ -91,7 +91,7 @@ export default function Screen() {
                 key={progress}
                 entering={FadeInUp}
                 exiting={FadeOutDown}
-                className="w-11 items-center"
+                className="items-center w-11"
               >
                 <Text className="text-sm font-bold text-sky-600">
                   {progress}%
@@ -106,7 +106,7 @@ export default function Screen() {
           />
           <View />
           <Button
-            variant="outline"
+            variant="default"
             className="shadow shadow-foreground/5"
             onPress={() => {
               router.navigate("/sign-in");
