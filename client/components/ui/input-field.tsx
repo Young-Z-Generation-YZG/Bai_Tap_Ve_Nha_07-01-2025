@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Control, Controller, FieldError } from "react-hook-form";
 import { TextInput, type TextInputProps, Text, View, Image } from "react-native";
-import { Label } from "~/components/ui/label";
+import Label from "~/components/ui/label";
 import { cn } from "~/lib/utils";
 
 interface InputFieldProps extends TextInputProps {
@@ -70,9 +70,8 @@ const InputField = React.forwardRef<
               ):(
                 <View className="w-full h-fit">
                   {label&&
-                    <Label className={`mb-2 ${labelStyles}`} id={name}>
-                    {label}
-                  </Label>}
+                    <Label className={`mb-2 ${labelStyles}`} text={label}/>
+                  }
                   <TextInput
                   id={name}
                   ref={ref}

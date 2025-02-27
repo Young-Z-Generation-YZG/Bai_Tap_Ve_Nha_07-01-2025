@@ -47,7 +47,8 @@ const ProfileScreen = () => {
                 name="name"
                 control={control}
                 label="Last Name"
-                containerStyles="h-16 w-full"
+                labelStyles="text-xl font-Poppins-SemiBold"
+                containerStyles="h-fit w-full"
                 className="font-Poppins-SemiBold"
                 errorStyles="text-sm"
               />
@@ -55,7 +56,8 @@ const ProfileScreen = () => {
                 name="name"
                 control={control}
                 label="Fisrt Name"
-                containerStyles="h-16 w-full"
+                labelStyles="text-xl font-Poppins-SemiBold"
+                containerStyles="h-fit w-full"
                 className="font-Poppins-SemiBold"
                 errorStyles="text-sm"
               />
@@ -63,7 +65,8 @@ const ProfileScreen = () => {
                 name="email"
                 control={control}
                 label="Email"
-                containerStyles="h-16 w-full"
+                labelStyles="text-xl font-Poppins-SemiBold"
+                containerStyles="h-fit w-full"
                 className="font-Poppins-SemiBold"
                 errorStyles="text-sm"
               />
@@ -71,7 +74,8 @@ const ProfileScreen = () => {
                 name="phoneNumber"
                 control={control}
                 label="Phone number"
-                containerStyles="h-16 w-full"
+                labelStyles="text-xl font-Poppins-SemiBold"
+                containerStyles="h-fit w-full"
                 className="font-Poppins-SemiBold"
                 errorStyles="text-sm"
               />

@@ -29,12 +29,12 @@ const AuthLayout = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="verify"
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
     </Stack>
   );
 };
