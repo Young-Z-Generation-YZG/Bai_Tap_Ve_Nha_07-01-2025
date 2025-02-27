@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { useGetPostsAsyncQuery } from "~/src/infrastructure/redux/apis/post.api";
 import { logger } from "react-native-logs";
+import { router } from "expo-router";
 
 // Explain how component is rendered
 /**
@@ -12,6 +13,12 @@ import { logger } from "react-native-logs";
  */
 const HomeScreen = () => {
   var log = logger.createLogger();
+
+  useEffect(() => {
+    setTimeout(() => {
+      router.push("/products");
+    }, 1000);
+  }, []);
 
   const {
     data: posts,
