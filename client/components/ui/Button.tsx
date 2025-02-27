@@ -10,6 +10,7 @@ export type ButtonProps = {
   isLoading?: boolean;
   // actions
   onPress?: () => void;
+  icon?: any;
 };
 
 const Button = (props: ButtonProps) => {
@@ -18,9 +19,15 @@ const Button = (props: ButtonProps) => {
       onPress={props.onPress}
       disabled={props.isLoading}
       activeOpacity={0.7}
-      className={`w-max h-max bg-blue-400 py-2 px-5 rounded-full ${props.className}`}
+      className={`w-max h-max py-2 px-5 rounded-full ${props.className} flex flex-row items-center justify-center`}
     >
-      <Text className={`text-white ${props.textStyles}`}>{props.title}</Text>
+      {props.icon && (
+        <props.icon
+          width={30}
+          height={30}
+        />
+      )}
+      <Text className={` ${props.textStyles}`}>{props.title}</Text>
     </TouchableOpacity>
   );
 };
