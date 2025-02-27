@@ -5,7 +5,7 @@ import { Text } from "@components/ui/text";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Shirt } from "~/lib/icons/Shirt";
 
-const HomeScreen = () => {
+const HomeTab = () => {
   return (
     <SafeAreaView>
       <ScrollView className="h-full">
@@ -39,4 +39,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default HomeTab;
