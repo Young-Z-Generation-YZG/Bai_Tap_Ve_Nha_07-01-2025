@@ -1,9 +1,10 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "@components/ui/text";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Shirt } from "~/lib/icons/Shirt";
+import { router } from "expo-router";
 
 const HomeTab = () => {
   return (
@@ -14,7 +15,12 @@ const HomeTab = () => {
 
           <View className="p-4 rounded-xl bg-[#f3f4f680] mt-2 overflow-hidden">
             <Text className="text-slate-500">Dashboards</Text>
-            <View className="flex flex-row py-4">
+            <TouchableOpacity
+              className="flex flex-row py-4"
+              onPress={() => {
+                router.push("/(dashboards)/overview");
+              }}
+            >
               <Icon
                 name="view-dashboard-edit-outline"
                 size={26}
@@ -24,7 +30,7 @@ const HomeTab = () => {
               <Text className="w-full pb-4 text-lg font-medium text-black border-b border-slate-300">
                 Overview
               </Text>
-            </View>
+            </TouchableOpacity>
 
             <View className="flex flex-row py-4">
               <Shirt size={26} strokeWidth={2} className="mr-2 text-black" />

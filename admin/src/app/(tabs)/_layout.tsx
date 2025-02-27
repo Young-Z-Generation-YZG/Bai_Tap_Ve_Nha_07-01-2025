@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
-import EntypoIcon from "react-native-vector-icons/Entypo";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import TabIcon from "~/components/ui/tab-icon";
 
 const TabsLayout = () => {
@@ -14,10 +14,8 @@ const TabsLayout = () => {
           backgroundColor: "#f3f4f680",
           height: 80,
           paddingTop: 10,
-          // paddingHorizontal: 5,
           gap: 2,
           flexDirection: "row",
-          // alignItems: "center",
         },
       }}
     >
@@ -31,7 +29,7 @@ const TabsLayout = () => {
                 <FeatherIcon
                   name="home"
                   size={26}
-                  color={focused ? "#333" : "#7c828e"}
+                  color={focused ? "#7c3aed" : "#7c828e"}
                 />
               }
               focused={focused}
@@ -48,14 +46,14 @@ const TabsLayout = () => {
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               icon={
-                <FeatherIcon
-                  name="bell"
+                <MaterialIcon
+                  name="pencil-plus-outline"
                   size={26}
-                  color={focused ? "#333" : "#7c828e"}
+                  color={focused ? "#7c3aed" : "#7c828e"}
                 />
               }
               focused={focused}
-              name="Notify"
+              name="Create"
             />
           ),
         }}
@@ -71,7 +69,7 @@ const TabsLayout = () => {
                 <FeatherIcon
                   name="settings"
                   size={26}
-                  color={focused ? "#333" : "#7c828e"}
+                  color={focused ? "#7c3aed" : "#7c828e"}
                 />
               }
               focused={focused}
@@ -92,7 +90,7 @@ const TabsLayout = () => {
                 <FeatherIcon
                   name="user"
                   size={26}
-                  color={focused ? "#333" : "#7c828e"}
+                  color={focused ? "#7c3aed" : "#7c828e"}
                 />
               }
               focused={focused}
