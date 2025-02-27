@@ -1,1 +1,0 @@
-../../../../../node_modules/@react-native-vector-icons/common/ios/VectorIcons.h

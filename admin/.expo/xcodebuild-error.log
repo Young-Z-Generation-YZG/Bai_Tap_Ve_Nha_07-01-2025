@@ -1,9 +1,0 @@
---- xcodebuild: WARNING: Using the first of multiple matching destinations:
-{ platform:iOS Simulator, id:F33EBBCC-7F4D-4C72-A2B3-9581699A26CB, OS:18.2, name:iPhone 16 }
-{ platform:iOS Simulator, id:F33EBBCC-7F4D-4C72-A2B3-9581699A26CB, OS:18.2, name:iPhone 16 }
-** BUILD FAILED **
-
-
-The following build commands failed:
-	Building workspace app with scheme app and configuration Debug
-(1 failure)
