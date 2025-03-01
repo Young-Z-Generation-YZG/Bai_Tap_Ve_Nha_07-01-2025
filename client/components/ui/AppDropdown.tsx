@@ -35,18 +35,21 @@ const AppDropdown = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} className="">
       {/* Dropdown Button */}
-      <TouchableOpacity onPress={toggleDropdown} className="bg-[#F9F9F9]">
-        <Text className="font-TenorSans-Regular text-[#555]">
+      <TouchableOpacity
+        onPress={toggleDropdown}
+        className="bg-[#F9F9F9] p-3 rounded-xl flex flex-row items-center justify-between"
+      >
+        <Text className="font-TenorSans-Regular text-[#555] text-lg">
           {selectedItem ? selectedItem.content : placeholder}
         </Text>
-        <FeatherIcon name="chevron-down" />
+        <FeatherIcon name="chevron-down" size={24} />
       </TouchableOpacity>
 
       {/* Dropdown List */}
       {isOpen && (
-        <View style={styles.dropdown}>
+        <View style={styles.dropdown} className="mt-1">
           <FlatList
             data={items}
             keyExtractor={(item) => item.id}
@@ -55,7 +58,9 @@ const AppDropdown = ({
                 style={styles.item}
                 onPress={() => handleSelect(item)}
               >
-                {item.content}
+                <Text className="font-TenorSans-Regular text-[#555] text-base">
+                  {item.content}
+                </Text>
               </TouchableOpacity>
             )}
             style={styles.list}
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     width: "100%", // w-full
-    maxWidth: 300, // max-w-xs
+    // maxWidth: 300, // max-w-xs
   },
   dropdown: {
     position: "absolute",

@@ -9,6 +9,10 @@ import SizeCircleTransparent from "assets/svgs/size-circle-transparent";
 import SizeCircleBlack from "assets/svgs/size-circle-black";
 import VoucherIcon from "assets/svgs/voucher-icon";
 import DoorToDoorIcon from "assets/svgs/door-to-door-icon";
+import SuccessPaymentIcon from "assets/svgs/success-payment-icon";
+import SadIcon from "assets/svgs/sad-icon";
+import HappyIcon from "assets/svgs/happy-icon";
+import LoveIcon from "assets/svgs/love-icon";
 
 import ShoppingBagIcon from "assets/svgs/ShoppingBagIcon";
 import MenuIcon from "assets/svgs/MenuIcon";
@@ -38,4 +42,8 @@ export default {
   SizeCircleBlack,
   VoucherIcon,
   DoorToDoorIcon,
+  SuccessPaymentIcon,
+  SadIcon,
+  HappyIcon,
+  LoveIcon,
 };

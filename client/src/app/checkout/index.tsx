@@ -36,7 +36,7 @@ const CheckoutScreen = () => {
 
           <View className="mt-5">
             <View className="w-full h-[2px] bg-slate-300/50"></View>
-            <View className="flex flex-row items-center p-5">
+            <View className="flex flex-row items-center pb-5 m-5 border-b-2 border-slate-300/50">
               <Icons.VoucherIcon width={28} height={28} />
               <Text className="ml-5 text-lg text-slate-600 font-TenorSans-Regular">
                 Add promo code
@@ -44,8 +44,8 @@ const CheckoutScreen = () => {
             </View>
           </View>
           <View>
-            <View className="w-full h-[2px] bg-slate-300/50"></View>
-            <View className="flex flex-row items-center justify-between p-5">
+            {/* <View className="w-full h-[2px] bg-slate-300/50"></View> */}
+            <View className="flex flex-row items-center justify-between pb-5 m-5 border-b-2 border-slate-300/50">
               <View className="flex flex-row items-center">
                 <Icons.DoorToDoorIcon width={28} height={28} />
                 <Text className="ml-5 text-lg text-slate-600 font-TenorSans-Regular">
@@ -57,7 +57,7 @@ const CheckoutScreen = () => {
                 Free
               </Text>
             </View>
-            <View className="w-full h-[2px] bg-slate-300/50"></View>
+            {/* <View className="w-full h-[2px] bg-slate-300/50 px-2"></View> */}
           </View>
         </View>
 
