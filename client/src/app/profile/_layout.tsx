@@ -3,13 +3,8 @@ import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import Header from "@components/Header";
-import { Dimensions } from "react-native";
-import CustomDrawerContent from "@components/ui/custom-drawer-content";
 
-// Get screen width
-const { width } = Dimensions.get('window');
-
-const HomeLayout = () => {
+const ProfileLayout = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
@@ -18,17 +13,13 @@ const HomeLayout = () => {
           header: (props) => (
             <Header
               {...props}
+              containerStyles="bg-white"
               handleToggleDrawer={() => {
                 props.navigation.toggleDrawer();
               }}
             />
           ),
-          drawerStyle: {
-            backgroundColor: '#fff',
-            width: width, 
-          },
         }}
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
       >
         <Drawer.Screen
           name="index" // This is the name of the page and must match the url from root
@@ -43,4 +34,4 @@ const HomeLayout = () => {
   );
 };
 
-export default HomeLayout;
+export default ProfileLayout;

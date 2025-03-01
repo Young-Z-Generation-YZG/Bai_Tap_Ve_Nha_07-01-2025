@@ -4,9 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AuthLayout from "@components/layouts/auth.layout";
 import { useForm } from "react-hook-form";
 import { InputField } from "~/components/ui/input-field";
-import SvgIcons from "~/constants/svg-icons"; 
 import Button from "~/components/ui/Button";
-import { Link } from "expo-router";
+import { Link, router, Stack } from "expo-router";
 import { Image } from "react-native";
 import { images } from "~/constants";
 
@@ -14,10 +13,9 @@ import { images } from "~/constants";
 const ProfileScreen = () => {
   const { control, handleSubmit } = useForm({
     defaultValues: { 
-      otp01: "",
-      email:"",
-      password:"",
-      confirmPassword:"", 
+      firstName:"Tran",
+      lastName:"Phuong",
+      email:"tqp30112003@gmail.com",
     },
   });
   const onSubmit = (data:any) => console.log(data);
@@ -30,10 +28,6 @@ const ProfileScreen = () => {
           }}
         >
           <View className="h-screen w-full flex justify-start items-center px-7">
-            {/* <SvgIcons.LogoIcon
-              width={200}
-              height={150}
-            /> */}
             <View className="w-full flex justify-center items-center my-7">
               <Image
                 source={images.profile}
@@ -43,40 +37,33 @@ const ProfileScreen = () => {
             </View>
             <Text className="w-full text-center text-3xl font-Poppins-SemiBold">PROFILE</Text>
             <View className="w-full flex gap-6 mt-5">
-              <InputField
-                name="name"
-                control={control}
-                label="Last Name"
-                labelStyles="text-xl font-Poppins-SemiBold"
-                containerStyles="h-fit w-full"
-                className="font-Poppins-SemiBold"
-                errorStyles="text-sm"
-              />
-              <InputField
-                name="name"
-                control={control}
-                label="Fisrt Name"
-                labelStyles="text-xl font-Poppins-SemiBold"
-                containerStyles="h-fit w-full"
-                className="font-Poppins-SemiBold"
-                errorStyles="text-sm"
-              />
+              <View className="flex flex-row gap-5">
+                <InputField
+                  name="firstName"
+                  control={control}
+                  placeholder="Fisrt name"
+                  placeholderTextColor="#999"
+                  containerStyles="flex-1 border-0 border-b-2 border-gray-200 rounded-none"
+                  className="text-xl font-TenorSans-Regular"
+                  errorStyles="text-sm"
+                />
+                <InputField
+                  name="lastName"
+                  control={control}
+                  placeholder="Last name"
+                  placeholderTextColor="#999"
+                  containerStyles="flex-1 border-0 border-b-2 border-gray-200 rounded-none"
+                  className="text-xl font-TenorSans-Regular"
+                  errorStyles="text-sm"
+                />
+              </View>
               <InputField
                 name="email"
                 control={control}
-                label="Email"
-                labelStyles="text-xl font-Poppins-SemiBold"
-                containerStyles="h-fit w-full"
-                className="font-Poppins-SemiBold"
-                errorStyles="text-sm"
-              />
-              <InputField
-                name="phoneNumber"
-                control={control}
-                label="Phone number"
-                labelStyles="text-xl font-Poppins-SemiBold"
-                containerStyles="h-fit w-full"
-                className="font-Poppins-SemiBold"
+                placeholder="Email"
+                placeholderTextColor="#999"
+                containerStyles="border-0 border-b-2 border-gray-200 rounded-none"
+                className="text-xl font-TenorSans-Regular"
                 errorStyles="text-sm"
               />
             </View>
@@ -84,12 +71,17 @@ const ProfileScreen = () => {
               <Button
                 title="Update Profile" 
                 className="bg-black"
-                textStyles="text-white text-center text-xl font-Poppins-SemiBold m-2"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(onSubmit)} />
               <Button
-                title="Sign Out" 
-                className="bg-black mt-3"
-                textStyles="text-white text-center text-xl font-Poppins-SemiBold m-2"
+                title="Change Address Info" 
+                className="bg-gray-400"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
+                onPress={handleSubmit(()=>{router.push('profile/address')})} />
+              <Button
+                title="Change Password" 
+                className="bg-gray-400"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(onSubmit)} />
             </View>
           </View>

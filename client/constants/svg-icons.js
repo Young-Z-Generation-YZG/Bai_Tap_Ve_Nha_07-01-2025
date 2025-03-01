@@ -18,6 +18,20 @@ import PasswordIcon from "~/assets/svgs/PasswordIcon";
 import LogoIcon from "~/assets/svgs/LogoIcon";
 import FacebookIcon from "~/assets/svgs/FacebookIcon";
 import GmailIcon from "~/assets/svgs/GmailIcon";
+
+import TelephoneIcon from "~/assets/svgs/telephone-icon";
+import LocationIcon from "~/assets/svgs/location-icon";
+import TwitterIcon from "~/assets/svgs/twitter-icon";
+import InstagramIcon from "~/assets/svgs/instagram-icon";
+import YoutubeIcon from "~/assets/svgs/youtube-icon";
+import ShippingIcon from "~/assets/svgs/shipping-icon";
+import SustainableIcon from "~/assets/svgs/sustainable-icon";
+import UniqueDesignIcon from "~/assets/svgs/unique-design-icon";
+import FastShippingIcon from "~/assets/svgs/fast-shipping-icon";
+import CloseIcon from "~/assets/svgs/close-icon";
+import ArrowDownIcon from "~/assets/svgs/arrow-down-icon";
+import ArrowLeftIcon from "~/assets/svgs/arrow-left-icon";
+
 export default {
   SearchIcon,
   ShoppingBagIcon,
@@ -38,4 +52,16 @@ export default {
   SizeCircleBlack,
   VoucherIcon,
   DoorToDoorIcon,
+  TelephoneIcon,
+  LocationIcon,
+  TwitterIcon,
+  InstagramIcon,
+  YoutubeIcon,
+  ShippingIcon,
+  SustainableIcon,
+  UniqueDesignIcon,
+  FastShippingIcon,
+  CloseIcon,
+  ArrowDownIcon,
+  ArrowLeftIcon,
 };

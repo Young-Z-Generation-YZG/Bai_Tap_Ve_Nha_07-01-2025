@@ -41,9 +41,9 @@ const InputField = React.forwardRef<
         control={control}
         render={({ field: { onChange, onBlur, value } }) => {
           return (
-            <View className={`${containerStyles}`}>
+            <View className={`${containerStyles} w-full h-16 border rounded-2xl`}>
               {Icon? (
-                <View className="w-full h-full pl-2 flex flex-row items-center overflow-hidden border rounded-2xl">
+                <View className="w-full h-full flex flex-row items-center pl-3 ">
                   <Icon
                     height = {35}
                     width = {35}
@@ -55,7 +55,7 @@ const InputField = React.forwardRef<
                     onChangeText={onChange}
                     onBlur={onBlur}
                     className={cn(
-                      "h-full w-[290px] px-2 text-lg leading-[1.25] text-foreground",
+                      "w-[290px] h-full pl-2 text-xl text-foreground",
                       props.editable === false &&
                         "opacity-50 web:cursor-not-allowed",
                       className
@@ -79,7 +79,7 @@ const InputField = React.forwardRef<
                   onChangeText={onChange}
                   onBlur={onBlur}
                   className={cn(
-                    "web:flex h-10 native:h-12 web:w-full rounded-md border border-input bg-background px-3 web:py-2 text-base lg:text-sm native:text-lg native:leading-[1.25] text-foreground placeholder:text-muted-foreground web:ring-offset-background file:border-0 file:bg-transparent file:font-medium web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
+                    "w-[290px] h-full pl-2 text-xl text-foreground",
                     props.editable === false &&
                       "opacity-50 web:cursor-not-allowed",
                     className
