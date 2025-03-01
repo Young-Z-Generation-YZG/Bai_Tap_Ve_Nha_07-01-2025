@@ -10,7 +10,7 @@ const CartScreen = () => {
 
   return (
     <SafeAreaView className="h-full bg-white">
-      <View className="justify-between flex-1 px-3 py-2 ">
+      <View className="justify-between flex-1 px-3 py-2">
         <View>
           <TouchableOpacity
             onPress={() => {
@@ -57,15 +57,34 @@ const CartScreen = () => {
           ) : (
             <View></View>
           )}
-          <View className="mt-2 bg-black">
-            <TouchableOpacity>
-              <View className="flex flex-row items-center justify-center py-3">
-                <FeatherIcon name="shopping-bag" size={24} color="#ccc" />
-                <Text className="ml-2 text-xl text-white uppercase font-TenorSans-Regular">
-                  {items.length ? "checkout" : "Continue to shopping"}
-                </Text>
-              </View>
-            </TouchableOpacity>
+          <View className="mt-3 bg-black">
+            {items.length ? (
+              <TouchableOpacity
+                onPress={() => {
+                  router.push("/checkout");
+                }}
+              >
+                <View className="flex flex-row items-center justify-center py-3">
+                  <FeatherIcon name="shopping-bag" size={24} color="#ccc" />
+                  <Text className="ml-2 text-xl text-white uppercase font-TenorSans-Regular">
+                    Checkout
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() => {
+                  router.push("/products");
+                }}
+              >
+                <View className="flex flex-row items-center justify-center py-3">
+                  <FeatherIcon name="shopping-bag" size={24} color="#ccc" />
+                  <Text className="ml-2 text-xl text-white uppercase font-TenorSans-Regular">
+                    Continue to shopping
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>
