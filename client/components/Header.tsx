@@ -3,6 +3,7 @@ import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DrawerHeaderProps } from "@react-navigation/drawer";
 import Icons from "@constants/svg-icons";
+import { router } from "expo-router";
 
 export type HeaderProps = DrawerHeaderProps & {
   containerStyles?: string;
@@ -14,7 +15,7 @@ const Header = (props: HeaderProps) => {
 
   return (
     <View
-      className={`pt-[59px] pb-3 bg-[#E7EAEF] h-[100px] flex items-center justify-center ${props.containerStyles}`}
+      className={`pt-[59px] pb-3 bg-white h-[100px] flex items-center justify-center ${props.containerStyles}`}
     >
       <View className="flex flex-row items-center justify-between w-full px-5">
         <TouchableOpacity onPress={props.handleToggleDrawer}>
@@ -25,7 +26,13 @@ const Header = (props: HeaderProps) => {
 
         <View className="flex flex-row gap-4">
           <Icons.SearchIcon />
-          <Icons.ShoppingBagIcon />
+          <TouchableOpacity
+            onPress={() => {
+              router.push("cart");
+            }}
+          >
+            <Icons.ShoppingBagIcon />
+          </TouchableOpacity>
         </View>
       </View>
     </View>

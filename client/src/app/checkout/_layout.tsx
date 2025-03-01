@@ -1,10 +1,11 @@
-import "react-native-gesture-handler";
+import { View, Text } from "react-native";
 import React from "react";
+import CommonLayout from "@components/layouts/common.layout";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import Header from "@components/Header";
 
-const ProductLayout = () => {
+const CheckoutLayout = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
@@ -13,7 +14,6 @@ const ProductLayout = () => {
           header: (props) => (
             <Header
               {...props}
-              containerStyles="bg-white"
               handleToggleDrawer={() => {
                 props.navigation.toggleDrawer();
               }}
@@ -34,4 +34,4 @@ const ProductLayout = () => {
   );
 };
 
-export default ProductLayout;
+export default CheckoutLayout;
