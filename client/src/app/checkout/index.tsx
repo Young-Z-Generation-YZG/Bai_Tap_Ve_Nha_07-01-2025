@@ -5,6 +5,7 @@ import CartItem from "@components/ui/cart-item";
 import Icons from "@constants/svg-icons";
 import AppButton from "@components/ui/AppButton";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import { router } from "expo-router";
 
 const { height: SCREEN_HEIGH } = Dimensions.get("window");
 const HEADER_HEIGHT = 200;
@@ -69,9 +70,12 @@ const CheckoutScreen = () => {
           </View>
           <AppButton
             title="Checkout"
-            onPress={() => {}}
+            onPress={() => {
+              router.push("checkout/address");
+            }}
             containerStyles="bg-black py-3"
-            icon={<FeatherIcon name="shopping-bag" size={24} color="#ccc" />}
+            icon={<FeatherIcon name="chevrons-right" size={24} color="#ccc" />}
+            iconPosition="right"
           />
         </View>
       </View>
