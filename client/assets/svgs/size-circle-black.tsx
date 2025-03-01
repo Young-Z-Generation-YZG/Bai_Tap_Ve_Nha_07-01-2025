@@ -1,6 +1,11 @@
 import * as React from "react";
 import Svg, { Rect, Circle, Path, SvgProps } from "react-native-svg";
-const SVGComponent = (props: SvgProps) => (
+
+type Props = SvgProps & {
+  RectFill?: string;
+};
+
+const SVGComponent = (props: Props) => (
   <Svg
     width={25}
     height={25}
@@ -13,7 +18,7 @@ const SVGComponent = (props: SvgProps) => (
       width={24}
       height={24}
       transform="translate(0.773438 0.0305176)"
-      fill="white"
+      fill={props.RectFill || "transparent"}
     />
     <Circle cx={12.7734} cy={12.0305} r={12} fill="#333333" />
     {/* <Path
