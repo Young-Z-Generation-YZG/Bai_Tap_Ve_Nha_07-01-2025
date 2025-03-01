@@ -25,7 +25,7 @@ const CartItem = (props: CartItemProps) => {
           />
         </View>
 
-        <View className="p-3">
+        <View className="p-2">
           <Text className="w-full text-xl uppercase font-TenorSans-Regular">
             {props.title}
           </Text>

@@ -15,7 +15,7 @@ const Header = (props: HeaderProps) => {
 
   return (
     <View
-      className={`pt-[59px] pb-3 bg-[#E7EAEF] h-[100px] flex items-center justify-center ${props.containerStyles}`}
+      className={`pt-[59px] pb-3 bg-white h-[100px] flex items-center justify-center ${props.containerStyles}`}
     >
       <View className="flex flex-row items-center justify-between w-full px-5">
         <TouchableOpacity onPress={props.handleToggleDrawer}>
@@ -28,7 +28,7 @@ const Header = (props: HeaderProps) => {
           <Icons.SearchIcon />
           <TouchableOpacity
             onPress={() => {
-              router.navigate("cart");
+              router.push("cart");
             }}
           >
             <Icons.ShoppingBagIcon />

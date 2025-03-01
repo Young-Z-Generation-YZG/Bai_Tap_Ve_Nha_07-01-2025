@@ -7,6 +7,8 @@ import SeparateLine from "assets/svgs/separate-line";
 import ColorCircle from "~/assets/svgs/color-circle";
 import SizeCircleTransparent from "assets/svgs/size-circle-transparent";
 import SizeCircleBlack from "assets/svgs/size-circle-black";
+import VoucherIcon from "assets/svgs/voucher-icon";
+import DoorToDoorIcon from "assets/svgs/door-to-door-icon";
 
 import ShoppingBagIcon from "assets/svgs/ShoppingBagIcon";
 import MenuIcon from "assets/svgs/MenuIcon";
@@ -34,4 +36,6 @@ export default {
   ColorCircle,
   SizeCircleTransparent,
   SizeCircleBlack,
+  VoucherIcon,
+  DoorToDoorIcon,
 };
