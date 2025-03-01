@@ -178,7 +178,7 @@ export default function  CustomDrawerContent (props:any) {
           title='MY PROFILE'
           className='bg-black rounded-none'
           textStyles='text-white text-xl font-Poppins-Light'
-          onPress={()=>router.navigate('profile')}
+          onPress={()=>router.push('profile')}
         />
         <Button
           title='SIGN OUT'

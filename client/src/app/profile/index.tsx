@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AuthLayout from "@components/layouts/auth.layout";
 import { useForm } from "react-hook-form";
 import { InputField } from "~/components/ui/input-field";
-import SvgIcons from "~/constants/svg-icons"; 
 import Button from "~/components/ui/Button";
 import { Link, router, Stack } from "expo-router";
 import { Image } from "react-native";
@@ -29,10 +28,6 @@ const ProfileScreen = () => {
           }}
         >
           <View className="h-screen w-full flex justify-start items-center px-7">
-            {/* <SvgIcons.LogoIcon
-              width={200}
-              height={150}
-            /> */}
             <View className="w-full flex justify-center items-center my-7">
               <Image
                 source={images.profile}
@@ -82,7 +77,7 @@ const ProfileScreen = () => {
                 title="Change Address Info" 
                 className="bg-gray-400"
                 textStyles="text-white text-center text-xl font-Poppins-SemiBold m-2"
-                onPress={handleSubmit(()=>{router.navigate('address-info')})} />
+                onPress={handleSubmit(()=>{router.push('profile/address')})} />
               <Button
                 title="Change Password" 
                 className="bg-gray-400"
