@@ -23,14 +23,20 @@ const AuthLayout = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="profile"
+        options={{
+          headerShown: false,
+        }}
+      /> */}
+      <Stack.Screen
+        name="verify"
         options={{
           headerShown: false,
         }}
       />
       {/* <Stack.Screen
-        name="verify"
+        name="address-info"
         options={{
           headerShown: false,
         }}
