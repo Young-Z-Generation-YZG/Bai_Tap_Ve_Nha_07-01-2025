@@ -63,16 +63,63 @@ const ProductDetailScreen = () => {
           })}
         />
       </View>
-      <View className="relative p-5">
+      <View className="relative px-5">
         <Text className="text-2xl uppercase font-TenorSans-Regular">
           {product.title}
         </Text>
-        <Text className="mt-2 text-lg font-TenorSans-Regular">
+        <Text className="mt-2 text-lg font-TenorSans-Regular text-[#555555]">
           {product.description}
         </Text>
         <Text className="mt-2 text-2xl font-TenorSans-Regular text-secondary">
           ${product.price}
         </Text>
+      </View>
+
+      <View className="flex flex-row items-center mb-2">
+        <View className="flex flex-row items-center p-5">
+          <Text className="mr-3 text-lg font-TenorSans-Regular">Color</Text>
+          <Icons.ColorCircle
+            innerCircleColor="#000"
+            outerCircleColor="#333"
+            width={30}
+            height={30}
+          />
+          <Icons.ColorCircle
+            innerCircleColor="#DD8560"
+            outerCircleColor="#fff"
+            width={30}
+            height={30}
+          />
+          <Icons.ColorCircle
+            innerCircleColor="#E1E0DB"
+            outerCircleColor="#fff"
+            width={30}
+            height={30}
+          />
+        </View>
+        <View className="flex flex-row items-center p-5">
+          <Text className="mr-3 text-lg font-TenorSans-Regular">Size</Text>
+          <View className="flex flex-row items-center gap-2">
+            <View className="relative">
+              <Icons.SizeCircleBlack width={30} height={30} />
+              <Text className="absolute text-base text-white font-TenorSans-Regular left-[11px] bottom-[5px]">
+                S
+              </Text>
+            </View>
+            <View className="relative">
+              <Icons.SizeCircleTransparent width={30} height={30} />
+              <Text className="absolute text-base text-black font-TenorSans-Regular left-[8.5px] bottom-[5px]">
+                M
+              </Text>
+            </View>
+            <View className="relative">
+              <Icons.SizeCircleTransparent width={30} height={30} />
+              <Text className="absolute text-base text-black font-TenorSans-Regular left-[11px] bottom-[5px]">
+                L
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
 
       {/* <CarouselItems /> */}

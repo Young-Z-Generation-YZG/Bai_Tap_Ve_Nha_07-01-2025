@@ -4,6 +4,9 @@ import NotTumbleDryIcon from "assets/svgs/not-tumble-dry-icon";
 import notWashIcon from "assets/svgs/not-wash-icon";
 import IronLowTempIcon from "assets/svgs/iron-low-temp-icon";
 import SeparateLine from "assets/svgs/separate-line";
+import ColorCircle from "~/assets/svgs/color-circle";
+import SizeCircleTransparent from "assets/svgs/size-circle-transparent";
+import SizeCircleBlack from "assets/svgs/size-circle-black";
 
 import ShoppingBagIcon from "assets/svgs/ShoppingBagIcon";
 import MenuIcon from "assets/svgs/MenuIcon";
@@ -28,4 +31,7 @@ export default {
   notWashIcon,
   IronLowTempIcon,
   SeparateLine,
+  ColorCircle,
+  SizeCircleTransparent,
+  SizeCircleBlack,
 };
