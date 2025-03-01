@@ -5,6 +5,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import Icons from "@constants/svg-icons";
 import ProductItem from "@components/ui/product-item";
+import CarouselItems from "@components/ui/carousel-items";
+import CarouselItemsTest from "@components/ui/carousel-items-test";
 
 const ProductDetailScreen = () => {
   const { slug } = useLocalSearchParams();
@@ -17,18 +19,49 @@ const ProductDetailScreen = () => {
       "https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp",
   });
 
+  const sampleItems = [
+    {
+      content: (
+        <View>
+          <Text style={{ fontSize: 18, fontWeight: "600" }}>
+            Custom Slide 1
+          </Text>
+          <Text style={{ color: "#6b7280" }}>Fully customizable content</Text>
+        </View>
+      ),
+    },
+    {
+      id: "2",
+      content: (
+        <View>
+          <Text style={{ fontSize: 18, fontWeight: "600" }}>
+            Custom Slide 2
+          </Text>
+          <Text style={{ color: "#ff0000" }}>Red text example</Text>
+        </View>
+      ),
+    },
+    {
+      id: "3",
+      content: <Text style={{ fontSize: 24 }}>Simple Slide 3</Text>,
+    },
+  ];
+
   return (
     <ProductLayout>
       <View className="flex items-center w-full mt-5">
-        <Image
-          style={{ width: 341, height: 460 }}
-          source={{
-            uri: product.imageUrl,
-          }}
+        <CarouselItemsTest
+          items={[1, 2, 3].map(() => {
+            return (
+              <Image
+                source={{
+                  uri: product.imageUrl,
+                }}
+                style={{ width: 341, height: 460 }}
+              />
+            );
+          })}
         />
-        <View className="mt-1">
-          <Text>Carousel</Text>
-        </View>
       </View>
       <View className="relative p-5">
         <Text className="text-2xl uppercase font-TenorSans-Regular">
@@ -41,6 +74,10 @@ const ProductDetailScreen = () => {
           ${product.price}
         </Text>
       </View>
+
+      {/* <CarouselItems /> */}
+
+      {/* <CarouselItemsTest items={sampleItems} /> */}
 
       <TouchableOpacity className="flex flex-row items-center justify-between bg-black">
         <View className="flex flex-row items-center gap-2">
