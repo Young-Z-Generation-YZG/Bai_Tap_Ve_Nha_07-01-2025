@@ -7,10 +7,14 @@ type CartItemProps = {
   title?: string;
   price: number;
   imageUrl?: string;
+  checkout?: boolean;
+  quantity?: number;
 };
 
 const CartItem = (props: CartItemProps) => {
   const [counter, setCounter] = React.useState(1);
+
+  const total = props.price * (props.quantity || 0);
 
   return (
     <View>
@@ -52,19 +56,49 @@ const CartItem = (props: CartItemProps) => {
             </View>
           </View>
 
-          <View className="flex flex-row items-center justify-between w-full mt-4">
-            <View className="flex flex-row justify-between gap-5">
-              <TouchableOpacity onPress={() => setCounter(counter - 1)}>
-                <AntDesignIcon name="minuscircleo" size={24} color="#3339" />
-              </TouchableOpacity>
-              <Text className="text-xl font-TenorSans-Regular">{counter}</Text>
-              <TouchableOpacity onPress={() => setCounter(counter + 1)}>
-                <AntDesignIcon name="pluscircleo" size={24} color="#3339" />
-              </TouchableOpacity>
-            </View>
-            <Text className="text-xl mr-[140px] font-TenorSans-Regular text-secondary">
-              ${counter * props.price}
-            </Text>
+          <View className="mt-4">
+            {props.checkout ? (
+              <View className="flex flex-row items-center">
+                <Text className="text-xl font-TenorSans-Regular text-secondary">
+                  ${props.price} x {props.quantity}
+                </Text>
+
+                <Text className="text-xl font-TenorSans-Regular text-primary ml-[100px]">
+                  ${total}
+                </Text>
+              </View>
+            ) : null}
+            {/* {!props.disableQuantity && (
+              <View className="flex flex-row justify-between gap-5">
+                <TouchableOpacity onPress={() => setCounter(counter - 1)}>
+                  <AntDesignIcon name="minuscircleo" size={24} color="#3339" />
+                </TouchableOpacity>
+                <Text className="text-xl font-TenorSans-Regular">
+                  {counter}
+                </Text>
+                <TouchableOpacity onPress={() => setCounter(counter + 1)}>
+                  <AntDesignIcon name="pluscircleo" size={24} color="#3339" />
+                </TouchableOpacity>
+              </View>
+            )} */}
+
+            {/* {props.quantity ? (
+              <View className="flex flex-row justify-between flex-1">
+                <Text className="text-xl font-TenorSans-Regular text-secondary">
+                  ${props.price} x ${props.quantity}
+                </Text>
+
+                <Text className="text-xl font-TenorSans-Regular text-secondary">
+                  ${240}
+                </Text>
+              </View>
+            ) : (
+              <Text className="text-xl mr-[140px] font-TenorSans-Regular text-secondary">
+                ${counter * props.price}
+                {props.quantity ? " x " : null}
+                {props.quantity ? props.quantity : null}
+              </Text>
+            )} */}
           </View>
         </View>
       </View>
