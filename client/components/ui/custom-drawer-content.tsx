@@ -184,7 +184,7 @@ export default function  CustomDrawerContent (props:any) {
           title='SIGN OUT'
           className='bg-black rounded-none'
           textStyles='text-white text-xl font-Poppins-Light'
-          onPress={()=>router.navigate('sign-in')}
+          onPress={()=>router.push('sign-in')}
         />
       </View>
     </View>
