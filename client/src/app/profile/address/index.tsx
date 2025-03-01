@@ -7,7 +7,7 @@ import { InputField } from "~/components/ui/input-field";
 import Button from "~/components/ui/Button";
 import { Link } from "expo-router";
 import { Image } from "react-native";
-import { images } from "~/constants";
+import { images,icons, svgIcons } from "~/constants";
 
 
 const AddressScreen = () => {
@@ -46,7 +46,13 @@ const AddressScreen = () => {
                 resizeMode="contain"
               />
             </View> */}
-            <Text className="w-full text-center text-3xl font-TenorSans-Regular mt-10">SHIPPING ADDRESS</Text>
+            <Text className="w-full text-center text-3xl font-TenorSans-Regular mt-10">ADD SHIPPING ADDRESS</Text>
+            <View>
+              <svgIcons.SeparateLine
+                width={200}
+                height={20}
+              />
+            </View>
             <View className="w-full flex gap-6 mt-5">
               <View className="flex flex-row gap-5">
                 <InputField
@@ -118,12 +124,12 @@ const AddressScreen = () => {
               <Button
                 title="Update Info"
                 className="bg-black"
-                textStyles="text-white text-center text-xl font-Poppins-SemiBold m-2"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(onSubmit)} />
               <Button
                 title="Back" 
                 className="bg-gray-400"
-                textStyles="text-white text-center text-xl font-Poppins-SemiBold m-2"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(onSubmit)} />
             </View>
           </View>

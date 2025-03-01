@@ -147,14 +147,14 @@ export default function  CustomDrawerContent (props:any) {
             width={25}
             height={25}
           />
-          <Text className='text-xl font-Poppins-Light'>0912-345-678</Text>
+          <Text className='text-xl font-TenorSans-Regular'>0912-345-678</Text>
         </View>
         <View className='w-full flex flex-row gap-3 items-center'>
           <svgIcons.LocationIcon
             width={25}
             height={25}
           />
-          <Text className='text-xl font-Poppins-Light'>01 Vo Van Ngan, Thu Duc, HCM city</Text>
+          <Text className='text-xl font-TenorSans-Regular'>01 Vo Van Ngan, Thu Duc, HCM city</Text>
         </View>
         <View className='w-full flex flex-row gap-10 items-center justify-center'>
           <svgIcons.TwitterIcon
@@ -177,13 +177,13 @@ export default function  CustomDrawerContent (props:any) {
         <Button
           title='MY PROFILE'
           className='bg-black rounded-none'
-          textStyles='text-white text-xl font-Poppins-Light'
+          textStyles='text-white text-xl font-TenorSans-Regular'
           onPress={()=>router.push('profile')}
         />
         <Button
           title='SIGN OUT'
           className='bg-black rounded-none'
-          textStyles='text-white text-xl font-Poppins-Light'
+          textStyles='text-white text-xl font-TenorSans-Regular'
           onPress={()=>router.push('sign-in')}
         />
       </View>

@@ -69,19 +69,19 @@ const ProfileScreen = () => {
             </View>
             <View className="w-full flex gap-6 mt-10">
               <Button
-                title="Update profile" 
+                title="Update Profile" 
                 className="bg-black"
-                textStyles="text-white text-center text-xl font-Poppins-SemiBold m-2"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(onSubmit)} />
               <Button
                 title="Change Address Info" 
                 className="bg-gray-400"
-                textStyles="text-white text-center text-xl font-Poppins-SemiBold m-2"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(()=>{router.push('profile/address')})} />
               <Button
                 title="Change Password" 
                 className="bg-gray-400"
-                textStyles="text-white text-center text-xl font-Poppins-SemiBold m-2"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(onSubmit)} />
             </View>
           </View>
