@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
    combineReducers,
    configureStore,
@@ -14,23 +13,29 @@ import {
    PURGE,
    REGISTER,
    REHYDRATE,
+   persistStore,
 } from 'redux-persist';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { createPersistStorage } from './persist-storage';
+
 import { authApi } from '~/src/infrastructure/redux/apis/auth.api';
 import { postsApi } from '~/src/infrastructure/redux/apis/post.api';
 import { productsApi } from '~/src/infrastructure/redux/apis/product.api';
 import authSlice from '~/src/infrastructure/redux/features/auth/auth.slice';
+import searchSlice from '~/src/infrastructure/redux/features/app/search.slice';
+
+const storage = createPersistStorage();
 
 const persistConfig: PersistConfig<ReturnType<typeof reducers>> = {
    key: 'root',
    version: 1,
-   storage: AsyncStorage,
+   storage, // Use AsyncStorage via createPersistStorage
    blacklist: [
-      'auth',
       authApi.reducerPath,
       postsApi.reducerPath,
       productsApi.reducerPath,
-   ],
-   whitelist: [],
+   ], // Exclude API reducers from persistence
+   whitelist: ['auth', 'search'], // Only persist auth and search slices
 };
 
 /**
@@ -45,10 +50,9 @@ const getEnhancers = (getDefaultEnhancers: any) => {
  */
 export const rtkQueryLoggerMiddleware =
    (api: any) => (next: any) => (action: any) => {
-      // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
       if (isRejectedWithValue(action)) {
          console.log('isRejectedWithValue', action.error, action.payload);
-         alert(JSON.stringify(action)); // This is just an example. You can replace it with your preferred method for displaying notifications.
+         alert(JSON.stringify(action)); // This is just an example. Replace with your preferred notification method.
       }
 
       return next(action);
@@ -56,6 +60,7 @@ export const rtkQueryLoggerMiddleware =
 
 const reducers = combineReducers({
    auth: authSlice,
+   search: searchSlice,
    [authApi.reducerPath]: authApi.reducer,
    [postsApi.reducerPath]: postsApi.reducer,
    [productsApi.reducerPath]: productsApi.reducer,
@@ -63,7 +68,7 @@ const reducers = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const reduxStore = configureStore({
+export const reduxStore = configureStore({
    reducer: persistedReducer,
    middleware: (getDefaultMiddleware: any) =>
       getDefaultMiddleware({
@@ -71,7 +76,6 @@ const reduxStore = configureStore({
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
          },
       }).concat(
-         // Add middleware without including them in the blacklist
          authApi.middleware,
          postsApi.middleware,
          productsApi.middleware,
@@ -80,7 +84,14 @@ const reduxStore = configureStore({
    enhancers: getEnhancers,
 });
 
-// A utility used to enable refetchOnMount and refetchOnReconnect behavior
+// Enable refetchOnMount and refetchOnReconnect behavior
 setupListeners(reduxStore.dispatch);
 
 export default reduxStore;
+
+export const persistor = persistStore(reduxStore);
+
+export type RootState = ReturnType<typeof reduxStore.getState>;
+export type AppDispatch = typeof reduxStore.dispatch;
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

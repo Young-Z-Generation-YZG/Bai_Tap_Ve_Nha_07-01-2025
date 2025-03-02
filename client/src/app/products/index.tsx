@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+   View,
+   Text,
+   TouchableOpacity,
+   StyleSheet,
+   ScrollView,
+} from 'react-native';
 import React, { useState } from 'react';
 import ProductLayout from '~/components/layouts/product.layout';
 import ProductItem from '@components/ui/product-item';
@@ -7,22 +13,24 @@ import { useGetProductsAsyncQuery } from '~/src/infrastructure/redux/apis/produc
 import { logger } from 'react-native-logs';
 import { ProductItemType } from '~/src/infrastructure/types/product.type';
 import LoadingOverlay from '@components/ui/LoadingOverlay';
+import IoniIcons from 'react-native-vector-icons/Ionicons';
+import AppDropdown from '@components/ui/AppDropdown';
+import { FlatList } from 'react-native-gesture-handler';
 
 var log = logger.createLogger();
 
-// Reusable Loading Component
-const LoadingState = () => (
-   <View style={styles.stateContainer}>
-      <Text style={styles.stateText}>Loading...</Text>
-   </View>
-);
-
-// Reusable Error Component
-const ErrorState = () => (
-   <View style={styles.stateContainer}>
-      <Text style={styles.errorText}>Error loading data...</Text>
-   </View>
-);
+const dropdownItems = [
+   {
+      id: '1',
+      content: <Text style={{ color: '#1f2937' }}>New</Text>,
+      onPress: () => console.log('Selected Option 1'),
+   },
+   {
+      id: '2',
+      content: <Text style={{ color: '#1f2937' }}>Sales</Text>,
+      onPress: () => console.log('Selected Option 2'),
+   },
+];
 
 const ProductScreen = () => {
    const [productsData, setProductsData] = useState<ProductItemType[]>([]);
@@ -42,100 +50,59 @@ const ProductScreen = () => {
       }
    }, [productsResponse]);
 
-   // Handle loading state (initial load or refetching)
-   if (isLoading || isFetching) {
-      log.debug('Loading data...');
-      return <LoadingState />;
-   }
-
-   // Handle error state
-   if (isError) {
-      log.error('Error loading data...');
-      return <ErrorState />;
-   }
-
    return (
-      <ProductLayout className="">
-         <Text className="mb-10">Product Screen</Text>
-         <View className="flex flex-row flex-wrap items-center justify-center gap-6">
-            {productsData.map((item, index) => {
-               return (
-                  <TouchableOpacity
-                     key={index}
-                     onPress={() => {
-                        router.push('/products/lamerei');
-                     }}
-                  >
-                     <ProductItem
-                        title="lamerei"
-                        description="reversible angora cardigan"
-                        price={120}
-                        imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
-                     />
-                  </TouchableOpacity>
-               );
-            })}
+      <ProductLayout>
+         <View className="flex flex-row items-center justify-between px-6 py-5">
+            <View>
+               <Text className="text-base uppercase font-TenorSans-Regular">
+                  8 Result of Dress
+               </Text>
+            </View>
+            <View className="flex flex-row gap-2">
+               {/* <AppDropdown */}
+               <View className="w-[80px]">
+                  <AppDropdown
+                     items={dropdownItems}
+                     placeholder="New"
+                     containerStyles="rounded-full"
+                     TextStyles="text-base"
+                     iconSize={20}
+                  />
+               </View>
+               <TouchableOpacity className="p-3 w-[42px] bg-[#F9F9F9] rounded-full">
+                  <IoniIcons name="list-outline" size={22} color="#83838F" />
+               </TouchableOpacity>
+               <TouchableOpacity className="p-3 w-[42px] bg-[#F9F9F9] rounded-full">
+                  <IoniIcons name="filter-outline" size={22} color="#DD8560" />
+               </TouchableOpacity>
+            </View>
          </View>
-         <LoadingOverlay isLoading={isLoading || isFetching} />
+
+         <View>
+            <View className="flex-row flex-wrap items-center justify-center gap-6 ">
+               {productsData.map((item, index) => {
+                  return (
+                     <TouchableOpacity
+                        key={index}
+                        onPress={() => {
+                           router.push('/products/lamerei');
+                        }}
+                     >
+                        <ProductItem
+                           title="lamerei"
+                           description="reversible angora cardigan"
+                           price={120}
+                           imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
+                        />
+                     </TouchableOpacity>
+                  );
+               })}
+            </View>
+         </View>
+
+         {/* <LoadingOverlay isLoading={isLoading || isFetching} /> */}
       </ProductLayout>
    );
 };
-
-// Tailwind-like styles
-const styles = StyleSheet.create({
-   layout: {
-      flex: 1,
-      paddingHorizontal: 16, // px-4
-      paddingVertical: 20, // py-5
-      backgroundColor: '#f9fafb', // bg-gray-50
-   },
-   title: {
-      fontSize: 24, // text-2xl
-      fontWeight: '600', // font-semibold
-      color: '#1f2937', // text-gray-800
-      marginBottom: 40, // mb-10
-      textAlign: 'center',
-   },
-   productGrid: {
-      flexDirection: 'row', // flex flex-row
-      flexWrap: 'wrap', // flex-wrap
-      justifyContent: 'center', // justify-center
-      gap: 24, // gap-6 (approximated with margin)
-   },
-   productItem: {
-      width: '45%', // w-[45%] for two columns
-      marginBottom: 24, // mb-6
-      backgroundColor: '#ffffff', // bg-white
-      borderRadius: 8, // rounded-lg
-      shadowColor: '#000', // shadow
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 2,
-   },
-   stateContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-   },
-   stateText: {
-      fontSize: 20, // text-xl
-      color: '#1f2937', // text-gray-800
-      fontFamily: 'TenorSans-Regular',
-      marginTop: 20, // mt-5
-   },
-   errorText: {
-      fontSize: 20, // text-xl
-      color: '#ef4444', // text-red-500
-      fontFamily: 'TenorSans-Regular',
-      marginTop: 20, // mt-5
-   },
-   noDataText: {
-      fontSize: 16, // text-base
-      color: '#6b7280', // text-gray-500
-      textAlign: 'center',
-      marginTop: 20, // mt-5
-   },
-});
 
 export default ProductScreen;
