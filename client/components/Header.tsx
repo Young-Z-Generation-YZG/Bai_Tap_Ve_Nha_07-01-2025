@@ -13,7 +13,7 @@ import { router } from 'expo-router';
 import { cn } from '~/lib/utils';
 import { useAppSelector } from '~/src/infrastructure/redux/store';
 import { useDispatch } from 'react-redux';
-import { setOpened } from '~/src/infrastructure/redux/features/app/search.slice';
+import { setSearchOpened } from '~/src/infrastructure/redux/features/app/search.slice';
 
 export type HeaderProps = DrawerHeaderProps & {
    containerStyles?: string;
@@ -45,7 +45,7 @@ const Header = (props: HeaderProps) => {
             <View className="flex flex-row gap-4">
                <TouchableOpacity
                   onPress={() => {
-                     dispatch(setOpened(!isOpened));
+                     dispatch(setSearchOpened(!isOpened));
                   }}
                >
                   <Icons.SearchIcon />
@@ -59,36 +59,8 @@ const Header = (props: HeaderProps) => {
                </TouchableOpacity>
             </View>
          </View>
-
-         {/* Search Bar */}
-         {/* <View className="absolute top-[100px] px-5">
-            {isOpened && (
-               <View className="w-screen px-5 flex h-[32px]">
-                  <View>
-                     <TextInput
-                        placeholder="Search"
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                        className="h-full bg-slate-300 font-TenorSans-Regular"
-                     />
-                  </View>
-
-                  <View>
-                     <TouchableOpacity className="w-[24px] h-[24px]">
-                        <Icons.CloseIcon />
-                     </TouchableOpacity>
-
-                     <TouchableOpacity className="w-[24px] h-[24px]">
-                        <Icons.SearchIcon />
-                     </TouchableOpacity>
-                  </View>
-               </View>
-            )}
-         </View> */}
       </View>
    );
 };
 
 export default Header;
-
-const styles = StyleSheet.create({});

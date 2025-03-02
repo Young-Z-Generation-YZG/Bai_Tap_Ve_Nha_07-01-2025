@@ -4,7 +4,10 @@ import Icons from '@constants/svg-icons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useAppSelector } from '~/src/infrastructure/redux/store';
 import { useDispatch } from 'react-redux';
-import { setSearchQuery } from '~/src/infrastructure/redux/features/app/search.slice';
+import {
+   setSearchOpened,
+   setSearchQuery,
+} from '~/src/infrastructure/redux/features/app/search.slice';
 
 const Search = () => {
    const dispatch = useDispatch();
@@ -36,6 +39,7 @@ const Search = () => {
                className="p-2 rounded-full bg-[#F8F8F8]"
                onPress={() => {
                   dispatch(setSearchQuery(''));
+                  dispatch(setSearchOpened(false));
                }}
             >
                <Icons.SearchIcon width={22} height={22} />
