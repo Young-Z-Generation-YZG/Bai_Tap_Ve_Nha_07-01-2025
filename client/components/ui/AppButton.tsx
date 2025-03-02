@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { cn } from "~/lib/utils";
 
 type AppButtonProps = {
   title: string;
@@ -13,14 +14,22 @@ type AppButtonProps = {
 const AppButton = (props: AppButtonProps) => {
   const isRenderIconRight = props.icon && props.iconPosition === "right";
 
+  console.log("props", props.onPress);
+
   if (props.icon && props.iconPosition === "right") {
     return (
       <TouchableOpacity onPress={props.onPress}>
         <View
-          className={`bg-black flex flex-row items-center justify-center gap-3 ${props.containerStyles}`}
+          className={cn(
+            "bg-black flex flex-row items-center justify-center gap-3",
+            props.containerStyles
+          )}
         >
           <Text
-            className={`text-white font-TenorSans-Regular uppercase text-2xl py-3 ${props.textStyles}`}
+            className={cn(
+              "text-white font-TenorSans-Regular uppercase text-2xl py-3",
+              props.textStyles
+            )}
           >
             {props.title}
           </Text>
@@ -30,13 +39,19 @@ const AppButton = (props: AppButtonProps) => {
     );
   }
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={props.onPress}>
       <View
-        className={`bg-black flex flex-row items-center justify-center gap-3 ${props.containerStyles}`}
+        className={cn(
+          "bg-black flex flex-row items-center justify-center gap-3",
+          props.containerStyles
+        )}
       >
         {props.icon && props.icon}
         <Text
-          className={`text-white font-TenorSans-Regular uppercase text-2xl py-3 ${props.textStyles}`}
+          className={cn(
+            "text-white font-TenorSans-Regular uppercase text-2xl py-3",
+            props.textStyles
+          )}
         >
           {props.title}
         </Text>

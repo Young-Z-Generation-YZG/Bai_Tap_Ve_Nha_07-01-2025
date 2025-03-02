@@ -1,16 +1,26 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import { View, Text, ScrollView } from 'react-native';
+import React from 'react';
+import Footer from '@components/Footer';
+import { cn } from '~/lib/utils';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
+import Search from '@components/ui/Search';
 
 export default function ProductLayout({
-  children,
-  className,
+   children,
+   className,
 }: {
-  children: React.ReactNode;
-  className?: string;
+   children: React.ReactNode;
+   className?: string;
 }) {
-  return (
-    <View className={`flex-1 bg-white ${className}`}>
-      <ScrollView>{children}</ScrollView>
-    </View>
-  );
+   const isOpened = useAppSelector((state) => state.search.isOpened);
+
+   return (
+      <View className={cn(' bg-white', className)}>
+         <ScrollView>
+            {isOpened && <Search />}
+            {children}
+            <Footer />
+         </ScrollView>
+      </View>
+   );
 }
