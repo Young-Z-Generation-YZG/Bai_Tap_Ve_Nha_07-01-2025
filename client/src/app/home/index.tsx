@@ -26,41 +26,41 @@ import Icons from '@constants/svg-icons';
 const HomeScreen = () => {
    var log = logger.createLogger();
 
-   // useEffect(() => {
-   //    setTimeout(() => {
-   //       router.push('/products');
-   //    }, 1000);
-   // }, []);
+   useEffect(() => {
+      setTimeout(() => {
+         router.push('/products');
+      }, 1000);
+   }, []);
 
-   const {
-      data: posts,
-      isLoading,
-      isFetching,
-      isError,
-      refetch,
-   } = useGetPostsAsyncQuery({});
+   // const {
+   //    data: posts,
+   //    isLoading,
+   //    isFetching,
+   //    isError,
+   //    refetch,
+   // } = useGetPostsAsyncQuery({});
 
-   if (isLoading) {
-      log.debug('Loading data...');
-      return (
-         <View>
-            <Text className="mt-5 text-xl text-center font-TenorSans-Regular">
-               Loading...
-            </Text>
-         </View>
-      );
-   }
+   // if (isLoading) {
+   //    log.debug('Loading data...');
+   //    return (
+   //       <View>
+   //          <Text className="mt-5 text-xl text-center font-TenorSans-Regular">
+   //             Loading...
+   //          </Text>
+   //       </View>
+   //    );
+   // }
 
-   if (isError) {
-      log.error('Error loading data...');
-      return (
-         <View>
-            <Text className="mt-5 text-xl text-center font-TenorSans-Regular">
-               Error loading data...
-            </Text>
-         </View>
-      );
-   }
+   // if (isError) {
+   //    log.error('Error loading data...');
+   //    return (
+   //       <View>
+   //          <Text className="mt-5 text-xl text-center font-TenorSans-Regular">
+   //             Error loading data...
+   //          </Text>
+   //       </View>
+   //    );
+   // }
 
    return (
       <SafeAreaView className="w-full">
