@@ -1,5 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 import React from "react";
+import Footer from "@components/Footer";
 
 export default function ProductLayout({
   children,
@@ -10,7 +11,10 @@ export default function ProductLayout({
 }) {
   return (
     <View className={`flex-1 bg-white ${className}`}>
-      <ScrollView>{children}</ScrollView>
+      <ScrollView>
+        {children}
+        <Footer />
+      </ScrollView>
     </View>
   );
 }
