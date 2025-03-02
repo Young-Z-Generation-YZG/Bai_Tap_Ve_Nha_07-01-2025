@@ -24,9 +24,9 @@ import Icons from '@constants/svg-icons';
 const HomeScreen = () => {
    var log = logger.createLogger();
 
-   // useEffect(() => {
-   //    router.push('/products');
-   // }, []);
+   useEffect(() => {
+      router.push('/products');
+   }, []);
 
    return (
       <ScrollView>
