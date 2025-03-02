@@ -31,6 +31,7 @@ import FastShippingIcon from "~/assets/svgs/fast-shipping-icon";
 import CloseIcon from "~/assets/svgs/close-icon";
 import ArrowDownIcon from "~/assets/svgs/arrow-down-icon";
 import ArrowLeftIcon from "~/assets/svgs/arrow-left-icon";
+import OctoberCollectionSvg from "~/assets/svgs/october-collection-svg";
 
 export default {
   SearchIcon,
@@ -64,4 +65,5 @@ export default {
   CloseIcon,
   ArrowDownIcon,
   ArrowLeftIcon,
+  OctoberCollectionSvg,
 };

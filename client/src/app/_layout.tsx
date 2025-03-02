@@ -72,7 +72,7 @@ export default function RootLayout() {
             name="index"
             options={{
               title: "Onboarding",
-              headerShown: true,
+              headerShown: false,
             }}
           />
         </Stack>
