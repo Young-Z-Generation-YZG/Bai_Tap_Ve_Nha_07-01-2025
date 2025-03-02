@@ -1,10 +1,4 @@
-import {
-   View,
-   Text,
-   TouchableOpacity,
-   StyleSheet,
-   ScrollView,
-} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import ProductLayout from '~/components/layouts/product.layout';
 import ProductItem from '@components/ui/product-item';
@@ -15,7 +9,6 @@ import { ProductItemType } from '~/src/infrastructure/types/product.type';
 import LoadingOverlay from '@components/ui/LoadingOverlay';
 import IoniIcons from 'react-native-vector-icons/Ionicons';
 import AppDropdown from '@components/ui/AppDropdown';
-import { FlatList } from 'react-native-gesture-handler';
 
 var log = logger.createLogger();
 
@@ -100,7 +93,7 @@ const ProductScreen = () => {
             </View>
          </View>
 
-         {/* <LoadingOverlay isLoading={isLoading || isFetching} /> */}
+         <LoadingOverlay isLoading={isLoading || isFetching} />
       </ProductLayout>
    );
 };
