@@ -48,14 +48,12 @@ const LoadingOverlay = ({ isLoading }: LoadingOverlayProps) => {
 
    return (
       <View style={styles.overlay}>
-         {/* <View style={styles.container}> */}
          <Animated.View style={{ opacity: fadeAnim, transform: [{ rotate }] }}>
             <FeatherIcons name="loader" size={40} color="#ffffff" />
          </Animated.View>
          <Text style={styles.text} className="text-lg font-TenorSans-Regular ">
             Loading...
          </Text>
-         {/* </View> */}
       </View>
    );
 };
@@ -68,17 +66,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       zIndex: 1000,
    },
-   container: {
-      backgroundColor: '#1f2937',
-      padding: 20,
-      borderRadius: 12,
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-   },
+
    text: {
       marginTop: 10,
       fontSize: 18,
