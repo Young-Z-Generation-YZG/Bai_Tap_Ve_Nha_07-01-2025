@@ -7,7 +7,7 @@ const searchSlice = createSlice({
       isOpened: false,
    },
    reducers: {
-      setOpened: (state, action) => {
+      setSearchOpened: (state, action) => {
          state.isOpened = action.payload;
       },
       setSearchQuery: (state, action) => {
@@ -16,6 +16,6 @@ const searchSlice = createSlice({
    },
 });
 
-export const { setSearchQuery, setOpened } = searchSlice.actions;
+export const { setSearchQuery, setSearchOpened } = searchSlice.actions;
 
 export default searchSlice.reducer;
