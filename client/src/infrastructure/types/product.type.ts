@@ -1,4 +1,7 @@
-import { BaseResponseType } from '~/src/infrastructure/types/base-response.type';
+import {
+   BaseResponseType,
+   PaginationResponseType,
+} from '~/src/infrastructure/types/base-response.type';
 
 export type ProductItemType = {
    _id: string;
@@ -6,4 +9,6 @@ export type ProductItemType = {
    product_slug: string;
 };
 
-export type ProductResponseType = BaseResponseType<ProductItemType[]>;
+export type ProductResponseType = BaseResponseType<
+   PaginationResponseType<ProductItemType[]>
+>;

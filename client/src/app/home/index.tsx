@@ -25,9 +25,9 @@ import Button from '@components/ui/Button';
 const HomeScreen = () => {
    var log = logger.createLogger();
 
-   // useEffect(() => {
-   //    router.push('/products');
-   // }, []);
+   useEffect(() => {
+      router.push('/products');
+   }, []);
 
    return (
       <ScrollView>
