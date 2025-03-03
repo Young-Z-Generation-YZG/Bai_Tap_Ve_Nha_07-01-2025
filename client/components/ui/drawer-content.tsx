@@ -5,10 +5,12 @@ import {
    TouchableOpacity,
    ScrollView,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { svgIcons } from '~/constants';
 import Button from '~/components/ui/Button';
 import { router } from 'expo-router';
+import { useGetCategoriesAsyncQuery } from '~/src/infrastructure/redux/apis/category.api';
+import { CategoryItemType } from '~/src/infrastructure/types/category.type';
 
 // Sample category data structure
 const categories = [
@@ -53,14 +55,33 @@ const categories = [
 ];
 
 // Custom Drawer Content Component
-export default function CustomDrawerContent(props: any) {
+export default function DrawerContent(props: any) {
    const [expandedCategory, setExpandedCategory] = useState(null);
+   const [categoriesData, setCategoriesData] = useState<CategoryItemType[]>([]);
 
    const toggleCategory = (categoryTitle: any) => {
       setExpandedCategory(
          expandedCategory === categoryTitle ? null : categoryTitle,
       );
    };
+
+   const {
+      data: categoriesResponse,
+      isLoading,
+      isFetching,
+      isError,
+      refetch,
+   } = useGetCategoriesAsyncQuery();
+
+   useEffect(() => {
+      if (categoriesResponse?.data) {
+         setCategoriesData(categoriesResponse.data);
+      }
+   }, [categoriesResponse]);
+
+   if (categoriesData.length !== 0) {
+      console.log('categoriesData', categoriesData);
+   }
 
    return (
       <View className="flex flex-col w-full h-full">

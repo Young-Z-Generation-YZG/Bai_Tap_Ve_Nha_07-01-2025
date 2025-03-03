@@ -4,7 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import Header from '@components/Header';
 import { Dimensions } from 'react-native';
-import CustomDrawerContent from '@components/ui/custom-drawer-content';
+import DrawerContent from '@components/ui/drawer-content';
 
 // Get screen width
 const { width } = Dimensions.get('window');
@@ -29,7 +29,7 @@ const HomeLayout = () => {
                   width: width,
                },
             }}
-            drawerContent={(props) => <CustomDrawerContent {...props} />}
+            drawerContent={(props) => <DrawerContent {...props} />}
          >
             <Drawer.Screen
                name="index" // This is the name of the page and must match the url from root
