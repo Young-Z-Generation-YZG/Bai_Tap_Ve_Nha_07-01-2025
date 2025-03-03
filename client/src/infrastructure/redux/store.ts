@@ -23,6 +23,7 @@ import { postsApi } from '~/src/infrastructure/redux/apis/post.api';
 import { productsApi } from '~/src/infrastructure/redux/apis/product.api';
 import authSlice from '~/src/infrastructure/redux/features/auth/auth.slice';
 import searchSlice from '~/src/infrastructure/redux/features/app/search.slice';
+import { categoryApi } from '~/src/infrastructure/redux/apis/category.api';
 
 const storage = createPersistStorage();
 
@@ -34,6 +35,7 @@ const persistConfig: PersistConfig<ReturnType<typeof reducers>> = {
       authApi.reducerPath,
       postsApi.reducerPath,
       productsApi.reducerPath,
+      categoryApi.reducerPath,
    ], // Exclude API reducers from persistence
    whitelist: ['auth', 'search'], // Only persist auth and search slices
 };
@@ -64,6 +66,7 @@ const reducers = combineReducers({
    [authApi.reducerPath]: authApi.reducer,
    [postsApi.reducerPath]: postsApi.reducer,
    [productsApi.reducerPath]: productsApi.reducer,
+   [categoryApi.reducerPath]: categoryApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -79,6 +82,7 @@ export const reduxStore = configureStore({
          authApi.middleware,
          postsApi.middleware,
          productsApi.middleware,
+         categoryApi.middleware,
          rtkQueryLoggerMiddleware,
       ),
    enhancers: getEnhancers,
