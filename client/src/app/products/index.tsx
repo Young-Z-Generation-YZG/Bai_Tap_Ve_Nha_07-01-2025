@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ProductLayout from '~/components/layouts/product.layout';
 import ProductItem from '@components/ui/product-item';
 import { router } from 'expo-router';
@@ -27,6 +27,9 @@ const dropdownItems = [
 
 const ProductScreen = () => {
    const [productsData, setProductsData] = useState<ProductItemType[]>([]);
+   const [page, setPage] = useState(1);
+   const [limit, setLimit] = useState(4);
+   const [totalItems, setTotalItems] = useState<number | null>(null); // Store totalItems from meta
 
    const {
       data: productsResponse,
@@ -34,25 +37,60 @@ const ProductScreen = () => {
       isFetching,
       isError,
       refetch,
-   } = useGetProductsAsyncQuery();
+   } = useGetProductsAsyncQuery({ _page: page, _limit: limit });
 
-   // Log the API response for debugging
    React.useEffect(() => {
-      if (productsResponse) {
-         setProductsData(productsResponse.data);
+      if (productsResponse?.data?.items) {
+         // Append new items to existing products
+         setProductsData((prev) => [...prev, ...productsResponse.data.items]);
+         // Set totalItems from meta on first load or when it changes
+         if (productsResponse.data.meta?.totalItems !== undefined) {
+            setTotalItems(productsResponse.data.meta.totalItems);
+         }
       }
    }, [productsResponse]);
 
+   // Handle loading more products when scrolling near the end
+   const loadMoreProducts = useCallback(() => {
+      if (
+         !isFetching &&
+         !isError &&
+         totalItems !== null &&
+         productsData.length < totalItems
+      ) {
+         setPage((prev) => prev + 1); // Increment page to fetch next set
+      }
+   }, [isFetching, isError, totalItems, productsData.length]);
+
+   // Handle scroll event to detect end of content
+   const handleScroll = useCallback(
+      (event: any) => {
+         const { layoutMeasurement, contentOffset, contentSize } =
+            event.nativeEvent;
+         const paddingToBottom = 20; // Trigger slightly before the very end
+
+         // Check if scrolled to the bottom
+         if (
+            layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - paddingToBottom
+         ) {
+            loadMoreProducts();
+         }
+      },
+      [loadMoreProducts],
+   );
+
    return (
-      <ProductLayout>
+      <ProductLayout onScroll={handleScroll}>
          <View className="flex flex-row items-center justify-between px-6 py-5">
             <View>
                <Text className="text-base uppercase font-TenorSans-Regular">
-                  8 Result of Dress
+                  {totalItems !== null
+                     ? `${totalItems} Result of Dress`
+                     : 'Loading...'}
                </Text>
             </View>
             <View className="flex flex-row gap-2">
-               {/* <AppDropdown */}
                <View className="w-[80px]">
                   <AppDropdown
                      items={dropdownItems}
@@ -72,24 +110,22 @@ const ProductScreen = () => {
          </View>
 
          <View>
-            <View className="flex-row flex-wrap items-center justify-center gap-6 ">
-               {productsData.map((item, index) => {
-                  return (
-                     <TouchableOpacity
-                        key={index}
-                        onPress={() => {
-                           router.push('/products/lamerei');
-                        }}
-                     >
-                        <ProductItem
-                           title="lamerei"
-                           description="reversible angora cardigan"
-                           price={120}
-                           imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
-                        />
-                     </TouchableOpacity>
-                  );
-               })}
+            <View className="flex-row flex-wrap items-center justify-center gap-6">
+               {productsData.map((item, index) => (
+                  <TouchableOpacity
+                     key={index}
+                     onPress={() => {
+                        router.push('/products/lamerei');
+                     }}
+                  >
+                     <ProductItem
+                        title="lamerei"
+                        description="reversible angora cardigan"
+                        price={120}
+                        imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
+                     />
+                  </TouchableOpacity>
+               ))}
             </View>
          </View>
 
