@@ -40,7 +40,10 @@ const Header = (props: HeaderProps) => {
                <Icons.MenuIcon />
             </TouchableOpacity>
 
-            <Text className="text-red-500">Chani Logo</Text>
+            <Icons.LogoIcon
+               width={100}
+               height={30}
+            />
 
             <View className="flex flex-row gap-4">
                <TouchableOpacity

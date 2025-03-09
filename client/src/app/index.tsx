@@ -14,7 +14,7 @@ const App = () => {
     {
       id:"1",
       content: (
-        <View className="h-full flex justify-end items-center pb-[100px]">
+        <View className="h-full flex justify-end items-center pb-[120px]">
           <Image
             source={images.onboarding01}
             style={{ width: "100%", height: 655, resizeMode: "contain" }} 
@@ -25,7 +25,7 @@ const App = () => {
     {
       id: "2",
       content: (
-        <View className="h-full flex justify-end items-center pb-[100px]">
+        <View className="h-full flex justify-end items-center pb-[120px]">
           <svgIcons.OctoberCollectionSvg
             width={200}
             height={150}
@@ -40,7 +40,7 @@ const App = () => {
     {
       id: "3",
       content: (
-        <View className="h-full flex justify-end items-center pb-[100px]">
+        <View className="h-full flex justify-end items-center pb-[120px] relative">
           <svgIcons.OctoberCollectionSvg
             width={200}
             height={150}
@@ -49,40 +49,28 @@ const App = () => {
             source={images.onboarding03}
             style={{ width: "100%", height: 550, resizeMode: "contain" }} 
           />
+
+          <View className="absolute flex items-center h-[90px] bottom-6 px-10 gap-7">
+            <Button
+              title="LOGIN"
+              className="w-[200px] bg-white rounded-md"
+              textStyles="font-TenorSans-Regular text-lg"
+              onPress={() => {
+                router.push("/sign-in");
+              }}
+            />
+  
+            <Button
+              title="CONTINUE WITHOUT LOGIN"
+              className="w-[260px] p-0 pb-1 bg-transparent rounded-md border-b border-slate-400"
+              textStyles="text-white font-TenorSans-Regular text-lg"
+              onPress={() => {
+                router.push("/home");
+              }}
+            />
+          </View>
         </View>
       ),
-    },
-    {
-      id: "4",
-      content: 
-        <View className="h-full flex justify-center items-center gap-5 pb-[100px]">
-          {/* <View className="mb-32">
-            <Text className="text-xl font-semibold text-white font-Poppins-SemiBold">
-              On boarding Screen
-            </Text>
-          </View> */}
-          <svgIcons.LogoIcon
-            width={300}
-            height={200}
-          />
-          <Button
-            title="LOGIN TO APP"
-            className="bg-white w-[300px] py-5 rounded-md"
-            textStyles="font-TenorSans-Regular text-lg"
-            onPress={() => {
-              router.push("/sign-in");
-            }}
-          />
-
-          <Button
-            title="CONTINUE WITHOUT LOGIN"
-            className="bg-gray-400 w-[300px] py-5 rounded-md"
-            textStyles="font-TenorSans-Regular text-lg"
-            onPress={() => {
-              router.push("/home");
-            }}
-          />
-        </View>,
     },
   ];
   // 0D0D0D

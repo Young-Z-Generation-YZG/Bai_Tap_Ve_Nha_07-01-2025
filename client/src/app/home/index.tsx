@@ -4,6 +4,7 @@ import {
    ScrollView,
    StyleSheet,
    Text,
+   TouchableOpacity,
    View,
 } from 'react-native';
 import React, { useEffect } from 'react';
@@ -13,6 +14,7 @@ import HomeLayout from '~/components/layouts/home.layout';
 import { Carousel } from 'react-native-ui-lib';
 import { images, svgIcons } from '~/constants';
 import Icons from '@constants/svg-icons';
+import Button from '@components/ui/Button';
 
 // Explain how component is rendered
 /**
@@ -31,12 +33,26 @@ const HomeScreen = () => {
    return (
       <ScrollView>
          <HomeLayout>
-            <View className="w-full h-fit">
+            <View className="w-full h-fit relative">
                <Image
                   source={images.home01}
-                  className="w-screen h-[620px]"
+                  className="w-full h-[656px]"
                   resizeMode="contain"
                />
+               <View className='w-full absolute bottom-5 flex items-center'>
+                  <TouchableOpacity
+                  onPress={()=>router.push('/products')} 
+                  className='w-[250px] px-5 py-5 bg-[#8B8D90] opacity-80'>
+                     <Text className='text-lg font-TenorSans-Regular text-white text-center'>
+                        EXPLORE COLLECTION
+                     </Text>
+                     {/* <Button
+                        title='   '
+                        // onPress={()=>router.push('products')}
+                        className='z-0 w-[250px] bg-[#8B8D90] opacity-80 py-3'
+                     /> */}
+                  </TouchableOpacity>
+               </View>
             </View>
             <View className="w-full my-10 h-fit">
                <Text className="text-2xl text-center uppercase font-TenorSans-Regular">
@@ -115,24 +131,24 @@ const HomeScreen = () => {
                <View className="flex flex-col w-full gap-4 mt-4">
                   <View className="flex flex-row justify-center gap-4">
                      <Image
-                        source={images.footer01}
+                        source={images.followUs01}
                         className="w-[180px] h-[180px]"
                         resizeMode="contain"
                      />
                      <Image
-                        source={images.footer02}
+                        source={images.followUs02}
                         className="w-[180px] h-[180px]"
                         resizeMode="contain"
                      />
                   </View>
                   <View className="flex flex-row justify-center gap-4">
                      <Image
-                        source={images.footer03}
+                        source={images.followUs03}
                         className="w-[180px] h-[180px]"
                         resizeMode="contain"
                      />
                      <Image
-                        source={images.footer04}
+                        source={images.followUs04}
                         className="w-[180px] h-[180px]"
                         resizeMode="contain"
                      />
