@@ -5,9 +5,12 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import CartItem from '@components/ui/cart-item';
 import { router } from 'expo-router';
 import CommonLayout from '@components/layouts/common.layout';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
 const CartScreen = () => {
    const [items, setItems] = useState([1]);
+
+   const cart = useAppSelector((state) => state.cart.cart);
 
    return (
       <SafeAreaView className="h-full bg-white">
@@ -15,12 +18,14 @@ const CartScreen = () => {
             <View className="justify-between flex-1 px-3 py-2">
                <ScrollView className="w-full mt-5 h-[500px]">
                   <View className="flex flex-col gap-6">
-                     {items.map((item, index) => (
+                     {cart.map((item, index) => (
                         <CartItem
-                           key={index}
-                           title="lamerei"
-                           price={120}
-                           imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
+                           _id={item.product_id}
+                           name={item.product_name}
+                           price={item.product_price}
+                           imageUrl={item.product_img}
+                           size={item.product_size}
+                           color={item.product_color}
                         />
                      ))}
                   </View>
@@ -36,7 +41,10 @@ const CartScreen = () => {
                            </Text>
 
                            <Text className="mt-5 text-2xl font-TenorSans-Regular text-secondary">
-                              $120
+                              $
+                              {cart.map((item) => {
+                                 return item.product_price * item.quantity;
+                              })}
                            </Text>
                         </View>
                         <Text className="mt-2 ml-4 text-base font-TenorSans-Regular text-slate-400">
@@ -48,7 +56,7 @@ const CartScreen = () => {
                      <View></View>
                   )}
                   <View className="mt-3 bg-black">
-                     {items.length ? (
+                     {cart.length ? (
                         <TouchableOpacity
                            onPress={() => {
                               router.push('/checkout');

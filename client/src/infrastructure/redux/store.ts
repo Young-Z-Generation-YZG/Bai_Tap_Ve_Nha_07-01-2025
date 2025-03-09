@@ -23,6 +23,7 @@ import { postsApi } from '~/src/infrastructure/redux/apis/post.api';
 import { productsApi } from '~/src/infrastructure/redux/apis/product.api';
 import authSlice from '~/src/infrastructure/redux/features/auth/auth.slice';
 import searchSlice from '~/src/infrastructure/redux/features/app/search.slice';
+import cartSlice from '~/src/infrastructure/redux/features/app/cart.slice';
 import { categoryApi } from '~/src/infrastructure/redux/apis/category.api';
 
 const storage = createPersistStorage();
@@ -63,6 +64,7 @@ export const rtkQueryLoggerMiddleware =
 const reducers = combineReducers({
    auth: authSlice,
    search: searchSlice,
+   cart: cartSlice,
    [authApi.reducerPath]: authApi.reducer,
    [postsApi.reducerPath]: postsApi.reducer,
    [productsApi.reducerPath]: productsApi.reducer,

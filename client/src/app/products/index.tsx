@@ -231,10 +231,11 @@ const ProductScreen = () => {
                {productsData.map((item, index) => (
                   <TouchableOpacity
                      key={index}
-                     onPress={() => router.push('/products/lamerei')}
+                     onPress={() =>
+                        router.push(`/products/${item.product_slug}`)
+                     }
                   >
                      <ProductItem
-                        item={item}
                         title={item.product_name}
                         description="reversible angora cardigan"
                         price={item.product_price}

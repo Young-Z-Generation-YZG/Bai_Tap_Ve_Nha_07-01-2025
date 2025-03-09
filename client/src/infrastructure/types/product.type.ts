@@ -2,6 +2,9 @@ import {
    BaseResponseType,
    PaginationResponseType,
 } from '~/src/infrastructure/types/base-response.type';
+import { CategoryItemType } from '~/src/infrastructure/types/category.type';
+import { ImageType } from '~/src/infrastructure/types/common/img.type';
+import { SkuType } from '~/src/infrastructure/types/common/sku.type';
 
 export type ProductItemType = {
    _id: string;
@@ -15,17 +18,8 @@ export type ProductItemType = {
    product_brand: string;
    product_type: string;
    product_description: string;
-   product_category: {
-      _id: string;
-      category_name: string;
-      category_slug: string;
-   };
-   product_imgs: [
-      {
-         public_id: string;
-         secure_url: string;
-      },
-   ];
+   product_category: CategoryItemType;
+   product_imgs: ImageType[];
    product_promotion: null;
    product_status: string[];
    product_slug: string;
@@ -36,3 +30,5 @@ export type ProductItemType = {
 export type ProductResponseType = BaseResponseType<
    PaginationResponseType<ProductItemType[]>
 >;
+
+export type ProductDetailsResponseType = BaseResponseType<ProductItemType>;
