@@ -50,10 +50,10 @@ const App = () => {
             style={{ width: "100%", height: 550, resizeMode: "contain" }} 
           />
 
-          <View className="absolute flex flex-row w-full h-[50px] bottom-20 px-10 gap-10">
+          <View className="absolute flex items-center h-[90px] bottom-6 px-10 gap-7">
             <Button
               title="LOGIN"
-              className="h-full bg-white rounded-md flex-1"
+              className="w-[200px] bg-white rounded-md"
               textStyles="font-TenorSans-Regular text-lg"
               onPress={() => {
                 router.push("/sign-in");
@@ -61,9 +61,9 @@ const App = () => {
             />
   
             <Button
-              title="CONTINUE"
-              className="h-full bg-gray-400 rounded-md flex-1"
-              textStyles="font-TenorSans-Regular text-lg"
+              title="CONTINUE WITHOUT LOGIN"
+              className="w-[260px] p-0 pb-1 bg-transparent rounded-md border-b border-slate-400"
+              textStyles="text-white font-TenorSans-Regular text-lg"
               onPress={() => {
                 router.push("/home");
               }}

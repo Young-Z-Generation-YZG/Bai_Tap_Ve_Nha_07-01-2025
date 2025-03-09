@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
+import { cn } from "~/lib/utils";
 
 export type ButtonProps = {
   title: string;
@@ -19,7 +20,7 @@ const Button = (props: ButtonProps) => {
       onPress={props.onPress}
       disabled={props.isLoading}
       activeOpacity={0.7}
-      className={`w-max h-max py-2 px-5 rounded-full ${props.className} flex flex-row items-center justify-center`}
+      className={cn('w-max h-max py-2 px-5 rounded-full flex flex-row items-center justify-center',props.className)}
     >
       {props.icon && (
         <props.icon

@@ -4,6 +4,7 @@ import {
    ScrollView,
    StyleSheet,
    Text,
+   TouchableOpacity,
    View,
 } from 'react-native';
 import React, { useEffect } from 'react';
@@ -38,16 +39,19 @@ const HomeScreen = () => {
                   className="w-full h-[656px]"
                   resizeMode="contain"
                />
-               <View className='w-full absolute bottom-5'>
-                  <View className='w-full relative flex items-center justify-center'>
-                     <Text className='absolute z-10 text-lg font-TenorSans-Regular text-white'>
+               <View className='w-full absolute bottom-5 flex items-center'>
+                  <TouchableOpacity
+                  onPress={()=>router.push('/products')} 
+                  className='w-[250px] px-5 py-5 bg-[#8B8D90] opacity-80'>
+                     <Text className='text-lg font-TenorSans-Regular text-white text-center'>
                         EXPLORE COLLECTION
                      </Text>
-                     <Button
+                     {/* <Button
                         title='   '
+                        // onPress={()=>router.push('products')}
                         className='z-0 w-[250px] bg-[#8B8D90] opacity-80 py-3'
-                     />
-                  </View>
+                     /> */}
+                  </TouchableOpacity>
                </View>
             </View>
             <View className="w-full my-10 h-fit">

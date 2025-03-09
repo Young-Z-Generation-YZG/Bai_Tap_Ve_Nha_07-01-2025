@@ -62,15 +62,20 @@ const CarouselOnboarding = ({ items }: CarouselItemsProps) => {
 
 			{/* Navigation Buttons */}
 			<View className="absolute bottom-3 right-3">
-      <TouchableOpacity
-          onPress={() => goToSlide(activeIndex + 1)}
-          style={[styles.button, activeIndex === items.length - 1 && styles.disabledTouch]}
-          disabled={activeIndex === items.length - 1}
-        >
-          <Text className="text-black font-TenorSans-Regular text-xl">Next</Text>
-          {/* <AntDesign name="doubleright" size={40} color={'#fff'} /> */}
-        </TouchableOpacity>
-
+      {/*  */}
+        {
+          activeIndex === items.length -1 ? (
+            <></>
+          ): (
+            <TouchableOpacity
+              onPress={() => goToSlide(activeIndex + 1)}
+              style={[styles.button, activeIndex === items.length - 1 && styles.disabledTouch]}
+              // disabled={activeIndex === items.length - 1}
+            >
+              <Text className="text-black font-TenorSans-Regular text-xl">Next</Text>
+            </TouchableOpacity>
+          )
+        }
       </View>
     </View>
   );
