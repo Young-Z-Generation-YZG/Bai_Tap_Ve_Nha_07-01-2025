@@ -2,24 +2,21 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import Icons from '@constants/svg-icons';
-import { addItemToCart, decreaseItemFromCart, clearCart } from '~/src/infrastructure/redux/features/app/cart.slice'
 import { useDispatch } from 'react-redux';
-import COLORS from '@constants/colors';
+import {
+   setAddProduct,
+   setRemoveProduct,
+   setUpdateQuantity,
+} from '~/src/infrastructure/redux/features/app/cart.slice';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
 type CartItemProps = {
-   // title?: string;
-   // price: number;
-   // imageUrl?: string;
-   // size?:string;
-   // quantity?: number;
-   // slug?:string;
-   product_slug: string;
-   product_img: string;
-   product_name: string;
-   product_color:string;
-   product_size: string;
-   product_price: number;
-   quantity: number;
+   _id: string;
+   name: string;
+   size?: string;
+   color?: string;
+   price: number;
+   imageUrl: string;
    checkout?: boolean;
    // onChangeTotal:any;
 };
@@ -31,7 +28,7 @@ const CartItem = (props: CartItemProps) => {
 
    const dispatch = useDispatch();
 
-   const handleUpdateQuantity = (updateValue:number) => {
+   const handleUpdateQuantity = (updateValue: number) => {
 
       const {
          product_img,
@@ -42,10 +39,10 @@ const CartItem = (props: CartItemProps) => {
          product_slug,
          quantity,
       } = props;
-      
+
       // console.log("ADD TO CART SUCCESSFULLY")
-      
-      if (updateValue>0){
+
+      if (updateValue > 0) {
          // console.log("ADD SUCCESSFULLY")
          dispatch(addItemToCart({
             product_img,
@@ -54,10 +51,10 @@ const CartItem = (props: CartItemProps) => {
             product_price,
             product_name,
             product_slug,
-            quantity:updateValue
+            quantity: updateValue
          }))
       }
-      else{
+      else {
          // console.log("DECREASE SUCCESSFULLY")
          dispatch(decreaseItemFromCart({
             product_img,
@@ -69,7 +66,7 @@ const CartItem = (props: CartItemProps) => {
             quantity,
          }))
       }
-      
+
 
       // props.onChangeTotal((prev:any) => prev + (product_price*updateValue));
       setCounter(prev => prev + updateValue);
@@ -77,7 +74,7 @@ const CartItem = (props: CartItemProps) => {
 
 
    let colorHex = '';
-     
+
    switch (props.product_color) {
       case 'Green':
          colorHex = COLORS.Green;
@@ -96,8 +93,11 @@ const CartItem = (props: CartItemProps) => {
          break;
    }
 
+   const dispatch = useDispatch();
+   const cart = useAppSelector((state) => state.cart.cart);
+
    return (
-      <View>
+      <View key={props._id}>
          <View className="flex flex-row gap-3">
             <View>
                <Image
@@ -105,22 +105,37 @@ const CartItem = (props: CartItemProps) => {
                      uri: props.product_img,
                   }}
                   width={120}
-                  height={144}
+                  height={174}
                />
             </View>
 
-            <View>
-               <Text className="w-full px-2 text-xl uppercase font-TenorSans-Regular">
-                  {props.product_name}
-               </Text>
-               <View className="flex flex-row p-2 gap-[70px] ">
-                  <View>
-                     
-   
-                     <View className="flex mt-2">
-                        <View className="flex flex-row items-center gap-3">
-                           <Text className="text-base font-TenorSans-Regular">
-                              Color:
+            <View className="flex flex-row gap-[50px] w-screen p-2">
+               <View>
+                  <Text className="w-[120px] text-base text-wrap font-TenorSans-Regular">
+                     {props.name}
+                  </Text>
+
+                  <View className="flex">
+                     <View className="flex flex-row items-center gap-3">
+                        <Text className="text-base font-TenorSans-Regular">
+                           Color:
+                        </Text>
+                        <Icons.ColorCircle
+                           width={28}
+                           height={28}
+                           outerCircleColor="#333"
+                           innerCircleColor="#DD8560"
+                        />
+                     </View>
+
+                     <View className="flex flex-row items-center gap-3 mt-2">
+                        <Text className="text-base font-TenorSans-Regular">
+                           Size:
+                        </Text>
+                        <View className="relative">
+                           <Icons.SizeCircleBlack width={26} height={26} />
+                           <Text className="absolute text-base text-white font-TenorSans-Regular left-[8.5px] top-[2px]">
+                              {props.size}
                            </Text>
                            <Icons.ColorCircle
                               width={28}
@@ -129,7 +144,7 @@ const CartItem = (props: CartItemProps) => {
                               innerCircleColor={colorHex}
                            />
                         </View>
-   
+
                         <View className="flex flex-row items-center gap-3 mt-2">
                            <Text className="text-base font-TenorSans-Regular">
                               Size:
@@ -141,14 +156,14 @@ const CartItem = (props: CartItemProps) => {
                               </Text>
                            </View>
                         </View>
-   
+
                         <View className="mt-4">
                            {props.checkout ? (
                               <View className="flex flex-row items-center">
                                  <Text className="text-xl font-TenorSans-Regular text-secondary">
                                     ${props.product_price} x {props.quantity}
                                  </Text>
-   
+
                                  <Text className="text-xl font-TenorSans-Regular text-primary ml-[100px]">
                                     ${total}
                                  </Text>
@@ -169,7 +184,7 @@ const CartItem = (props: CartItemProps) => {
                                  </Text>
                                  <TouchableOpacity
                                     onPress={() => handleUpdateQuantity(1)}
-                                    // onPress={() => dispatch(clearCart())}
+                                 // onPress={() => dispatch(clearCart())}
                                  >
                                     <AntDesignIcon
                                        name="pluscircleo"
@@ -181,96 +196,95 @@ const CartItem = (props: CartItemProps) => {
                            )}
                         </View>
                      </View>
-                  </View>
-   
-                  <View className="items-end justify-end">
-                     <Text className="font-TenorSans-Regular">Sub total:</Text>
-                     <Text className="text-lg font-TenorSans-Regular text-secondary">
-                        ${props.product_price * counter}
-                     </Text>
+
+                     <View className="mt-4">
+                        {props.checkout ? (
+                           <View className="flex flex-row items-center">
+                              <Text className="text-xl font-TenorSans-Regular text-secondary">
+                                 ${props.price} x {props.quantity}
+                              </Text>
+
+                              <Text className="text-xl font-TenorSans-Regular text-primary ml-[100px]">
+                                 ${total}
+                              </Text>
+                           </View>
+                        ) : (
+                           <View className="flex flex-row justify-between w-[100px]">
+                              <TouchableOpacity
+                                 onPress={() => {
+                                    if (
+                                       cart.find(
+                                          (item) =>
+                                             item.product_id === props._id,
+                                       )?.quantity === 1
+                                    ) {
+                                       dispatch(setRemoveProduct(props._id));
+                                       return;
+                                    }
+
+                                    dispatch(
+                                       setUpdateQuantity({
+                                          product_id: props._id,
+                                          quantity:
+                                             (cart.find(
+                                                (item) =>
+                                                   item.product_id ===
+                                                   props._id,
+                                             )?.quantity ?? 0) - 1,
+                                       }),
+                                    );
+                                 }}
+                              >
+                                 <AntDesignIcon
+                                    name="minuscircleo"
+                                    size={24}
+                                    color="#3339"
+                                 />
+                              </TouchableOpacity>
+                              <Text className="text-xl font-TenorSans-Regular">
+                                 {cart.find(
+                                    (item) => item.product_id === props._id,
+                                 )?.quantity || 1}
+                              </Text>
+                              <TouchableOpacity
+                                 onPress={() => {
+                                    dispatch(
+                                       setUpdateQuantity({
+                                          product_id: props._id,
+                                          quantity:
+                                             (cart.find(
+                                                (item) =>
+                                                   item.product_id ===
+                                                   props._id,
+                                             )?.quantity ?? 0) + 1,
+                                       }),
+                                    );
+                                 }}
+                              >
+                                 <AntDesignIcon
+                                    name="pluscircleo"
+                                    size={24}
+                                    color="#3339"
+                                 />
+                              </TouchableOpacity>
+                           </View>
+                        )}
+                     </View>
                   </View>
                </View>
-            </View>
-         </View>
-      </View>
+
+               <View className="items-end justify-end">
+                  <Text className="font-TenorSans-Regular">Sub total:</Text>
+                  <Text className="text-lg font-TenorSans-Regular text-secondary">
+                     $
+                     {(cart.find((item) => item.product_id === props._id)
+                        ?.quantity ?? 1) * props.price}
+                  </Text>
+               </View >
+            </View >
+         </View >
+      </View >
    );
 };
 
 export default CartItem;
-
-{
-   /* <View className="p-2">
-               <Text className="w-full text-xl uppercase font-TenorSans-Regular">
-                  {props.title}
-               </Text>
-
-               <View className="flex mt-2">
-                  <View className="flex flex-row items-center gap-3">
-                     <Text className="text-base font-TenorSans-Regular">
-                        Color:
-                     </Text>
-                     <Icons.ColorCircle
-                        width={28}
-                        height={28}
-                        outerCircleColor="#333"
-                        innerCircleColor="#DD8560"
-                     />
-                  </View>
-
-                  <View className="flex flex-row items-center gap-3 mt-2">
-                     <Text className="text-base font-TenorSans-Regular">
-                        Size:
-                     </Text>
-                     <View className="relative">
-                        <Icons.SizeCircleBlack width={26} height={26} />
-                        <Text className="absolute text-base text-white font-TenorSans-Regular left-[8.5px] top-[2px]">
-                           S
-                        </Text>
-                     </View>
-                  </View>
-               </View>
-
-               <View className="mt-4">
-                  {props.checkout ? (
-                     <View className="flex flex-row items-center">
-                        <Text className="text-xl font-TenorSans-Regular text-secondary">
-                           ${props.price} x {props.quantity}
-                        </Text>
-
-                        <Text className="text-xl font-TenorSans-Regular text-primary ml-[100px]">
-                           ${total}
-                        </Text>
-                     </View>
-                  ) : (
-                     <View className="flex flex-row justify-between gap-5 mr-[70px]">
-                        <TouchableOpacity
-                           onPress={() => setCounter(counter - 1)}
-                        >
-                           <AntDesignIcon
-                              name="minuscircleo"
-                              size={24}
-                              color="#3339"
-                           />
-                        </TouchableOpacity>
-                        <Text className="text-xl font-TenorSans-Regular">
-                           {counter}
-                        </Text>
-                        <TouchableOpacity
-                           onPress={() => setCounter(counter + 1)}
-                        >
-                           <AntDesignIcon
-                              name="pluscircleo"
-                              size={24}
-                              color="#3339"
-                           />
-                        </TouchableOpacity>
-                     </View>
-                  )}
-                  {/* <View className="">
-                     <Text className="text-2xl text-secondary font-TenorSans-Regular">
-                        ${props.price * counter}
-                     </Text>
-                  </View> */
-}
-//  </View>
-// </View> */}

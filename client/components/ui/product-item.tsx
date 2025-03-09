@@ -4,7 +4,6 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { ProductItemType } from '~/src/infrastructure/types/product.type';
 
 type ProductItemProps = {
-   item: ProductItemType;
    title?: string;
    description?: string;
    price?: number;
