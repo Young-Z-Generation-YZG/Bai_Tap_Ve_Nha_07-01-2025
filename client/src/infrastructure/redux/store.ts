@@ -24,6 +24,7 @@ import { productsApi } from '~/src/infrastructure/redux/apis/product.api';
 import authSlice from '~/src/infrastructure/redux/features/auth/auth.slice';
 import searchSlice from '~/src/infrastructure/redux/features/app/search.slice';
 import { categoryApi } from '~/src/infrastructure/redux/apis/category.api';
+import cartSlice from '~/src/infrastructure/redux/features/app/cart.slice';
 
 const storage = createPersistStorage();
 
@@ -37,7 +38,7 @@ const persistConfig: PersistConfig<ReturnType<typeof reducers>> = {
       productsApi.reducerPath,
       categoryApi.reducerPath,
    ], // Exclude API reducers from persistence
-   whitelist: ['auth', 'search'], // Only persist auth and search slices
+   whitelist: ['auth', 'search', 'cart'], // Only persist auth and search slices
 };
 
 /**
@@ -63,6 +64,7 @@ export const rtkQueryLoggerMiddleware =
 const reducers = combineReducers({
    auth: authSlice,
    search: searchSlice,
+   cart: cartSlice,
    [authApi.reducerPath]: authApi.reducer,
    [postsApi.reducerPath]: postsApi.reducer,
    [productsApi.reducerPath]: productsApi.reducer,

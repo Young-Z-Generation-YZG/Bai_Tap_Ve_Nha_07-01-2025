@@ -7,45 +7,62 @@ import Icons from "@constants/svg-icons";
 import ProductItem from "@components/ui/product-item";
 import CarouselItems from "@components/ui/carousel-items";
 import CarouselItemsTest from "@components/ui/carousel-items-test";
-
+import { useDispatch } from "react-redux";
+import { addItemToCart, removeItemFromCart, clearCart } from '~/src/infrastructure/redux/features/app/cart.slice'
 const ProductDetailScreen = () => {
   const { slug } = useLocalSearchParams();
 
-  const [product, setProduct] = useState({
-    title: "lamerei",
-    description: "reversible angora cardigan",
-    price: 120,
-    imageUrl:
-      "https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp",
-  });
+  // const [product, setProduct] = useState({
+  //   product_slug: "sunflower-jumpsuit",
+  //   product_img: "https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp",
+  //   product_name: "lamerei",
+  //   product_color: '#5F8B4C',
+  //   product_size: 'S',
+  //   product_price: 120,
+  //   description: "reversible angora cardigan",
+  // });
 
-  const sampleItems = [
-    {
-      content: (
-        <View>
-          <Text style={{ fontSize: 18, fontWeight: "600" }}>
-            Custom Slide 1
-          </Text>
-          <Text style={{ color: "#6b7280" }}>Fully customizable content</Text>
-        </View>
-      ),
-    },
-    {
-      id: "2",
-      content: (
-        <View>
-          <Text style={{ fontSize: 18, fontWeight: "600" }}>
-            Custom Slide 2
-          </Text>
-          <Text style={{ color: "#ff0000" }}>Red text example</Text>
-        </View>
-      ),
-    },
-    {
-      id: "3",
-      content: <Text style={{ fontSize: 24 }}>Simple Slide 3</Text>,
-    },
-  ];
+  // const [product, setProduct] = useState({
+  //   product_slug: "white-dressed-pants",
+  //   product_img: "https://res.cloudinary.com/djiju7xcq/image/upload/v1729840351/White-Dressed-Pants-1-690x884_lem34h.jpg",
+  //   product_name: "lamerei",
+  //   product_color: '#5F8B4C',
+  //   product_size: 'S',
+  //   product_price: 120,
+  //   description: "reversible angora cardigan",
+  // });
+
+  const [product, setProduct] = useState({
+    product_slug: "apple-cinnam-pants",
+    product_img: "https://res.cloudinary.com/djiju7xcq/image/upload/v1729840559/Apple-Cinnam-Pants-2-690x884_xtcesi.jpg",
+    product_name: "lamerei",
+    product_color: '#5F8B4C',
+    product_size: 'S',
+    product_price: 120,
+    description: "reversible angora cardigan",
+  });
+  
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    const {product_img,
+      product_color,
+      product_size,
+      product_price,
+      product_name,
+      product_slug,} = product;
+
+    console.log("ADD TO CART SUCCESSFULLY")
+    dispatch(addItemToCart({
+      product_img,
+      product_color,
+      product_size,
+      product_price,
+      product_name,
+      product_slug,
+      quantity:1
+    }))
+  }
 
   return (
     <ProductLayout>
@@ -55,7 +72,7 @@ const ProductDetailScreen = () => {
             return (
               <Image
                 source={{
-                  uri: product.imageUrl,
+                  uri: product.product_img,
                 }}
                 style={{ width: 341, height: 460 }}
               />
@@ -65,13 +82,13 @@ const ProductDetailScreen = () => {
       </View>
       <View className="relative px-5">
         <Text className="text-2xl uppercase font-TenorSans-Regular">
-          {product.title}
+          {product.product_name}
         </Text>
         <Text className="mt-2 text-lg font-TenorSans-Regular text-[#555555]">
           {product.description}
         </Text>
         <Text className="mt-2 text-2xl font-TenorSans-Regular text-secondary">
-          ${product.price}
+          ${product.product_price}
         </Text>
       </View>
 
@@ -134,6 +151,15 @@ const ProductDetailScreen = () => {
           </Text>
         </View>
         <FeatherIcon name="heart" size={20} color="#FFF" className="mr-5" />
+      </TouchableOpacity>
+      <TouchableOpacity className="flex flex-row items-center justify-between bg-[#DD8560]" onPress={handleAddToCart}>
+        <View className="flex flex-row items-center gap-2">
+          <FeatherIcon name="plus" size={20} color="#FFF" className="ml-3" />
+          <Text className="py-5 text-lg text-white uppercase justify-self-start font-TenorSans-Regular">
+            Add to cart
+          </Text>
+        </View>
+        <FeatherIcon name="shopping-cart" size={20} color="#FFF" className="mr-5" />
       </TouchableOpacity>
 
       <View className="px-5 py-10">

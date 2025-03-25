@@ -6,7 +6,7 @@ import { createQueryEncodedUrl } from '~/src/infrastructure/utils/query-encoded-
 export const productsApi = createApi({
    reducerPath: 'product-api',
    baseQuery: fetchBaseQuery({
-      baseUrl: 'https://56d3-116-108-132-138.ngrok-free.app',
+      baseUrl: 'http://10.0.2.2:3000',
       prepareHeaders: (headers) => {
          headers.set('ngrok-skip-browser-warning', 'true');
          return headers;
