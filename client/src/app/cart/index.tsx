@@ -8,17 +8,8 @@ import CommonLayout from '@components/layouts/common.layout';
 import { useAppSelector } from "~/src/infrastructure/redux/store";
 
 const CartScreen = () => {
-   const [items, setItems] = useState(useAppSelector((state) => state.cart).items);
 
-   const [total,setTotal] = useState(0)
-
-   useEffect(()=>{
-      const getTotal = items.reduce((total,item) =>{
-         return total + (item.product_price * item.quantity);
-      },0)
-
-      setTotal(getTotal)
-   },[])
+   const cart = useAppSelector((state) => state.cart);
 
    return (
       <SafeAreaProvider>
@@ -27,7 +18,7 @@ const CartScreen = () => {
                <View className="justify-between flex-1 px-3 py-2">
                   <ScrollView className="w-full mt-5 h-[500px]">
                      <View className="flex flex-col gap-6">
-                        {items.map((item) => (
+                        {cart.items.map((item) => (
                            <CartItem
                               key={item.product_slug}
                               product_slug={item.product_slug}
@@ -37,14 +28,14 @@ const CartScreen = () => {
                               product_size={item.product_size}
                               product_price={item.product_price}
                               quantity={item.quantity}
-                              onChangeTotal={setTotal}
+                              // onChangeTotal={setTotal}
                            />
                         ))}
                      </View>
                   </ScrollView>
 
                   <View>
-                     {items.length ? (
+                     {cart.items.length ? (
                         <View className="mt-3">
                            <View className="w-full h-[1.5px] bg-slate-400/50"></View>
                            <View className="flex flex-row justify-center px-10">
@@ -53,7 +44,7 @@ const CartScreen = () => {
                               </Text>
 
                               <Text className="mt-5 text-2xl font-TenorSans-Regular text-secondary">
-                                 ${total}
+                                 ${cart.subTotal}
                               </Text>
                            </View>
                            <Text className="mt-2 ml-4 text-base font-TenorSans-Regular text-slate-400">
@@ -65,7 +56,7 @@ const CartScreen = () => {
                         <View></View>
                      )}
                      <View className="mt-3 bg-black">
-                        {items.length ? (
+                        {cart.items.length ? (
                            <TouchableOpacity
                               onPress={() => {
                                  router.push('/checkout');

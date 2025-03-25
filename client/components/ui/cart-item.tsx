@@ -20,7 +20,7 @@ type CartItemProps = {
    product_price: number;
    quantity: number;
    checkout?: boolean;
-   onChangeTotal:any;
+   // onChangeTotal:any;
 };
 
 const CartItem = (props: CartItemProps) => {
@@ -52,7 +52,7 @@ const CartItem = (props: CartItemProps) => {
          quantity:updateValue
       }))
 
-      props.onChangeTotal((prev:any) => prev + (product_price*updateValue));
+      // props.onChangeTotal((prev:any) => prev + (product_price*updateValue));
       setCounter(prev => prev + updateValue);
    }
 
