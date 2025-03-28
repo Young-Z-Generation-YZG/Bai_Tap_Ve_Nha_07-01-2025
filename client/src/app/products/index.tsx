@@ -50,6 +50,8 @@ const ProductScreen = () => {
       }
    }, [productsResponse]);
 
+   // console.log("Product[0]",productsData[0]);
+
    // Handle loading more products when scrolling near the end
    const loadMoreProducts = useCallback(() => {
       if (
@@ -115,14 +117,14 @@ const ProductScreen = () => {
                   <TouchableOpacity
                      key={index}
                      onPress={() => {
-                        router.push('/products/lamerei');
+                        router.push(`/products/${item.product_slug}`);
                      }}
                   >
                      <ProductItem
-                        title="lamerei"
+                        title={item.product_name}
                         description="reversible angora cardigan"
-                        price={120}
-                        imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
+                        price={item.product_price}
+                        imageUrl={item.product_imgs[0].secure_url}
                      />
                   </TouchableOpacity>
                ))}

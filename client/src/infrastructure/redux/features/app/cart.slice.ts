@@ -12,41 +12,78 @@ interface CartItem {
 
 interface CartState {
   items: CartItem[];
-  subTotal: number;
+  total: number;
+  totalQuantity: number;
 }
 
 const initialState: CartState = {
   items: [],
-  subTotal:0
+  total:0,
+  totalQuantity: 0,
 };
+
+// const checkExistingItem = (state) => {
+//   return state.items.find(
+//     item => 
+//       item.product_slug === action.payload.product_slug &&
+//       item.product_color === action.payload.product_color &&
+//       item.product_size === action.payload.product_size
+//   );
+// }
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addItemToCart: (state, action: PayloadAction<CartItem>) => {
-      const existingItem = state.items.find(item => item.product_slug === action.payload.product_slug);
+      const existingItem = state.items.find(
+        item => 
+          item.product_slug === action.payload.product_slug &&
+          item.product_color === action.payload.product_color &&
+          item.product_size === action.payload.product_size
+      );
       if (existingItem) {
-        state.subTotal += (existingItem.quantity + action.payload.quantity ) * existingItem.product_price;
+        state.total +=  action.payload.quantity * existingItem.product_price;
         existingItem.quantity += action.payload.quantity;
+        state.totalQuantity += action.payload.quantity;
       } else {
-        state.subTotal += action.payload.quantity * action.payload.product_price;
+        state.total += action.payload.quantity * action.payload.product_price;
         state.items.push(action.payload);
+        state.totalQuantity += action.payload.quantity;
       }
     },
-    removeItemFromCart: (state, action: PayloadAction<string>) => {
-      const itemRomove = state.items.find(item => item.product_slug === action.payload);
-      if (itemRomove){
-        state.subTotal -= itemRomove.quantity * itemRomove.product_price;
+    decreaseItemFromCart: (state, action: PayloadAction<CartItem>) => {
+      const itemToRemove = state.items.find(
+        item => 
+          item.product_slug === action.payload.product_slug &&
+          item.product_color === action.payload.product_color &&
+          item.product_size === action.payload.product_size
+      );
+      if (itemToRemove) {
+        if (itemToRemove.quantity > 1) {
+          itemToRemove.quantity -= 1;
+          state.total -= itemToRemove.product_price;
+          state.totalQuantity -= 1;
+        } else {
+          state.items = state.items.filter(item => 
+            !(
+              item.product_slug === action.payload.product_slug &&
+              item.product_color === action.payload.product_color &&
+              item.product_size === action.payload.product_size
+            )
+          );
+          state.total -= itemToRemove.product_price;
+          state.totalQuantity -= 1;
+        }
       }
-      state.items = state.items.filter(item => item.product_slug !== action.payload);
     },
     clearCart: (state) => {
       state.items = [];
-      state.subTotal = 0;
+      state.total = 0;
+      state.totalQuantity = 0; 
     },
   },
 });
 
-export const { addItemToCart, removeItemFromCart, clearCart } = cartSlice.actions;
+export const { addItemToCart, decreaseItemFromCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
