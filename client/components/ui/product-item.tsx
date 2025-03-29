@@ -17,7 +17,8 @@ const ProductItem = (props: ProductItemProps) => {
                source={{
                   uri: props.imageUrl,
                }}
-               style={{ width: 165, height: 240 }}
+               style={{ width: "100%", height: 240 }}
+               resizeMode='cover'
             />
 
             <FeatherIcon

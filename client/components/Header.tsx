@@ -12,7 +12,7 @@ import Icons from '@constants/svg-icons';
 import { router } from 'expo-router';
 import { cn } from '~/lib/utils';
 import { useAppSelector } from '~/src/infrastructure/redux/store';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSearchOpened } from '~/src/infrastructure/redux/features/app/search.slice';
 
 export type HeaderProps = DrawerHeaderProps & {
@@ -24,6 +24,8 @@ const Header = (props: HeaderProps) => {
    const { top, bottom } = useSafeAreaInsets();
    const [searchQuery, setSearchQuery] = useState('');
    // const [isOpened, setIsOpened] = useState(false);
+
+   const cart = useAppSelector((state) => state.cart);
 
    const dispatch = useDispatch();
    const isOpened = useAppSelector((state) => state.search.isOpened);
@@ -57,7 +59,15 @@ const Header = (props: HeaderProps) => {
                   onPress={() => {
                      router.push('cart');
                   }}
+                  className=' relative'
                >
+                  { 
+                  cart.totalQuantity > 0 ?
+                     <View className='absolute z-10 w-5 h-5 -right-3 -top-1 rounded-full bg-red-600 justify-center items-center  '>
+                        <Text className='text-white text-sm'>{cart.totalQuantity}</Text>
+                     </View>
+                  : ''
+                  }
                   <Icons.ShoppingBagIcon />
                </TouchableOpacity>
             </View>
