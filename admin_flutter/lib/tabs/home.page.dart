@@ -5,6 +5,8 @@ import 'package:admin_flutter/dashboards/users.page.dart';
 import 'package:admin_flutter/dashboards/vouchers.page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:admin_flutter/providers/ui_provider.dart';
 
 class HomePage extends StatelessWidget {
   late double _deviceWidth;
@@ -108,12 +110,7 @@ class HomePage extends StatelessWidget {
             InvoicePage(),
           ),
           Divider(height: 1, color: Colors.grey.withAlpha(51)),
-          _listItem(
-            context,
-            CupertinoIcons.person_2_fill,
-            "Users",
-            InvoicePage(),
-          ),
+          _listItem(context, CupertinoIcons.person_2_fill, "Users", UserPage()),
           Divider(height: 1, color: Colors.grey.withAlpha(51)),
           _listItem(
             context,
@@ -135,7 +132,26 @@ class HomePage extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        Navigator.push(context, CupertinoPageRoute(builder: (context) => page));
+        if (text == "Users") {
+          // Update bottom bar visibility state
+          Provider.of<UIProvider>(
+            context,
+            listen: false,
+          ).setBottomBarVisibility(false);
+
+          // Using rootNavigator: true is crucial here to bypass the CupertinoTabView's Navigator
+          // and access the root Navigator. This ensures that the Users page appears on top of the
+          // entire app (including the tab bar) rather than just within the current tab's Navigator.
+          // This approach allows us to completely hide the bottom tab bar for this screen.
+          Navigator.of(context, rootNavigator: true).pushNamed('/users');
+        } else {
+          // For regular navigation within tabs, we use the standard Navigator.push
+          // which navigates within the current tab's Navigator stack
+          Navigator.push(
+            context,
+            CupertinoPageRoute(builder: (context) => page),
+          );
+        }
       },
       child: Container(
         width: double.infinity,
