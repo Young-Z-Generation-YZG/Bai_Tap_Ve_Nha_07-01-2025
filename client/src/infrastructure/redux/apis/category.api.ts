@@ -1,15 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CategoryResponseType } from '~/src/infrastructure/types/category.type';
+import { baseQuery } from './base.api';
 
 export const categoryApi = createApi({
    reducerPath: 'category-api',
-   baseQuery: fetchBaseQuery({
-      baseUrl: 'https://f637-116-108-46-152.ngrok-free.app/',
-      prepareHeaders: (headers) => {
-         headers.set('ngrok-skip-browser-warning', 'true');
-         return headers;
-      },
-   }),
+   baseQuery: baseQuery,
    tagTypes: ['Categories'],
    endpoints: (builder) => ({
       getCategoriesAsync: builder.query<CategoryResponseType, void>({

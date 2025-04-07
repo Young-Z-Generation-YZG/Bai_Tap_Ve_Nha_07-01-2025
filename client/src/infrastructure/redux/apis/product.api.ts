@@ -5,16 +5,12 @@ import {
    ProductResponseType,
 } from '~/src/infrastructure/types/product.type';
 import { createQueryEncodedUrl } from '~/src/infrastructure/utils/query-encoded-url';
+import { baseQuery } from './base.api';
+
 
 export const productsApi = createApi({
    reducerPath: 'product-api',
-   baseQuery: fetchBaseQuery({
-      baseUrl: 'https://f637-116-108-46-152.ngrok-free.app/',
-      prepareHeaders: (headers) => {
-         headers.set('ngrok-skip-browser-warning', 'true');
-         return headers;
-      },
-   }),
+   baseQuery: baseQuery,
    tagTypes: ['Products'],
    endpoints: (builder) => ({
       getProductsAsync: builder.query<ProductResponseType, PaginationType>({

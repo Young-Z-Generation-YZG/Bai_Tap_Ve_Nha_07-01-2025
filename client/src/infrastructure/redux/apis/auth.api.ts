@@ -1,28 +1,33 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ILoginPayload } from '~/src/domain/interfaces/auth/ILoginPayload';
 import { setAccessToken } from '~/src/infrastructure/redux/features/auth/auth.slice';
-import { loginResponseType } from '~/src/infrastructure/types/auth.type';
+import { TLoginResponseData } from '../../types/auth.type';
+import { baseQuery } from './base.api';
+
 
 export const authApi = createApi({
    reducerPath: 'auth-api',
    tagTypes: ['auth'],
-   baseQuery: fetchBaseQuery({
-      baseUrl: 'https://4f65-116-108-20-111.ngrok-free.app/',
-   }),
+   baseQuery: baseQuery,
    endpoints: (builder) => ({
       loginAsync: builder.mutation({
          query: (payload: ILoginPayload) => ({
-            url: 'login',
+            url: '/api/v1/auth/login',
             method: 'POST',
             body: payload,
          }),
          async onQueryStarted(arg, { dispatch, queryFulfilled }) {
             try {
-               const { data }: { data: loginResponseType } =
+               const { data }: { data: TLoginResponseData } =
                   await queryFulfilled;
 
-               // Dispatch the action to set the access token (to store it in the Redux store)
-               dispatch(setAccessToken(data.accessToken));
+               dispatch(setAccessToken({
+                  accessToken: data.data.access_token,
+                  refreshToken: data.data.refresh_token,
+                  expiredIn: data.data.expired_in,
+                  isAuthenticated: true,
+                  user: null,
+               }));
             } catch (error) {
                console.error(error);
             }
