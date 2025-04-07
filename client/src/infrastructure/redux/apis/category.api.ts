@@ -4,7 +4,7 @@ import { CategoryResponseType } from '~/src/infrastructure/types/category.type';
 export const categoryApi = createApi({
    reducerPath: 'category-api',
    baseQuery: fetchBaseQuery({
-      baseUrl: 'http://10.0.2.2:3000',
+      baseUrl: 'https://4f65-116-108-20-111.ngrok-free.app/',
       prepareHeaders: (headers) => {
          headers.set('ngrok-skip-browser-warning', 'true');
          return headers;
