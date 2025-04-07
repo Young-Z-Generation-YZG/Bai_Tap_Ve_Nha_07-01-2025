@@ -25,7 +25,6 @@ import authSlice from '~/src/infrastructure/redux/features/auth/auth.slice';
 import searchSlice from '~/src/infrastructure/redux/features/app/search.slice';
 import cartSlice from '~/src/infrastructure/redux/features/app/cart.slice';
 import { categoryApi } from '~/src/infrastructure/redux/apis/category.api';
-import cartSlice from '~/src/infrastructure/redux/features/app/cart.slice';
 
 const storage = createPersistStorage();
 
