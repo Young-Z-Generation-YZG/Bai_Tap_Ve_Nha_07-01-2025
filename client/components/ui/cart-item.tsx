@@ -96,6 +96,9 @@ const CartItem = (props: CartItemProps) => {
    const dispatch = useDispatch();
    const cart = useAppSelector((state) => state.cart.cart);
 
+   const dispatch = useDispatch();
+   const cart = useAppSelector((state) => state.cart.cart);
+
    return (
       <View key={props._id}>
          <View className="flex flex-row gap-3">

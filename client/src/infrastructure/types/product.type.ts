@@ -6,11 +6,6 @@ import { CategoryItemType } from '~/src/infrastructure/types/category.type';
 import { ImageType } from '~/src/infrastructure/types/common/img.type';
 import { SkuType } from '~/src/infrastructure/types/common/sku.type';
 
-export type ProductImages = {
-   public_id:string;
-   secure_url:string;
-}
-
 export type ProductItemType = {
    _id: string;
    product_name: string;

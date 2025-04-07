@@ -13,6 +13,8 @@ const CartScreen = () => {
 
    const cart = useAppSelector((state) => state.cart.cart);
 
+   const cart = useAppSelector((state) => state.cart.cart);
+
    return (
       <SafeAreaView className="h-full bg-white">
          <CommonLayout title="Cart">
