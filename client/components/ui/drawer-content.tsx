@@ -11,6 +11,8 @@ import Button from '~/components/ui/Button';
 import { router } from 'expo-router';
 import { useGetCategoriesAsyncQuery } from '~/src/infrastructure/redux/apis/category.api';
 import { CategoryItemType } from '~/src/infrastructure/types/category.type';
+import { useDispatch } from 'react-redux';
+import { logout } from '~/src/infrastructure/redux/features/auth/auth.slice';
 
 // Sample category data structure
 const categories = [
@@ -58,12 +60,19 @@ const categories = [
 export default function DrawerContent(props: any) {
    const [expandedCategory, setExpandedCategory] = useState(null);
    const [categoriesData, setCategoriesData] = useState<CategoryItemType[]>([]);
+   const dispatch = useDispatch();
 
    const toggleCategory = (categoryTitle: any) => {
       setExpandedCategory(
          expandedCategory === categoryTitle ? null : categoryTitle,
       );
    };
+
+   const handleLogout = () => {
+      dispatch(logout());
+
+      router.push('/sign-in');
+   }
 
    const {
       data: categoriesResponse,
@@ -173,13 +182,13 @@ export default function DrawerContent(props: any) {
                title="MY PROFILE"
                className="bg-black rounded-none"
                textStyles="text-white text-xl font-TenorSans-Regular"
-               onPress={() => router.push('profile')}
+               onPress={() => router.push('/test')}
             />
             <Button
                title="SIGN OUT"
                className="bg-black rounded-none"
                textStyles="text-white text-xl font-TenorSans-Regular"
-               onPress={() => router.push('sign-in')}
+               onPress={handleLogout}
             />
          </View>
       </View>

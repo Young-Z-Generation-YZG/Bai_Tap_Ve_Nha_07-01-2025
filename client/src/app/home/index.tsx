@@ -15,20 +15,19 @@ import { Carousel } from 'react-native-ui-lib';
 import { images, svgIcons } from '~/constants';
 import Icons from '@constants/svg-icons';
 import Button from '@components/ui/Button';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
-// Explain how component is rendered
-/**
- * state 1: At first mount, the HomeScreen component will call the useGetPostsAsyncQuery hook to fetch posts from the server. (automatically called by the hook under the hood)
- *  so at the first render, data will be undefined, but "View" is still rendered.
- * state 2: The component will render a View component. (still no data)
- * state 3: data is fetched from the server and the component will re-render with the fetched data. (data is now available)
- */
 const HomeScreen = () => {
    var log = logger.createLogger();
 
+   const { accessToken, isAuthenticated } = useAppSelector(state => state.auth)
+
    useEffect(() => {
-      router.push('/products');
-   }, []);
+      console.log('============================================');
+      log.debug('[HomeScreen]::accessToken', accessToken);
+      log.debug('[HomeScreen]::isAuthenticated', isAuthenticated);
+
+   }, [accessToken, isAuthenticated]);
 
    return (
       <ScrollView>
@@ -41,16 +40,11 @@ const HomeScreen = () => {
                />
                <View className='w-full absolute bottom-5 flex items-center'>
                   <TouchableOpacity
-                  onPress={()=>router.push('/products')} 
-                  className='w-[250px] px-5 py-5 bg-[#8B8D90] opacity-80'>
+                     onPress={() => router.push('/products')}
+                     className='w-[250px] px-5 py-5 bg-[#8B8D90] opacity-80'>
                      <Text className='text-lg font-TenorSans-Regular text-white text-center'>
                         EXPLORE COLLECTION
                      </Text>
-                     {/* <Button
-                        title='   '
-                        // onPress={()=>router.push('products')}
-                        className='z-0 w-[250px] bg-[#8B8D90] opacity-80 py-3'
-                     /> */}
                   </TouchableOpacity>
                </View>
             </View>
@@ -68,8 +62,8 @@ const HomeScreen = () => {
                   containerMarginHorizontal={40}
                   initialPage={0}
                   pageControlPosition={Carousel.pageControlPositions.UNDER}
-                  // allowAccessibleLayout
-                  // className="bg-green-200"
+               // allowAccessibleLayout
+               // className="bg-green-200"
                >
                   {Array.from({ length: 10 }).map((_, index) => (
                      <View key={index} className="h-[300px] w-full bg-red-300">
