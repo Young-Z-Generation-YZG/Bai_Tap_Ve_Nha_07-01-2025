@@ -46,8 +46,9 @@ const SignUpScreen = () => {
               name="first_name"
               form={form}
               required
+              variant="outline"
               placeholder="First Name"
-              className="w-full"
+              className=""
               errorStyles="text-sm"
             />
             <InputField<RegisterFormType>
@@ -55,7 +56,7 @@ const SignUpScreen = () => {
               form={form}
               required
               placeholder="Last Name"
-              className="w-full"
+              className=""
               errorStyles="text-sm"
             />
           </View>
@@ -65,6 +66,7 @@ const SignUpScreen = () => {
               name="email"
               form={form}
               required
+              variant="outline"
               placeholder="Email"
               className="font-TenorSans-Regular"
               errorStyles="text-sm"

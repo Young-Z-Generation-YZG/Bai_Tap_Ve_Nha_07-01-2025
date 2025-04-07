@@ -62,9 +62,9 @@ export function InputField<T extends FieldValues>({
     control={control}
     render={({ field: { onChange, onBlur, value } }) => {
       return (
-        <View className={cn("h-16 border rounded-2xl mt-10", className)}>
+        <View className={cn("h-16 border rounded-2xl mt-10", variant === "outline" && "border-slate-200 border-t-0 border-l-0 border-r-0 border-b rounded-none", className)}>
           {Icon ? (
-            <View className="h-full flex flex-row items-center pl-3 ">
+            <View className="w-full h-full flex flex-row items-center pl-3">
               <Icon />
               <TextInput
                 id={name}
@@ -73,16 +73,18 @@ export function InputField<T extends FieldValues>({
                 onBlur={onBlur}
                 secureTextEntry={type === 'password' && !showPassword}
                 autoCapitalize="none"
+
                 placeholder={placeholder}
                 className={cn(
-                  "w-[290px] h-full pl-2 text-xl text-foreground font-TenorSans-Regular"
+                  "w-full h-full pl-2 text-xl text-foreground font-TenorSans-Regular pr-14",
                 )}
                 placeholderClassName={cn(
                   "text-muted-foreground",
                 )}
+                multiline={false}
               />
               {required && (
-                <Text className="text-red-500 text-lg">*</Text>
+                <Text className="text-red-500 text-lg absolute right-3">*</Text>
               )}
               {type === 'password' && (
                 <FeatherIcons
@@ -97,7 +99,7 @@ export function InputField<T extends FieldValues>({
               )}
             </View>
           ) : (
-            <View className="h-full flex flex-row items-center justify-center px-3">
+            <View className={cn("h-full flex flex-row items-center justify-center px-3", variant === "outline" && "border-slate-200 border-t-0 border-l-0 border-r-0 border-b rounded-none")}>
               <TextInput
                 id={name}
                 value={value}
@@ -106,8 +108,9 @@ export function InputField<T extends FieldValues>({
                 autoCapitalize="none"
                 secureTextEntry={type === 'password'}
                 placeholder={placeholder}
+                multiline={false}
                 className={cn(
-                  "h-full pl-2 text-xl text-foreground font-TenorSans-Regular",
+                  "w-full h-full pl-2 text-xl text-foreground font-TenorSans-Regular",
                   editable === false &&
                   "opacity-50 web:cursor-not-allowed",
                   className
@@ -117,7 +120,7 @@ export function InputField<T extends FieldValues>({
                 )}
               />
               {required && (
-                <Text className="text-red-500 text-lg">*</Text>
+                <Text className="text-red-500 text-lg absolute right-3">*</Text>
               )}
             </View>
           )}
