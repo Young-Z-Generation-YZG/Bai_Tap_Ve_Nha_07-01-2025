@@ -1,7 +1,6 @@
-import 'package:admin_flutter/auth/login.page.dart';
 import 'package:admin_flutter/main.page.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:admin_flutter/dashboards/users.page.dart';
+import 'package:admin_flutter/pages/dashboards/users.page.dart';
 import 'package:provider/provider.dart';
 import 'package:admin_flutter/providers/ui_provider.dart';
 

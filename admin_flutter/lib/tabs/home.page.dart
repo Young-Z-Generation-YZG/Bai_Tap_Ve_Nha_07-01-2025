@@ -1,8 +1,8 @@
-import 'package:admin_flutter/dashboards/invoices.page.dart';
-import 'package:admin_flutter/dashboards/overview.page.dart';
-import 'package:admin_flutter/dashboards/products.page.dart';
-import 'package:admin_flutter/dashboards/users.page.dart';
-import 'package:admin_flutter/dashboards/vouchers.page.dart';
+import 'package:admin_flutter/pages/dashboards/invoices.page.dart';
+import 'package:admin_flutter/pages/dashboards/overview.page.dart';
+import 'package:admin_flutter/pages/dashboards/products.page.dart';
+import 'package:admin_flutter/pages/dashboards/users.page.dart';
+import 'package:admin_flutter/pages/dashboards/vouchers.page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
