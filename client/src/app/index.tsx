@@ -7,17 +7,29 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "~/components/ui/Button";
 import CarouselOnboarding from "@components/ui/carousel-orboarding";
 import { images, svgIcons } from "~/constants";
+import { useAppSelector } from "../infrastructure/redux/store";
+import { useEffect } from "react";
 
 const App = () => {
 
+  const token = useAppSelector(state => state.auth.accessToken);
+
+  // useEffect(() => {
+  //   if (token) {
+  //     setTimeout(() => {
+  //       router.replace('/home');
+  //     }, 500);
+  //   }
+  // }, [token])
+
   const onboardingItems = [
     {
-      id:"1",
+      id: "1",
       content: (
         <View className="h-full flex justify-end items-center pb-[120px]">
           <Image
             source={images.onboarding01}
-            style={{ width: "100%", height: 655, resizeMode: "contain" }} 
+            style={{ width: "100%", height: 655, resizeMode: "contain" }}
           />
         </View>
       ),
@@ -32,7 +44,7 @@ const App = () => {
           />
           <Image
             source={images.onboarding02}
-            style={{ width: "100%", height: 550, resizeMode: "contain" }} 
+            style={{ width: "100%", height: 550, resizeMode: "contain" }}
           />
         </View>
       ),
@@ -47,7 +59,7 @@ const App = () => {
           />
           <Image
             source={images.onboarding03}
-            style={{ width: "100%", height: 550, resizeMode: "contain" }} 
+            style={{ width: "100%", height: 550, resizeMode: "contain" }}
           />
 
           <View className="absolute flex items-center h-[90px] bottom-6 px-10 gap-7">
@@ -59,7 +71,7 @@ const App = () => {
                 router.push("/sign-in");
               }}
             />
-  
+
             <Button
               title="CONTINUE WITHOUT LOGIN"
               className="w-[260px] p-0 pb-1 bg-transparent rounded-md border-b border-slate-400"
