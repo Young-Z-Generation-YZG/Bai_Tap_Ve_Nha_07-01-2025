@@ -79,9 +79,9 @@ export default function DrawerContent(props: any) {
       }
    }, [categoriesResponse]);
 
-   if (categoriesData.length !== 0) {
-      console.log('categoriesData', categoriesData);
-   }
+   // if (categoriesData.length !== 0) {
+   //    console.log('categoriesData', categoriesData);
+   // }
 
    return (
       <View className="flex flex-col w-full h-full">

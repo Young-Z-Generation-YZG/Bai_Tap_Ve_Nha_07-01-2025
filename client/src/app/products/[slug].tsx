@@ -10,9 +10,14 @@ import CarouselItemsTest from "@components/ui/carousel-items-test";
 import { useDispatch } from "react-redux";
 import { addItemToCart, decreaseItemFromCart, clearCart } from '~/src/infrastructure/redux/features/app/cart.slice'
 import { useGetProductsAsyncQuery } from "~/src/infrastructure/redux/apis/product.api";
-import { ProductImages } from "~/src/infrastructure/types/product.type";
+import { ProductCategoryType, ProductImages, ProductItemType } from "~/src/infrastructure/types/product.type";
 import COLORS from "@constants/colors";
 import { cn } from "~/lib/utils";
+import { useGetProductsByCategoryAsyncQuery } from "~/src/infrastructure/redux/apis/category.api";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useGetReviewsByProductIdAsyncQuery } from "~/src/infrastructure/redux/apis/review.api";
+import ReviewItem from "@components/ui/review-item";
+
 const ProductDetailScreen = () => {
   const { slug } = useLocalSearchParams();
 
@@ -20,7 +25,9 @@ const ProductDetailScreen = () => {
   const [selectedSize, setSelectedSize] = useState<number>(0);
   const [selectedColor, setSelectedColor] = useState<number>(0);
 
+  const [productsSameCategory, setProductsSameCategory] = useState<ProductItemType[]>([])
   const [product, setProduct] = useState({
+    productID:'',
     product_slug: '',
     product_imgs: [] as ProductImages[],
     product_name: '',
@@ -28,15 +35,8 @@ const ProductDetailScreen = () => {
     product_sizes: [] as string[],
     product_price: 0,
     description: '',
+    product_category: {} as ProductCategoryType,
   });
-
-  // console.log('PRODUCTDETAIL:::::',product)
-  const colors = [
-    'Green',
-    'Brown',
-    'White',
-    'Yellow',
-  ]
 
   const {
     data: productsResponse,
@@ -46,11 +46,33 @@ const ProductDetailScreen = () => {
     refetch,
   } = useGetProductsAsyncQuery({ _page: 1, _limit: 10 });
 
+  const {
+    data: productsSameCategoryResponse,
+  } = useGetProductsByCategoryAsyncQuery(
+    product.product_category.category_slug ? 
+      { slug: product.product_category.category_slug, queries: { _page: 1, _limit: 10 } } 
+    : 
+      skipToken 
+  );
+
+  const {
+    data: reviewsResponse,
+  } = useGetReviewsByProductIdAsyncQuery( 
+    product.productID ? 
+      product.productID 
+    : 
+      skipToken
+  );
+
+  console.log(reviewsResponse?.data);
+
+
   React.useEffect(() => {
     if (productsResponse?.data?.items) {
       const findProduct = productsResponse.data.items.find((item) => item.product_slug === slug);
-      if (findProduct)
+      if (findProduct) {
         setProduct({
+          productID: findProduct._id,
           product_slug: findProduct.product_slug,
           product_imgs: findProduct.product_imgs,
           product_name: findProduct.product_name,
@@ -58,10 +80,18 @@ const ProductDetailScreen = () => {
           product_sizes: findProduct.product_sizes,
           product_price: findProduct.product_price,
           description: findProduct.product_description,
+          product_category: findProduct.product_category,
         });
+      }
     }
   }, [productsResponse]);
-  
+
+  React.useEffect(() => {
+    if (productsSameCategoryResponse?.data?.items) {
+      setProductsSameCategory(productsSameCategoryResponse.data.items);
+    }
+  }, [productsSameCategoryResponse]);
+
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
@@ -74,7 +104,7 @@ const ProductDetailScreen = () => {
       product_slug,
     } = product;
 
-    console.log("ADD TO CART SUCCESSFULLY")
+    // console.log("ADD TO CART SUCCESSFULLY");
     dispatch(addItemToCart({
       product_img:product_imgs[0].secure_url,
       product_color:product_colors[selectedColor],
@@ -86,8 +116,37 @@ const ProductDetailScreen = () => {
     }))
   }
 
+   const renderAverageStars = (value:number) => {
+      const stars = [];
+      for (let i = 1; i <= 5; i++) {
+          if (i <= value) {
+            // Ex: index < 4.5 => fill full star with yellow
+            stars.push(<Icons.StarReviewIcon key={i} fill="#FFD700" />);
+          } else if (i - value < 1) {
+            // Ex: 4.5 % 1 => 0.5 => fill 50% star with yellow
+            const percentage = (value % 1) * 100;
+            stars.push(
+                <View key={i} className='relative flex justify-center items-center' >
+                  <Icons.StarReviewIcon fill="#E0E0E0" />
+                  <View className='absolute top-0 left-0 h-[100%] overflow-hidden'
+                      style={{
+                        width: `${percentage}%`,
+                      }}
+                  >
+                      <Icons.StarReviewIcon fill="#FFD700" />
+                  </View>
+                </View>
+            );
+          } else {
+            stars.push(<Icons.StarReviewIcon key={i} fill="#E0E0E0" />);
+          }
+      }
+      return stars;
+    };
+
   return (
     <ProductLayout>
+      {/* CAROUSEL IMAGES */}
       <View className="flex items-center w-full mt-5">
         <CarouselItemsTest
           items={product.product_imgs.map((item) => {
@@ -102,6 +161,8 @@ const ProductDetailScreen = () => {
           })}
         />
       </View>
+
+      {/* INFO PRODUCT */}
       <View className="relative px-5">
         <Text className="text-2xl uppercase font-TenorSans-Regular">
           {product.product_name}
@@ -114,52 +175,53 @@ const ProductDetailScreen = () => {
         </Text>
       </View>
 
-        <View className="flex flex-row items-center mb-2">
-          <View className="flex flex-row items-center p-5">
-            <Text className="mr-3 text-lg font-TenorSans-Regular">Color</Text>
-            {
-              product.product_colors.map((color,index) =>{
-                let colorHex = '';
-  
-                switch (color) {
-                  case 'Green':
-                    colorHex = COLORS.Green;
-                    break;
-                  case 'Brown':
-                    colorHex = COLORS.Brown;
-                    break;
-                  case 'White':
-                    colorHex = COLORS.White;
-                    break;
-                  case 'Yellow':
-                    colorHex = COLORS.Yellow;
-                    break;
-                  default:
-                    colorHex = '#000'; // Fallback color
-                    break;
-                }
-                  
-                return (
-                  <TouchableOpacity
-                  key={color}
-                  onPress={() => setSelectedColor(index)}
-                  className={cn(index==selectedColor?'border border-[#333] rounded-full':'')}
-                  >
-                    {/* // <View key={color} > */}
-                      <Icons.ColorCircle
-                      innerCircleColor={colorHex}
-                      // outerCircleColor={'#333'}
-                      width={30}
-                      height={30}
-                      />
-                    {/* // </View> */}
-                  </TouchableOpacity>
-                )
-  
-              })
-            }
-          </View>
-          <View className="flex flex-row items-center p-5">
+      {/* CHOOSE SIZE AND COLOR */}
+      <View className="flex flex-row items-center mb-2">
+        <View className="flex flex-row items-center p-5">
+          <Text className="mr-3 text-lg font-TenorSans-Regular">Color</Text>
+          {
+            product.product_colors.map((color,index) =>{
+              let colorHex = '';
+
+              switch (color) {
+                case 'GREEN':
+                  colorHex = COLORS.Green;
+                  break;
+                case 'BROWN':
+                  colorHex = COLORS.Brown;
+                  break;
+                case 'WHITE':
+                  colorHex = COLORS.White;
+                  break;
+                case 'YELLOW':
+                  colorHex = COLORS.Yellow;
+                  break;
+                default:
+                  colorHex = '#000'; // Fallback color
+                  break;
+              }
+                
+              return (
+                <TouchableOpacity
+                key={color}
+                onPress={() => setSelectedColor(index)}
+                className={cn(index==selectedColor?'border border-[#333] rounded-full':'')}
+                >
+                  {/* // <View key={color} > */}
+                    <Icons.ColorCircle
+                    innerCircleColor={colorHex}
+                    // outerCircleColor={'#333'}
+                    width={30}
+                    height={30}
+                    />
+                  {/* // </View> */}
+                </TouchableOpacity>
+              )
+
+            })
+          }
+        </View>
+        <View className="flex flex-row items-center p-5">
           <Text className="mr-3 text-lg font-TenorSans-Regular">Size</Text>
           <View className="flex flex-row items-center gap-2">
             {
@@ -178,10 +240,10 @@ const ProductDetailScreen = () => {
               ))
             }
           </View>
-          </View>
         </View>
+      </View>
 
-
+      {/* BUTTON ADD TO CART */}
       <TouchableOpacity className="flex flex-row items-center justify-between bg-black" onPress={handleAddToCart}>
         <View className="flex flex-row items-center gap-2">
           <FeatherIcon name="plus" size={20} color="#FFF" className="ml-3" />
@@ -193,6 +255,7 @@ const ProductDetailScreen = () => {
       </TouchableOpacity>
 
       <View className="px-5 py-10">
+        {/* DETAIL PRODUCT */}
         <View className="mb-10">
           <Text className="text-2xl uppercase font-TenorSans-Regular">
             Materials
@@ -246,6 +309,57 @@ const ProductDetailScreen = () => {
           </View>
         </View>
 
+        {/* REVIEW PRODUCT */}
+        <View className="flex items-center justify-end mt-10 mb-5">
+          <Text className="mb-3 text-2xl text-center uppercase font-TenorSans-Regular">
+            REVIEW
+          </Text>
+          <Icons.SeparateLine />
+        </View>
+
+        <View className="flex w-full">
+          <View className="flex flex-col mb-10 items-center">
+            <Text className="text-[40px] font-TenorSans-Regular">{reviewsResponse?.data.metadata.averageRating}</Text>
+            <View className="flex flex-col gap-2 items-center">
+              <View className="flex flex-row">
+                  {renderAverageStars(reviewsResponse?.data.metadata.averageRating ?? 0)}
+              </View>
+              <Text className="text-[16px] font-TenorSans-Regular">{reviewsResponse?.data.metadata.total} Reviews</Text>
+            </View>
+          </View>
+          <View className="flex-1 flex flex-row">
+              {reviewsResponse?.data?.reviews && reviewsResponse.data.reviews.length > 0 ? (
+                reviewsResponse.data.reviews.map((review, index) => {
+                  if (index < 3){
+                    return(
+                      <ReviewItem
+                      key={review._id}
+                      _id={review._id}
+                      review_content={review.review_content}
+                      review_invoice={review.review_invoice}
+                      review_product={review.review_product}
+                      review_rating={review.review_rating}
+                      review_user={review.review_user}
+                    />
+                    )
+                  }
+                })
+              ) : (
+                <></>
+              )}
+          </View>
+          {reviewsResponse?.data?.reviews.length !== 0 ? (
+            <View className="flex justify-center items-center">
+              <TouchableOpacity className="flex flex-row items-center justify-center bg-black w-[200px]" onPress={() => router.push(`/products/review?productID=${product.productID}`)}>
+                <Text className="py-3 text-lg text-white uppercase text-center font-TenorSans-Regular">
+                  Xem thêm 
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ):(<></>)}
+        </View>
+
+        {/* SAME PRODUCTS */}
         <View className="flex items-center justify-end mt-10 mb-10">
           <Text className="mb-3 text-2xl text-center uppercase font-TenorSans-Regular">
             You may also like
@@ -253,20 +367,24 @@ const ProductDetailScreen = () => {
           <Icons.SeparateLine />
         </View>
 
-        <View className="flex flex-row flex-wrap items-center justify-center gap-6">
-          {[1, 2, 3, 4].map((item, index) => {
+        <View className="flex flex-row flex-wrap items-center justify-center gap-3 mx-[-15px]">
+          {productsSameCategory.map((item, index) => {
             return (
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  router.push("/products/lamerei");
+                  router.push(`/products/${item.product_slug}`);
                 }}
               >
                 <ProductItem
-                  title="lamerei"
-                  description="reversible angora cardigan"
-                  price={120}
-                  imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
+                  id={item._id}
+                  title={item.product_name}
+                  description='description'
+                  price={item.product_price}
+                  imageUrl={item.product_imgs[0].secure_url}
+                  slug={item.product_slug}
+                  category={item.product_category.category_name}
+                  brand={item.product_brand}
                 />
               </TouchableOpacity>
             );

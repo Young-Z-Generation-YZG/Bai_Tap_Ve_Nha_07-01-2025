@@ -74,15 +74,15 @@ const ProfileScreen = () => {
                 textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(onSubmit)} />
               <Button
-                title="INVOICES" 
+                title="Change Address Info" 
                 className="bg-gray-400"
                 textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
                 onPress={handleSubmit(()=>{router.push('profile/invoices')})} />
               <Button
-                title="WISHLIST" 
+                title="Change Password" 
                 className="bg-gray-400"
                 textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
-                onPress={()=>{router.push('wishlist')}} />
+                onPress={handleSubmit(onSubmit)} />
             </View>
           </View>
         </ScrollView>

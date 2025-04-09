@@ -1,5 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { PaginationType } from '~/src/infrastructure/types/base-response.type';
 import { CategoryResponseType } from '~/src/infrastructure/types/category.type';
+import { ProductResponseType } from '~/src/infrastructure/types/product.type';
+import { createQueryEncodedUrl } from '~/src/infrastructure/utils/query-encoded-url';
 
 export const categoryApi = createApi({
    reducerPath: 'category-api',
@@ -25,7 +28,28 @@ export const categoryApi = createApi({
                  ]
                : [{ type: 'Categories', id: 'LIST' }],
       }),
+      getProductsByCategoryAsync: builder.query<ProductResponseType, { slug: string; queries: PaginationType }>({
+         query: ( {slug, queries}) => 
+            createQueryEncodedUrl(`/api/v1/categories/${slug}/products`,queries),
+         providesTags: (result) =>
+            result?.data?.items
+               ? [
+                     ...result.data.items.map(({ product_slug, product_name, product_colors, product_sizes, product_price, product_stocks, product_imgs, product_description }) => ({
+                       type: 'Categories' as const,
+                       product_slug,
+                       product_name,
+                       product_colors,
+                       product_sizes,
+                       product_price,
+                       product_stocks,
+                       product_imgs,
+                       product_description,
+                    })),
+                    { type: 'Categories', id: 'LIST' },
+                 ]
+               : [{ type: 'Categories', id: 'LIST' }],
+      }),
    }),
 });
 
-export const { useGetCategoriesAsyncQuery } = categoryApi;
+export const { useGetCategoriesAsyncQuery, useGetProductsByCategoryAsyncQuery } = categoryApi;

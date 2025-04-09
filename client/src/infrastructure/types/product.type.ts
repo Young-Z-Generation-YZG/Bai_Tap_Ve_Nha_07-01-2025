@@ -8,6 +8,12 @@ export type ProductImages = {
    secure_url:string;
 }
 
+export type ProductCategoryType = {
+   _id: string;
+   category_name: string;
+   category_slug: string;
+};
+
 export type ProductItemType = {
    _id: string;
    id: string;
@@ -19,7 +25,8 @@ export type ProductItemType = {
    product_stocks: number;
    product_imgs: Array<ProductImages>;
    product_description:string;
-
+   product_category: ProductCategoryType;
+   product_brand:string;
 };
 
 export type ProductResponseType = BaseResponseType<

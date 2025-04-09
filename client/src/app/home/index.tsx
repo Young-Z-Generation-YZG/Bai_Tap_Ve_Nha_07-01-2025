@@ -15,6 +15,7 @@ import { Carousel } from 'react-native-ui-lib';
 import { images, svgIcons } from '~/constants';
 import Icons from '@constants/svg-icons';
 import Button from '@components/ui/Button';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
 // Explain how component is rendered
 /**
@@ -26,9 +27,13 @@ import Button from '@components/ui/Button';
 const HomeScreen = () => {
    var log = logger.createLogger();
 
-   useEffect(() => {
-      router.push('/products');
-   }, []);
+   // useEffect(() => {
+   //    router.push('/products');
+   // }, []);
+
+   const histortList = useAppSelector((state) => state.history );
+
+   console.log('histortList.items ==> ',histortList.items)
 
    return (
       <ScrollView>
@@ -54,6 +59,7 @@ const HomeScreen = () => {
                   </TouchableOpacity>
                </View>
             </View>
+            
             <View className="w-full my-10 h-fit">
                <Text className="text-2xl text-center uppercase font-TenorSans-Regular">
                   Just for you
@@ -78,6 +84,17 @@ const HomeScreen = () => {
                      </View>
                   ))}
                </Carousel>
+            </View>
+
+            <View className="w-full my-10 h-fit">
+               <Text className="text-2xl text-center uppercase font-TenorSans-Regular">
+                  have seen
+               </Text>
+               <View className="border-b border-gray-400 mx-[120px] mt-3 mb-10" />
+
+               <View className=''>
+
+               </View>
             </View>
 
             <View className="bg-[#F7F7F7] py-6 flex flex-col items-center gap-4">

@@ -36,6 +36,9 @@ import CloseIcon from '~/assets/svgs/close-icon';
 import ArrowDownIcon from '~/assets/svgs/arrow-down-icon';
 import ArrowLeftIcon from '~/assets/svgs/arrow-left-icon';
 import OctoberCollectionSvg from '~/assets/svgs/october-collection-svg';
+import BillIcon from '~/assets/svgs/bill-icon';
+import InvoiceEmptyIcon from '~/assets/svgs/invoice-emty';
+import StarReviewIcon from '~/assets/svgs/star-review-icon';
 
 export default {
    SearchIcon,
@@ -74,4 +77,7 @@ export default {
    SadIcon,
    HappyIcon,
    LoveIcon,
+   BillIcon,
+   InvoiceEmptyIcon,
+   StarReviewIcon,
 };
