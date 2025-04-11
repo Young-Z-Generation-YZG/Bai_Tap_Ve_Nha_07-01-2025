@@ -79,16 +79,16 @@ const CartItem = (props: CartItemProps) => {
    let colorHex = '';
 
    switch (props.product_color) {
-      case 'Green':
+      case 'GREEN':
          colorHex = COLORS.Green;
          break;
-      case 'Brown':
+      case 'BROWN':
          colorHex = COLORS.Brown;
          break;
-      case 'White':
+      case 'WHITE':
          colorHex = COLORS.White;
          break;
-      case 'Yellow':
+      case 'YELLOW':
          colorHex = COLORS.Yellow;
          break;
       default:

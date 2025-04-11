@@ -22,15 +22,6 @@ const initialState: CartState = {
   totalQuantity: 0,
 };
 
-// const checkExistingItem = (state) => {
-//   return state.items.find(
-//     item => 
-//       item.product_slug === action.payload.product_slug &&
-//       item.product_color === action.payload.product_color &&
-//       item.product_size === action.payload.product_size
-//   );
-// }
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState,

@@ -25,6 +25,7 @@ import authSlice from '~/src/infrastructure/redux/features/auth/auth.slice';
 import searchSlice from '~/src/infrastructure/redux/features/app/search.slice';
 import cartSlice from '~/src/infrastructure/redux/features/app/cart.slice';
 import { categoryApi } from '~/src/infrastructure/redux/apis/category.api';
+import wishlistSlice from '~/src/infrastructure/redux/features/app/wishlist.slice';
 
 const storage = createPersistStorage();
 
@@ -38,7 +39,7 @@ const persistConfig: PersistConfig<ReturnType<typeof reducers>> = {
       categoryApi.reducerPath,
       userApi.reducerPath,
    ], // Exclude API reducers from persistence
-   whitelist: ['auth', 'search', 'cart'], // Only persist auth and search slices
+   whitelist: ['auth', 'search', 'cart', 'wishlist', ], // Only persist auth and search slices
 };
 
 /**
@@ -65,6 +66,7 @@ const reducers = combineReducers({
    auth: authSlice,
    search: searchSlice,
    cart: cartSlice,
+   wishlist: wishlistSlice,
    [authApi.reducerPath]: authApi.reducer,
    [productsApi.reducerPath]: productsApi.reducer,
    [categoryApi.reducerPath]: categoryApi.reducer,
