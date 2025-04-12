@@ -3,6 +3,11 @@ import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import Header from "@components/Header";
+import { Dimensions } from "react-native";
+import DrawerContent from "@components/ui/drawer-content";
+
+// Get screen width
+const { width } = Dimensions.get('window');
 
 const ProductLayout = () => {
   return (
@@ -19,12 +24,17 @@ const ProductLayout = () => {
               }}
             />
           ),
+          drawerStyle: {
+            backgroundColor: '#fff',
+            width: width,
+         },
         }}
+        drawerContent={(props) => <DrawerContent {...props} />}
       >
         <Drawer.Screen
           name="index" // This is the name of the page and must match the url from root
           options={{
-            drawerLabel: "Home",
+            drawerLabel: "Products",
             title: "overview",
             headerShown: true,
           }}

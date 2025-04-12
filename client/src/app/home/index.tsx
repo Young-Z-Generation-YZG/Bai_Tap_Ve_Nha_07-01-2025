@@ -48,6 +48,7 @@ const HomeScreen = () => {
                   </TouchableOpacity>
                </View>
             </View>
+            
             <View className="w-full my-10 h-fit">
                <Text className="text-2xl text-center uppercase font-TenorSans-Regular">
                   Just for you

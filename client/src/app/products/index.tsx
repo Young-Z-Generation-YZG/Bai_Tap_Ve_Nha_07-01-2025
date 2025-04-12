@@ -15,6 +15,9 @@ import AppFilterVariants, {
 } from '@components/ui/AppFilterVariants';
 import { PaginationType } from '~/src/infrastructure/types/base-response.type';
 import { useAppSelector } from '~/src/infrastructure/redux/store';
+import AppDropdown from '@components/ui/AppDropdown';
+import { useDispatch } from 'react-redux';
+// import { addHistory } from '~/src/infrastructure/redux/features/app/history.slice';
 
 var log = logger.createLogger();
 
@@ -112,6 +115,7 @@ const ProductScreen = () => {
       }
    }, [productsResponse, page]);
 
+   // Handle loading more products when scrolling near the end
    const loadMoreProducts = useCallback(() => {
       if (
          !isFetching &&
@@ -191,6 +195,17 @@ const ProductScreen = () => {
          refetch();
       }
    };
+   // Handle add history and navigation
+   const dispatch = useDispatch();
+   const handleAddAndNavigate = (item:ProductItemType) => {
+      // dispatch(addHistory({
+      //    id:item._id,
+      //    product_img:item.product_imgs[0].secure_url,
+      //    product_name:item.product_name,
+      //    product_slug:item.product_slug,
+      // }))
+      router.push(`/products/${item.product_slug}`);
+   }
 
    return (
       <ProductLayout onScroll={handleScroll}>
@@ -227,19 +242,18 @@ const ProductScreen = () => {
          </View>
 
          <View>
-            <View className="flex-row flex-wrap items-center justify-center gap-6">
+            <View className="flex flex-row flex-wrap items-center justify-center gap-6">
                {productsData.map((item, index) => (
-                  <TouchableOpacity
-                     key={index}
-                     onPress={() =>
-                        router.push(`/products/${item.product_slug}`)
-                     }
-                  >
+                  <TouchableOpacity key={index} onPress={() => handleAddAndNavigate(item)}>
                      <ProductItem
+                        id={item._id}
                         title={item.product_name}
                         description="reversible angora cardigan"
                         price={item.product_price}
                         imageUrl={item.product_imgs[0].secure_url}
+                        slug={item.product_slug}
+                        category={item.product_category.category_name}
+                        brand={item.product_brand} 
                      />
                   </TouchableOpacity>
                ))}
