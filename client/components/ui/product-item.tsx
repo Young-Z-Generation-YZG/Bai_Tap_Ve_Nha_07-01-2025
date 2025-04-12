@@ -5,7 +5,10 @@ import React, { useEffect, useState } from 'react';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '~/src/infrastructure/redux/store';
-import { addWishList, removeWishList } from '~/src/infrastructure/redux/features/app/wishlist.slice';
+import {
+   addWishList,
+   removeWishList,
+} from '~/src/infrastructure/redux/features/app/wishlist.slice';
 
 type ProductItemProps = {
    id: string;
@@ -19,11 +22,10 @@ type ProductItemProps = {
 };
 
 const ProductItem = (props: ProductItemProps) => {
-
-   const wishlist = useAppSelector((state) => state.wishlist )
+   const wishlist = useAppSelector((state) => state.wishlist);
 
    const dispatch = useDispatch();
-   
+
    const [isWishlist, setIsWishlist] = useState(false);
 
    useEffect(() => {
@@ -31,30 +33,31 @@ const ProductItem = (props: ProductItemProps) => {
       check = wishlist.items.find((item) => item.id === props.id);
       if (check) {
          setIsWishlist(true);
-      } else{
+      } else {
          setIsWishlist(false);
       }
-   },[])
+   }, []);
 
-   
    const handleAddWishList = () => {
       // console.log(props.id,props.imageUrl,)
-      if (!isWishlist){
+      if (!isWishlist) {
          setIsWishlist(true);
-         dispatch(addWishList({
-            id:props.id,
-            product_img:props.imageUrl,
-            product_name:props.title,
-            product_slug:props.slug,
-            product_price: props.price,
-            product_brand: props.brand,
-            category_name: props.category,
-         }));
-      } else{
+         dispatch(
+            addWishList({
+               id: props.id,
+               product_img: props.imageUrl,
+               product_name: props.title,
+               product_slug: props.slug,
+               product_price: props.price,
+               product_brand: props.brand,
+               category_name: props.category,
+            }),
+         );
+      } else {
          setIsWishlist(false);
          dispatch(removeWishList(props.id));
       }
-   }
+   };
    return (
       <View>
          <View className="relative">
@@ -62,18 +65,18 @@ const ProductItem = (props: ProductItemProps) => {
                source={{
                   uri: props.imageUrl,
                }}
-               style={{ width: "100%", height: 240 }}
-               resizeMode='cover'
+               style={{ width: '100%', height: 240 }}
+               resizeMode="cover"
             />
 
             <TouchableOpacity onPress={handleAddWishList}>
-               { isWishlist ? (
+               {isWishlist ? (
                   <FontAwesomeIcon
                      name="heart"
                      size={20}
                      color="#FF8383"
                      className="absolute bottom-2 right-2 "
-                   />
+                  />
                ) : (
                   <FontAwesomeIcon
                      name="heart-o"

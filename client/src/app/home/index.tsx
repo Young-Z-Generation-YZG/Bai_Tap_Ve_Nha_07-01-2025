@@ -20,13 +20,14 @@ import { useAppSelector } from '~/src/infrastructure/redux/store';
 const HomeScreen = () => {
    var log = logger.createLogger();
 
-   const { accessToken, isAuthenticated } = useAppSelector(state => state.auth)
+   const { accessToken, isAuthenticated } = useAppSelector(
+      (state) => state.auth,
+   );
 
    useEffect(() => {
       console.log('============================================');
       log.debug('[HomeScreen]::accessToken', accessToken);
       log.debug('[HomeScreen]::isAuthenticated', isAuthenticated);
-
    }, [accessToken, isAuthenticated]);
 
    return (
@@ -38,17 +39,18 @@ const HomeScreen = () => {
                   className="w-full h-[656px]"
                   resizeMode="contain"
                />
-               <View className='w-full absolute bottom-5 flex items-center'>
+               <View className="w-full absolute bottom-5 flex items-center">
                   <TouchableOpacity
                      onPress={() => router.push('/products')}
-                     className='w-[250px] px-5 py-5 bg-[#8B8D90] opacity-80'>
-                     <Text className='text-lg font-TenorSans-Regular text-white text-center'>
+                     className="w-[250px] px-5 py-5 bg-[#8B8D90] opacity-80"
+                  >
+                     <Text className="text-lg font-TenorSans-Regular text-white text-center">
                         EXPLORE COLLECTION
                      </Text>
                   </TouchableOpacity>
                </View>
             </View>
-            
+
             <View className="w-full my-10 h-fit">
                <Text className="text-2xl text-center uppercase font-TenorSans-Regular">
                   Just for you
@@ -63,8 +65,8 @@ const HomeScreen = () => {
                   containerMarginHorizontal={40}
                   initialPage={0}
                   pageControlPosition={Carousel.pageControlPositions.UNDER}
-               // allowAccessibleLayout
-               // className="bg-green-200"
+                  // allowAccessibleLayout
+                  // className="bg-green-200"
                >
                   {Array.from({ length: 10 }).map((_, index) => (
                      <View key={index} className="h-[300px] w-full bg-red-300">
