@@ -8,6 +8,16 @@ import Button from "~/components/ui/Button";
 import { Link } from "expo-router";
 import { Image } from "react-native";
 import { images,icons, svgIcons } from "~/constants";
+import { ShippingAddressFormType } from "~/src/domain/schemas/auth.schema";
+
+const defaultValues: ShippingAddressFormType = {
+  first_name:'',
+  last_name:'',
+  address:'',
+  city:'',
+  phone_number:'',
+  state:'',
+};
 
 
 const AddressScreen = () => {
@@ -22,8 +32,8 @@ const AddressScreen = () => {
       // country:'Viet Nam',
       firstName:'',
       lastName:'',
+      address:'',
       phoneNumber:'',
-      addressLine:'',
       district:'',
       province:'',
       country:'',

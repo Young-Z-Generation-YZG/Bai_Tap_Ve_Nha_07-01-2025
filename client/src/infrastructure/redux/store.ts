@@ -26,6 +26,8 @@ import searchSlice from '~/src/infrastructure/redux/features/app/search.slice';
 import cartSlice from '~/src/infrastructure/redux/features/app/cart.slice';
 import { categoryApi } from '~/src/infrastructure/redux/apis/category.api';
 import wishlistSlice from '~/src/infrastructure/redux/features/app/wishlist.slice';
+import { reviewsApi } from '~/src/infrastructure/redux/apis/review.api';
+import { invoicesApi } from '~/src/infrastructure/redux/apis/invoice.api';
 
 const storage = createPersistStorage();
 
@@ -38,6 +40,8 @@ const persistConfig: PersistConfig<ReturnType<typeof reducers>> = {
       productsApi.reducerPath,
       categoryApi.reducerPath,
       userApi.reducerPath,
+      invoicesApi.reducerPath,
+      reviewsApi.reducerPath,
    ], // Exclude API reducers from persistence
    whitelist: ['auth', 'search', 'cart', 'wishlist', ], // Only persist auth and search slices
 };
@@ -71,6 +75,8 @@ const reducers = combineReducers({
    [productsApi.reducerPath]: productsApi.reducer,
    [categoryApi.reducerPath]: categoryApi.reducer,
    [userApi.reducerPath]: userApi.reducer,
+   [invoicesApi.reducerPath]: invoicesApi.reducer,
+   [reviewsApi.reducerPath]: reviewsApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -87,6 +93,8 @@ export const reduxStore = configureStore({
          productsApi.middleware,
          categoryApi.middleware,
          userApi.middleware,
+         invoicesApi.middleware,
+         reviewsApi.middleware,
          rtkQueryLoggerMiddleware,
       ),
    enhancers: getEnhancers,

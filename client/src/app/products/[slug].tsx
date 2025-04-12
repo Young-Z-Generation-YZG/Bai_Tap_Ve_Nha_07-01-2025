@@ -19,6 +19,8 @@ import { skipToken } from "@reduxjs/toolkit/query";
 // import { useGetReviewsByProductIdAsyncQuery } from "~/src/infrastructure/redux/apis/review.api";
 // import ReviewItem from "@components/ui/review-item";
 import { ImageType } from '~/src/infrastructure/types/common/img.type';
+import { useGetReviewsByProductIdAsyncQuery } from '~/src/infrastructure/redux/apis/review.api';
+import ReviewItem from '@components/ui/ReviewItem';
 
 const ProductDetailScreen = () => {
   const { slug } = useLocalSearchParams();
@@ -53,16 +55,16 @@ const ProductDetailScreen = () => {
 //       skipToken 
 //   );
 
-//   const {
-//     data: reviewsResponse,
-//   } = useGetReviewsByProductIdAsyncQuery( 
-//     product.productID ? 
-//       product.productID 
-//     : 
-//       skipToken
-//   );
+  const {
+    data: reviewsResponse,
+  } = useGetReviewsByProductIdAsyncQuery( 
+    product.productID ? 
+      {productId:product.productID, _limit:10, _page:1}
+    : 
+      skipToken
+  );
 
-//   console.log(reviewsResponse?.data);
+  console.log(reviewsResponse?.data);
 
 
   React.useEffect(() => {
@@ -117,33 +119,33 @@ const ProductDetailScreen = () => {
     }))
   }
 
-   // const renderAverageStars = (value:number) => {
-   //    const stars = [];
-   //    for (let i = 1; i <= 5; i++) {
-   //        if (i <= value) {
-   //          // Ex: index < 4.5 => fill full star with yellow
-   //          stars.push(<Icons.StarReviewIcon key={i} fill="#FFD700" />);
-   //        } else if (i - value < 1) {
-   //          // Ex: 4.5 % 1 => 0.5 => fill 50% star with yellow
-   //          const percentage = (value % 1) * 100;
-   //          stars.push(
-   //              <View key={i} className='relative flex justify-center items-center' >
-   //                <Icons.StarReviewIcon fill="#E0E0E0" />
-   //                <View className='absolute top-0 left-0 h-[100%] overflow-hidden'
-   //                    style={{
-   //                      width: `${percentage}%`,
-   //                    }}
-   //                >
-   //                    <Icons.StarReviewIcon fill="#FFD700" />
-   //                </View>
-   //              </View>
-   //          );
-   //        } else {
-   //          stars.push(<Icons.StarReviewIcon key={i} fill="#E0E0E0" />);
-   //        }
-   //    }
-   //    return stars;
-   //  };
+   const renderAverageStars = (value:number) => {
+      const stars = [];
+      for (let i = 1; i <= 5; i++) {
+          if (i <= value) {
+            // Ex: index < 4.5 => fill full star with yellow
+            stars.push(<Icons.StarReviewIcon key={i} fill="#FFD700" />);
+          } else if (i - value < 1) {
+            // Ex: 4.5 % 1 => 0.5 => fill 50% star with yellow
+            const percentage = (value % 1) * 100;
+            stars.push(
+                <View key={i} className='relative flex justify-center items-center' >
+                  <Icons.StarReviewIcon fill="#E0E0E0" />
+                  <View className='absolute top-0 left-0 h-[100%] overflow-hidden'
+                      style={{
+                        width: `${percentage}%`,
+                      }}
+                  >
+                      <Icons.StarReviewIcon fill="#FFD700" />
+                  </View>
+                </View>
+            );
+          } else {
+            stars.push(<Icons.StarReviewIcon key={i} fill="#E0E0E0" />);
+          }
+      }
+      return stars;
+    };
 
   return (
     <ProductLayout>
@@ -305,6 +307,59 @@ const ProductDetailScreen = () => {
                ${product.price}
             </Text>
          </View> */}
+
+        {/* REVIEW PRODUCT */}
+        <View className="flex items-center justify-end mt-10 mb-5">
+          <Text className="mb-3 text-2xl text-center uppercase font-TenorSans-Regular">
+            REVIEW
+          </Text>
+          <Icons.SeparateLine />
+        </View>
+
+        <View className="flex w-full">
+          <View className="flex flex-col mb-10 items-center">
+            <Text className="text-[40px] font-TenorSans-Regular">4.5</Text>
+            <View className="flex flex-col gap-2 items-center">
+              <View className="flex flex-row">
+                  {/* {renderAverageStars(reviewsResponse?.data.metadata.averageRating ?? 0)} */}
+                  {renderAverageStars(4.5)}
+              </View>
+              <Text className="text-[16px] font-TenorSans-Regular">{reviewsResponse?.data.meta.totalItems} Reviews</Text>
+            </View>
+          </View>
+          <View className="flex-1 flex flex-row">
+              {reviewsResponse?.data?.reviews && reviewsResponse.data.reviews.length > 0 ? (
+                reviewsResponse.data.reviews.map((review, index) => {
+
+                  console.log("review",review)
+                  if (index < 3){
+                    return(
+                      <ReviewItem
+                      key={review._id}
+                      _id={review._id}
+                      review_content={review.review_content}
+                      review_invoice={review.review_invoice}
+                      review_product={review.review_product}
+                      review_rating={review.review_rating}
+                      review_user={review.review_user}
+                    />
+                    )
+                  }
+                })
+              ) : (
+                <></>
+              )}
+          </View>
+          {reviewsResponse?.data?.reviews.length !== 0 ? (
+            <View className="flex justify-center items-center">
+              <TouchableOpacity className="flex flex-row items-center justify-center bg-black w-[200px]" onPress={() => router.push(`/products/review?productID=${product.productID}`)}>
+                <Text className="py-3 text-lg text-white uppercase text-center font-TenorSans-Regular">
+                  Xem thêm 
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ):(<></>)}
+        </View>
 
         {/* SAME PRODUCTS */}
         <View className="flex items-center justify-end mt-10 mb-10">

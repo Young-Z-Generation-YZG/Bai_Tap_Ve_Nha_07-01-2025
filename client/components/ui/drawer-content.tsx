@@ -182,7 +182,7 @@ export default function DrawerContent(props: any) {
                title="MY PROFILE"
                className="bg-black rounded-none"
                textStyles="text-white text-xl font-TenorSans-Regular"
-               onPress={() => router.push('/wishlist')}
+               onPress={() => router.push('profile')}
             />
             <Button
                title="SIGN OUT"

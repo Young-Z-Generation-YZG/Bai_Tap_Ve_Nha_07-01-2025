@@ -7,17 +7,20 @@ import { InputField } from "~/components/ui/input-field";
 import Button from "~/components/ui/Button";
 import { Link, router, Stack } from "expo-router";
 import { Image } from "react-native";
-import { images } from "~/constants";
+import { images, svgIcons } from "~/constants";
+import { ProfileFormType, ProfileResolver } from "~/src/domain/schemas/auth.schema";
 
+const defaultValues: ProfileFormType = {
+  first_name: 'Tran',
+  last_name: 'Phuong',
+};
 
 const ProfileScreen = () => {
-  const { control, handleSubmit } = useForm({
-    defaultValues: { 
-      firstName:"Tran",
-      lastName:"Phuong",
-      email:"tqp30112003@gmail.com",
-    },
+  const form = useForm<ProfileFormType>({
+    resolver: ProfileResolver,
+    defaultValues: defaultValues,
   });
+
   const onSubmit = (data:any) => console.log(data);
   return (
     <AuthLayout className="">
@@ -37,27 +40,29 @@ const ProfileScreen = () => {
             </View>
             <Text className="w-full text-center text-3xl font-Poppins-SemiBold">PROFILE</Text>
             <View className="w-full flex gap-6 mt-5">
-              <View className="flex flex-row gap-5">
-                <InputField
-                  name="firstName"
-                  control={control}
-                  placeholder="Fisrt name"
-                  placeholderTextColor="#999"
-                  containerStyles="flex-1 border-0 border-b-2 border-gray-200 rounded-none"
-                  className="text-xl font-TenorSans-Regular"
+              <View className="flex flex-col gap-5">
+                <InputField<ProfileFormType>
+                  name="first_name"
+                  form={form}
+                  type="text"
+                  required
+                  placeholder="First Name"
+                  className="font-TenorSans-Regular"
                   errorStyles="text-sm"
+                  Icon={svgIcons.MailIcon}
                 />
-                <InputField
-                  name="lastName"
-                  control={control}
-                  placeholder="Last name"
-                  placeholderTextColor="#999"
-                  containerStyles="flex-1 border-0 border-b-2 border-gray-200 rounded-none"
-                  className="text-xl font-TenorSans-Regular"
+                <InputField<ProfileFormType>
+                  name="last_name"
+                  form={form}
+                  type="text"
+                  required
+                  placeholder="Last Name"
+                  className="font-TenorSans-Regular"
                   errorStyles="text-sm"
+                  Icon={svgIcons.MailIcon}
                 />
               </View>
-              <InputField
+              {/* <InputField
                 name="email"
                 control={control}
                 placeholder="Email"
@@ -65,24 +70,29 @@ const ProfileScreen = () => {
                 containerStyles="border-0 border-b-2 border-gray-200 rounded-none"
                 className="text-xl font-TenorSans-Regular"
                 errorStyles="text-sm"
-              />
+              /> */}
             </View>
             <View className="w-full flex gap-6 mt-10">
               <Button
                 title="Update Profile" 
                 className="bg-black"
                 textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
-                onPress={handleSubmit(onSubmit)} />
+                onPress={form.handleSubmit(onSubmit)} />
+              <Button
+                title="wishlist" 
+                className="bg-gray-400"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
+                onPress={()=>router.push('wishlist')} />
+              <Button
+                title="invoices" 
+                className="bg-gray-400"
+                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
+                onPress={()=>router.push('profile/invoices')} />
               <Button
                 title="Change Address Info" 
                 className="bg-gray-400"
                 textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
-                onPress={handleSubmit(()=>{router.push('profile/address')})} />
-              <Button
-                title="Change Password" 
-                className="bg-gray-400"
-                textStyles="text-white text-center text-xl font-TenorSans-Regular m-2"
-                onPress={handleSubmit(onSubmit)} />
+                onPress={form.handleSubmit(onSubmit)} />
             </View>
           </View>
         </ScrollView>
