@@ -42,10 +42,7 @@ const Header = (props: HeaderProps) => {
                <Icons.MenuIcon />
             </TouchableOpacity>
 
-            <Icons.LogoIcon
-               width={100}
-               height={30}
-            />
+            <Icons.LogoIcon width={100} height={30} />
 
             <View className="flex flex-row gap-4">
                <TouchableOpacity
@@ -59,15 +56,17 @@ const Header = (props: HeaderProps) => {
                   onPress={() => {
                      router.push('cart');
                   }}
-                  className=' relative'
+                  className=" relative"
                >
-                  { 
-                  cart.totalQuantity > 0 ?
-                     <View className='absolute z-10 w-5 h-5 -right-3 -top-1 rounded-full bg-red-600 justify-center items-center  '>
-                        <Text className='text-white text-sm'>{cart.totalQuantity}</Text>
+                  {cart.totalQuantity > 0 ? (
+                     <View className="absolute z-10 w-5 h-5 -right-3 -top-1 rounded-full bg-red-600 justify-center items-center  ">
+                        <Text className="text-white text-sm">
+                           {cart.totalQuantity}
+                        </Text>
                      </View>
-                  : ''
-                  }
+                  ) : (
+                     ''
+                  )}
                   <Icons.ShoppingBagIcon />
                </TouchableOpacity>
             </View>

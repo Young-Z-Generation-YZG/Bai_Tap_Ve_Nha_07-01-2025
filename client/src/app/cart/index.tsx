@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -7,12 +7,11 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import CartItem from '@components/ui/cart-item';
 import { router } from 'expo-router';
 import CommonLayout from '@components/layouts/common.layout';
-import { useAppSelector } from "~/src/infrastructure/redux/store";
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CartScreen = () => {
-
    const cart = useAppSelector((state) => state.cart);
 
    return (
@@ -20,33 +19,40 @@ const CartScreen = () => {
          <SafeAreaView className="h-full bg-white">
             <CommonLayout title="Cart">
                <View className="justify-between flex-1 px-3 py-2">
-                  {
-                     cart.totalQuantity == 0 ? (
-                        <View className='w-max flex-1 justify-center items-center'>
-                           <MaterialCommunityIcons name='cart-off' size={35} color={'#000'} />
-                           <Text className='text-2xl font-TenorSans-Regular'>EMPTY CART</Text>
+                  {cart.totalQuantity == 0 ? (
+                     <View className="w-max flex-1 justify-center items-center">
+                        <MaterialCommunityIcons
+                           name="cart-off"
+                           size={35}
+                           color={'#000'}
+                        />
+                        <Text className="text-2xl font-TenorSans-Regular">
+                           EMPTY CART
+                        </Text>
+                     </View>
+                  ) : (
+                     <ScrollView className="w-full mt-5 h-[500px]">
+                        <View className="flex flex-col gap-6">
+                           {cart.items.map((item) => (
+                              <CartItem
+                                 key={
+                                    item.product_slug +
+                                    item.product_size +
+                                    item.product_color
+                                 }
+                                 product_slug={item.product_slug}
+                                 product_img={item.product_img}
+                                 product_name={item.product_name}
+                                 product_color={item.product_color}
+                                 product_size={item.product_size}
+                                 product_price={item.product_price}
+                                 quantity={item.quantity}
+                                 // onChangeTotal={setTotal}
+                              />
+                           ))}
                         </View>
-                     ) : (
-                        <ScrollView className="w-full mt-5 h-[500px]">
-                           <View className="flex flex-col gap-6">
-                              {
-                                 cart.items.map((item) => (
-                                    <CartItem
-                                       key={item.product_slug + item.product_size + item.product_color}
-                                       product_slug={item.product_slug}
-                                       product_img={item.product_img}
-                                       product_name={item.product_name}
-                                       product_color={item.product_color}
-                                       product_size={item.product_size}
-                                       product_price={item.product_price}
-                                       quantity={item.quantity}
-                                    // onChangeTotal={setTotal}
-                                    />
-                                 ))}
-                           </View>
-                        </ScrollView>
-                     )
-                  }
+                     </ScrollView>
+                  )}
                   <View>
                      {cart.items.length ? (
                         <View className="mt-3">

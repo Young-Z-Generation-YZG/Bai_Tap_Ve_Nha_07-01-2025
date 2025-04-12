@@ -72,7 +72,7 @@ export default function DrawerContent(props: any) {
       dispatch(logout());
 
       router.push('/sign-in');
-   }
+   };
 
    const {
       data: categoriesResponse,

@@ -5,13 +5,13 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import CartItem from '@components/ui/cart-item';
 import { router, useLocalSearchParams } from 'expo-router';
 import CommonLayout from '@components/layouts/common.layout';
-import { useAppSelector } from "~/src/infrastructure/redux/store";
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProductLayout from '@components/layouts/product.layout';
-import Icons from '@constants/svg-icons'
+import Icons from '@constants/svg-icons';
 
-import images from '@constants/images' 
+import images from '@constants/images';
 import { useGetReviewsByProductIdAsyncQuery } from '~/src/infrastructure/redux/apis/review.api';
 import { skipToken } from '@reduxjs/toolkit/query';
 import ReviewItem from '@components/ui/ReviewItem';
@@ -19,16 +19,13 @@ import ReviewItem from '@components/ui/ReviewItem';
 const ReviewScreen = () => {
    const { productID } = useLocalSearchParams();
 
-   const {
-      data: reviewsResponse,
-   } = useGetReviewsByProductIdAsyncQuery( 
-   typeof productID === 'string' ? 
-      {productId:productID, _limit:10, _page:1}
-   : 
-      skipToken
+   const { data: reviewsResponse } = useGetReviewsByProductIdAsyncQuery(
+      typeof productID === 'string'
+         ? { productId: productID, _limit: 10, _page: 1 }
+         : skipToken,
    );
 
-   const onRenderAverageStars = (value:number) => {
+   const onRenderAverageStars = (value: number) => {
       const stars = [];
       for (let i = 1; i <= 5; i++) {
          if (i <= value) {
@@ -38,16 +35,20 @@ const ReviewScreen = () => {
             // Ex: 4.5 % 1 => 0.5 => fill 50% star with yellow
             const percentage = (value % 1) * 100;
             stars.push(
-               <View key={i} className='relative flex justify-center items-center' >
+               <View
+                  key={i}
+                  className="relative flex justify-center items-center"
+               >
                   <Icons.StarReviewIcon fill="#E0E0E0" />
-                  <View className='absolute top-0 left-0 h-[100%] overflow-hidden'
+                  <View
+                     className="absolute top-0 left-0 h-[100%] overflow-hidden"
                      style={{
                         width: `${percentage}%`,
                      }}
                   >
                      <Icons.StarReviewIcon fill="#FFD700" />
                   </View>
-               </View>
+               </View>,
             );
          } else {
             stars.push(<Icons.StarReviewIcon key={i} fill="#E0E0E0" />);
@@ -59,9 +60,10 @@ const ReviewScreen = () => {
    return (
       <ProductLayout>
          <View className="flex w-full mt-5 px-5">
-
-            <View className='flex items-center mb-6'>
-               <Text className='text-[30px] font-TenorSans-Regular'>REVIEWS</Text>
+            <View className="flex items-center mb-6">
+               <Text className="text-[30px] font-TenorSans-Regular">
+                  REVIEWS
+               </Text>
             </View>
 
             <View className="flex flex-row gap-5 pl-5 mb-10 ">
@@ -71,12 +73,15 @@ const ReviewScreen = () => {
                      {/* {renderAverageStars(reviewsResponse?.data.meta.averageRating ?? 0)} */}
                      {onRenderAverageStars(4.5)}
                   </View>
-                  <Text className="text-[16px] font-TenorSans-Regular">{reviewsResponse?.data.meta.totalItems} Reviews</Text>
+                  <Text className="text-[16px] font-TenorSans-Regular">
+                     {reviewsResponse?.data.meta.totalItems} Reviews
+                  </Text>
                </View>
             </View>
 
             <View className="flex-1 flex flex-col">
-               {reviewsResponse?.data?.reviews && reviewsResponse.data.reviews.length > 0 ? (
+               {reviewsResponse?.data?.reviews &&
+               reviewsResponse.data.reviews.length > 0 ? (
                   reviewsResponse.data.reviews.map((review, index) => (
                      <ReviewItem
                         key={review._id}
@@ -92,7 +97,6 @@ const ReviewScreen = () => {
                   <></>
                )}
             </View>
-
          </View>
       </ProductLayout>
    );

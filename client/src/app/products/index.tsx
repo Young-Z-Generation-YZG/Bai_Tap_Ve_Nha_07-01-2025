@@ -197,7 +197,7 @@ const ProductScreen = () => {
    };
    // Handle add history and navigation
    const dispatch = useDispatch();
-   const handleAddAndNavigate = (item:ProductItemType) => {
+   const handleAddAndNavigate = (item: ProductItemType) => {
       // dispatch(addHistory({
       //    id:item._id,
       //    product_img:item.product_imgs[0].secure_url,
@@ -205,7 +205,7 @@ const ProductScreen = () => {
       //    product_slug:item.product_slug,
       // }))
       router.push(`/products/${item.product_slug}`);
-   }
+   };
 
    return (
       <ProductLayout onScroll={handleScroll}>
@@ -244,7 +244,10 @@ const ProductScreen = () => {
          <View>
             <View className="flex flex-row flex-wrap items-center justify-center gap-6">
                {productsData.map((item, index) => (
-                  <TouchableOpacity key={index} onPress={() => handleAddAndNavigate(item)}>
+                  <TouchableOpacity
+                     key={index}
+                     onPress={() => handleAddAndNavigate(item)}
+                  >
                      <ProductItem
                         id={item._id}
                         title={item.product_name}
@@ -253,7 +256,7 @@ const ProductScreen = () => {
                         imageUrl={item.product_imgs[0].secure_url}
                         slug={item.product_slug}
                         category={item.product_category.category_name}
-                        brand={item.product_brand} 
+                        brand={item.product_brand}
                      />
                   </TouchableOpacity>
                ))}

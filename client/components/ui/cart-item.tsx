@@ -2,7 +2,11 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import Icons from '@constants/svg-icons';
-import { addItemToCart, decreaseItemFromCart, clearCart } from '~/src/infrastructure/redux/features/app/cart.slice'
+import {
+   addItemToCart,
+   decreaseItemFromCart,
+   clearCart,
+} from '~/src/infrastructure/redux/features/app/cart.slice';
 import { useDispatch } from 'react-redux';
 import COLORS from '@constants/colors';
 
@@ -32,7 +36,6 @@ const CartItem = (props: CartItemProps) => {
    const dispatch = useDispatch();
 
    const handleUpdateQuantity = (updateValue: number) => {
-
       const {
          product_img,
          product_color,
@@ -47,34 +50,35 @@ const CartItem = (props: CartItemProps) => {
 
       if (updateValue > 0) {
          // console.log("ADD SUCCESSFULLY")
-         dispatch(addItemToCart({
-            product_img,
-            product_color,
-            product_size,
-            product_price,
-            product_name,
-            product_slug,
-            quantity: updateValue
-         }))
-      }
-      else {
+         dispatch(
+            addItemToCart({
+               product_img,
+               product_color,
+               product_size,
+               product_price,
+               product_name,
+               product_slug,
+               quantity: updateValue,
+            }),
+         );
+      } else {
          // console.log("DECREASE SUCCESSFULLY")
-         dispatch(decreaseItemFromCart({
-            product_img,
-            product_color,
-            product_size,
-            product_price,
-            product_name,
-            product_slug,
-            quantity,
-         }))
+         dispatch(
+            decreaseItemFromCart({
+               product_img,
+               product_color,
+               product_size,
+               product_price,
+               product_name,
+               product_slug,
+               quantity,
+            }),
+         );
       }
-
 
       // props.onChangeTotal((prev:any) => prev + (product_price*updateValue));
-      setCounter(prev => prev + updateValue);
-   }
-
+      setCounter((prev) => prev + updateValue);
+   };
 
    let colorHex = '';
 
@@ -115,8 +119,6 @@ const CartItem = (props: CartItemProps) => {
                </Text>
                <View className="flex flex-row p-2 gap-[70px] ">
                   <View>
-
-
                      <View className="flex mt-2">
                         <View className="flex flex-row items-center gap-3">
                            <Text className="text-base font-TenorSans-Regular">
@@ -169,7 +171,7 @@ const CartItem = (props: CartItemProps) => {
                                  </Text>
                                  <TouchableOpacity
                                     onPress={() => handleUpdateQuantity(1)}
-                                 // onPress={() => dispatch(clearCart())}
+                                    // onPress={() => dispatch(clearCart())}
                                  >
                                     <AntDesignIcon
                                        name="pluscircleo"
