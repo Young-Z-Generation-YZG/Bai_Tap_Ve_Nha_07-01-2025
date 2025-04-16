@@ -66,7 +66,7 @@ const WishListScreen = () => {
 
    return (
       <SafeAreaProvider>
-         <SafeAreaView className="h-full bg-white">
+         <SafeAreaView className="flex-1 bg-white">
             <CommonLayout title="Wish List">
                <View className="justify-between flex-1 py-2">
                   {/* <Button title='ADD' onPress={handleAddWishList}/> */}

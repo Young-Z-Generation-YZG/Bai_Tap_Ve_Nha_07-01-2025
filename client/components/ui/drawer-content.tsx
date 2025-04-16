@@ -14,63 +14,29 @@ import { CategoryItemType } from '~/src/infrastructure/types/category.type';
 import { useDispatch } from 'react-redux';
 import { logout } from '~/src/infrastructure/redux/features/auth/auth.slice';
 
-// Sample category data structure
-const categories = [
-   {
-      title: 'New',
-      subcategories: [{ title: 'Test', route: 'sub-menu-item' }],
-   },
-   {
-      title: 'Apparel',
-      subcategories: [
-         { title: 'Outer', route: 'sub-menu-item' },
-         { title: 'Dress', route: 'sub-menu-item' },
-         { title: 'Blouse/Shirt', route: 'sub-menu-item' },
-         { title: 'T-Shirt', route: 'sub-menu-item' },
-         { title: 'Knitwear', route: 'sub-menu-item' },
-         { title: 'Skirt', route: 'sub-menu-item' },
-         { title: 'Pants', route: 'sub-menu-item' },
-         { title: 'Denim', route: 'sub-menu-item' },
-         { title: 'Kids', route: 'sub-menu-item' },
-      ],
-   },
-   {
-      title: 'Bag',
-      subcategories: [{ title: 'Test', route: 'sub-menu-item' }],
-   },
-   {
-      title: 'Shoes',
-      subcategories: [{ title: 'Test', route: 'sub-menu-item' }],
-   },
-   {
-      title: 'Beauty',
-      subcategories: [{ title: 'Test', route: 'sub-menu-item' }],
-   },
-   {
-      title: 'Accessories',
-      subcategories: [{ title: 'Test', route: 'sub-menu-item' }],
-   },
-   {
-      title: 'Test',
-      route: 'sub-menu-item',
-   },
-];
+type TransformedCategory = {
+   _id: string;
+   category_name: string;
+   category_slug: string;
+   subcategories?: CategoryItemType[];
+};
 
 // Custom Drawer Content Component
 export default function DrawerContent(props: any) {
-   const [expandedCategory, setExpandedCategory] = useState(null);
-   const [categoriesData, setCategoriesData] = useState<CategoryItemType[]>([]);
+   const [txtIdExpandCategory, setTxtIdExpandCategory] = useState(null);
+   const [categoriesData, setCategoriesData] = useState<TransformedCategory[]>(
+      [],
+   );
    const dispatch = useDispatch();
 
-   const toggleCategory = (categoryTitle: any) => {
-      setExpandedCategory(
-         expandedCategory === categoryTitle ? null : categoryTitle,
+   const toggleCategory = (categoryId: any) => {
+      setTxtIdExpandCategory(
+         txtIdExpandCategory === categoryId ? null : categoryId,
       );
    };
 
    const handleLogout = () => {
       dispatch(logout());
-
       router.push('/sign-in');
    };
 
@@ -84,7 +50,29 @@ export default function DrawerContent(props: any) {
 
    useEffect(() => {
       if (categoriesResponse?.data) {
-         setCategoriesData(categoriesResponse.data);
+         // setCategoriesData(categoriesResponse.data);
+         const categories = categoriesResponse.data;
+
+         const parentCategories = categories.filter(
+            (category) => category.category_parentId === null,
+         );
+
+         const transformedCategories = parentCategories.map((parent) => {
+            const children = categories.filter(
+               (cat) => cat.category_parentId === parent._id,
+            );
+
+            return {
+               _id: parent._id,
+               category_name: parent.category_name,
+               category_slug: parent.category_slug,
+               subcategories: children,
+            };
+         });
+
+         // console.log('TRANFORMED CATEGORIES', transformedCategories);
+
+         setCategoriesData(transformedCategories);
       }
    }, [categoriesResponse]);
 
@@ -104,29 +92,27 @@ export default function DrawerContent(props: any) {
 
          {/* ALL CATEGORIES */}
          <ScrollView className="flex-1 w-full">
-            {categories.map((category, index) => (
-               <View key={index} className="flex flex-col">
+            {categoriesData.map((category, index) => (
+               <View key={category._id} className="flex flex-col">
                   <TouchableOpacity
                      className="flex flex-row justify-between px-6 py-3 border-[0.5px] border-gray-200"
                      onPress={() => {
-                        if (category.subcategories) {
-                           toggleCategory(category.title);
+                        if (category.subcategories && category.subcategories.length > 0) {
+                           toggleCategory(category._id);
                         } else {
-                           props.navigation.navigate(category.route);
+                           props.navigation.navigate(category.category_slug);
                         }
                      }}
                   >
                      <Text className="text-2xl font-TenorSans-Regular">
-                        {category.title}
+                        {category.category_name}
                      </Text>
                      {/* check if this have subcategories */}
                      {category.subcategories && (
                         <Text>
-                           {expandedCategory === category.title ? (
-                              // '▼'
+                           {txtIdExpandCategory === category._id ? (
                               <svgIcons.ArrowDownIcon width={15} height={15} />
                            ) : (
-                              // '▶'
                               <svgIcons.ArrowLeftIcon width={15} height={15} />
                            )}
                         </Text>
@@ -134,18 +120,18 @@ export default function DrawerContent(props: any) {
                   </TouchableOpacity>
                   {/* sub categories */}
                   {category.subcategories &&
-                     expandedCategory === category.title && (
-                        <View className="bg-gray-100">
+                     txtIdExpandCategory === category._id && (
+                        <View className="bg-gray-100 ">
                            {category.subcategories.map((subItem, subIndex) => (
                               <TouchableOpacity
                                  key={subIndex}
-                                 className="py-4 pl-10"
+                                 className="py-4 pl-10 border-b border-b-slate-300/50"
                                  onPress={() =>
-                                    props.navigation.navigate(subItem.route)
+                                    props.navigation.navigate(subItem.category_slug)
                                  }
                               >
                                  <Text className="text-xl font-TenorSans-Regular">
-                                    {subItem.title}
+                                    {subItem.category_name}
                                  </Text>
                               </TouchableOpacity>
                            ))}

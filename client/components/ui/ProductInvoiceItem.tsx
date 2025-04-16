@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+   Alert,
    Image,
    Modal,
    Text,
@@ -11,6 +12,7 @@ import { InvoiceProductItemType } from '~/src/infrastructure/types/invoice.type'
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { TextInput } from 'react-native';
 import { usePostReviewAsyncMutation } from '~/src/infrastructure/redux/apis/review.api';
+import AlertModal from '@components/ui/AlertModal';
 
 export default function ProductInvoiceItem({
    item,
@@ -20,6 +22,9 @@ export default function ProductInvoiceItem({
    const [modalVisible, setModalVisible] = useState(false);
    const [starsSelected, setStarsSelected] = useState(0);
    const [reviewText, setReviewText] = useState('');
+   const [isVisibleSuccess, setIsVisibleSuccess] = useState(false);
+   const [isVisibleError, setIsVisibleError] = useState(false);
+   const [txtErrorMessage, setTxtErrorMessage] = useState('');
 
    const [postReview, result] = usePostReviewAsyncMutation();
 
@@ -29,8 +34,30 @@ export default function ProductInvoiceItem({
          content: reviewText,
          review_rating: starsSelected,
       });
-      if (res.data) alert('REVIEW SUCCESSFULLY');
-      else alert('ERROR REVIEW PRODUCT');
+      if (res.data) {
+         setIsVisibleSuccess(true);
+      } else {
+         if ('data' in (res?.error || {})) {
+            if ('data' in res.error) {
+               if (
+                  typeof res.error.data === 'object' &&
+                  res.error.data !== null &&
+                  'message' in res.error.data
+               ) {
+                  setTxtErrorMessage(
+                     (res.error.data as { message: string }).message,
+                  );
+               }
+            }
+            // else {
+            //    console.log('ERROR:::', res.error);
+            // }
+         }
+         // else {
+         // console.log('ERROR:::', res?.error);
+         // }
+         setIsVisibleError(true);
+      }
       onResetModal();
       console.log('RESULT:::', res);
    };
@@ -176,6 +203,19 @@ export default function ProductInvoiceItem({
                </View>
             </TouchableWithoutFeedback>
          </Modal>
+         <AlertModal
+            type="SUCCESS"
+            message="Review successfully"
+            onClose={() => setIsVisibleSuccess(false)}
+            visible={isVisibleSuccess}
+         />
+         <AlertModal
+            type="ERROR"
+            message={txtErrorMessage}
+            onClose={() => setIsVisibleError(false)}
+            visible={isVisibleError}
+         />
+         {/* <AlertComponent message='' onClose={} visible /> */}
       </View>
    );
 }
