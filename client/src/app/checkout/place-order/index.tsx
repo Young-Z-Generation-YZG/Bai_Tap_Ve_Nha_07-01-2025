@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView, Button } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CommonLayout from '@components/layouts/common.layout';
 import AppButton from '@components/ui/AppButton';
 import { router } from 'expo-router';
@@ -7,11 +7,49 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import CartItem from '@components/ui/cart-item';
 import AppPopupModal from '@components/ui/AppModel';
 import Icons from '@constants/svg-icons';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
+import {
+   useGetAddressAsyncQuery,
+   useGetProfileAsyncQuery,
+} from '~/src/infrastructure/redux/apis/user.api';
 
 const PlaceOrderScreen = () => {
    const [items, setItems] = useState([1, 2, 3]);
 
    const [modalVisible, setModalVisible] = useState(false);
+
+   const cart = useAppSelector((state) => state.cart);
+
+   const [objCheckout, setObjCheckout] = useState({
+      name: '',
+      address: '',
+      phoneNumber: '',
+   });
+
+   const { data: responseAddress } = useGetAddressAsyncQuery();
+   const { data: responseProfile } = useGetProfileAsyncQuery();
+
+   useEffect(() => {
+      if (responseAddress?.data && responseProfile?.data) {
+         const addressData = responseAddress.data;
+         const profileData = responseProfile.data;
+         setObjCheckout({
+            name:
+               profileData.profile_firstName +
+               ' ' +
+               profileData.profile_lastName,
+            address:
+               addressData.address_addressLine +
+               ' ' +
+               addressData.address_district +
+               ' ' +
+               addressData.address_province +
+               ' ' +
+               addressData.address_country,
+            phoneNumber: profileData.profile_phoneNumber,
+         });
+      }
+   }, [responseAddress, responseProfile]);
 
    return (
       <CommonLayout title="Place Order" className="h-full bg-white">
@@ -74,15 +112,15 @@ const PlaceOrderScreen = () => {
             <View className="p-5 mt-2">
                {/* Shipping address */}
                <View className="flex flex-row items-center justify-between pb-5 m-3 border-b-2 border-slate-300/50">
-                  <View className="w-[200px]">
+                  <View className="w-[200px] bg-red-500">
                      <Text className="text-xl font-TenorSans-Regular">
-                        Iris Watson
+                        {objCheckout.name}
                      </Text>
                      <Text className="font-TenorSans-Regular text-[#333]/80 text-wrap mt-2 text-base">
-                        606-3727 Ullamcorper. Street Roseville NH 11523
+                        {objCheckout.address}
                      </Text>
                      <Text className="font-TenorSans-Regular text-[#333]/80 mt-1 text-base">
-                        (786) 713-8616
+                        {objCheckout.phoneNumber}
                      </Text>
                   </View>
                   <TouchableOpacity>
@@ -94,14 +132,16 @@ const PlaceOrderScreen = () => {
                <View>
                   <ScrollView className="w-full mt-5 max-h-[350px]">
                      <View className="flex flex-col gap-6">
-                        {items.map((item, index) => (
+                        {cart.items.map((item, index) => (
                            <CartItem
                               key={index}
-                              title="lamerei"
-                              price={120}
-                              imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
-                              checkout
-                              quantity={1}
+                              product_slug={item.product_slug}
+                              product_img={item.product_img}
+                              product_name={item.product_name}
+                              product_color={item.product_color}
+                              product_size={item.product_size}
+                              product_price={item.product_price}
+                              quantity={item.quantity}
                            />
                         ))}
                      </View>
@@ -115,7 +155,7 @@ const PlaceOrderScreen = () => {
                      EST. TOTAL
                   </Text>
                   <Text className="text-2xl font-TenorSans-Regular text-secondary">
-                     $240
+                     ${cart.total}
                   </Text>
                </View>
 

@@ -7,6 +7,7 @@ import AppButton from '@components/ui/AppButton';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { router } from 'expo-router';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
 const { height: SCREEN_HEIGH } = Dimensions.get('window');
 const HEADER_HEIGHT = 200;
@@ -17,6 +18,7 @@ const CheckoutScreen = () => {
    const CONTENT_HEIGHT = SCREEN_HEIGH - HEADER_HEIGHT;
 
    // console.log("CONTENT_HEIGHT", CONTENT_HEIGHT);
+   const cart = useAppSelector((state) => state.cart);
 
    return (
       <SafeAreaProvider style={{ flex: 1 }}>
@@ -26,12 +28,16 @@ const CheckoutScreen = () => {
                   <View>
                      <ScrollView className="w-full mt-5 max-h-[350px]">
                         <View className="flex flex-col gap-6">
-                           {items.map((item, index) => (
+                           {cart.items.map((item, index) => (
                               <CartItem
                                  key={index}
-                                 title="lamerei"
-                                 price={120}
-                                 imageUrl="https://res.cloudinary.com/djiju7xcq/image/upload/v1729839380/Sunflower-Jumpsuit-1-690x875_dibawa.webp"
+                                 product_slug={item.product_slug}
+                                 product_img={item.product_img}
+                                 product_name={item.product_name}
+                                 product_color={item.product_color}
+                                 product_size={item.product_size}
+                                 product_price={item.product_price}
+                                 quantity={item.quantity}
                               />
                            ))}
                         </View>
@@ -70,7 +76,7 @@ const CheckoutScreen = () => {
                            EST. TOTAL
                         </Text>
                         <Text className="text-2xl font-TenorSans-Regular text-secondary">
-                           $240
+                           ${cart.total}
                         </Text>
                      </View>
                      <AppButton

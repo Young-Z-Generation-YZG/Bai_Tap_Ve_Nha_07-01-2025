@@ -7,8 +7,8 @@ export const voucherApi = createApi({
    baseQuery: baseQuery,
    tagTypes: ['Vouchers'],
    endpoints: (builder) => ({
-      getVouchersByUserIdAsync: builder.query<VoucherResponseType, string>({
-         query: (userId: string) => `/api/v1/vouchers/${userId}`,
+      getVouchersByUserIdAsync: builder.query<VoucherResponseType, void>({
+         query: () => '/api/v1/vouchers/',
          providesTags: (result) =>
             result?.data
                ? [

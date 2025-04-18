@@ -1,10 +1,14 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CommonLayout from '@components/layouts/common.layout';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AppDropdown from '@components/ui/AppDropdown';
 import AppButton from '@components/ui/AppButton';
 import { router } from 'expo-router';
+import {
+   useGetAddressAsyncQuery,
+   useGetProfileAsyncQuery,
+} from '~/src/infrastructure/redux/apis/user.api';
 
 const dropdownItems = [
    {
@@ -20,6 +24,30 @@ const dropdownItems = [
 ];
 
 const CheckoutAddressScreen = () => {
+   const [objCheckout, setObjCheckout] = useState({
+      name: '',
+      address: '',
+      phoneNumber: '',
+   });
+
+   const { data: responseAddress } = useGetAddressAsyncQuery();
+   const { data: responseProfile } = useGetProfileAsyncQuery();
+
+   useEffect(() => {
+      if (responseAddress?.data && responseProfile?.data) {
+         const addressData = responseAddress.data;
+         const profileData = responseProfile.data;
+         setObjCheckout({
+            name: profileData.profile_firstName + profileData.profile_lastName,
+            address:
+               addressData.address_addressLine +
+               addressData.address_district +
+               addressData.address_province +
+               addressData.address_country,
+            phoneNumber: profileData.profile_phoneNumber,
+         });
+      }
+   }, [responseAddress, responseProfile]);
    return (
       <CommonLayout
          title="Checkout Address"
@@ -36,13 +64,13 @@ const CheckoutAddressScreen = () => {
                   <View className="flex flex-row items-center justify-between p-3">
                      <View className="w-[200px]">
                         <Text className="text-xl font-TenorSans-Regular">
-                           Iris Watson
+                           {objCheckout.name}
                         </Text>
                         <Text className="font-TenorSans-Regular text-[#333]/80 text-wrap mt-2 text-base">
-                           606-3727 Ullamcorper. Street Roseville NH 11523
+                           {objCheckout.address}
                         </Text>
                         <Text className="font-TenorSans-Regular text-[#333]/80 mt-1 text-base">
-                           (786) 713-8616
+                           {objCheckout.phoneNumber}
                         </Text>
                      </View>
                      <TouchableOpacity>
