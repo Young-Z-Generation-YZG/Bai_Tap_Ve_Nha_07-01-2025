@@ -17,7 +17,7 @@ type DropdownProps = {
    icon?: React.ReactNode;
    iconSize?: number;
    disabled?: boolean;
-   onSelect?: (item: DropdownItem) => void; // Add callback for selection
+   onSelect?: (item: DropdownItem | null) => void; // Add callback for selection
 };
 
 const AppDropdown = ({
@@ -39,6 +39,12 @@ const AppDropdown = ({
       setSelectedItem(item);
       setIsOpen(false); // Close dropdown after selection
       if (onSelect) onSelect(item); // Notify parent of selection
+   };
+
+   const handleClear = () => {
+      setSelectedItem(null);
+      setIsOpen(false);
+      if (onSelect) onSelect(null);
    };
 
    return (
@@ -85,16 +91,9 @@ const AppDropdown = ({
                {items.length > 0 ? (
                   <TouchableOpacity
                      className="flex flex-row items-center justify-center border-b border-gray-200"
-                     onPress={() => {
-                        setSelectedItem(null);
-                        setIsOpen(false);
-                     }}
+                     onPress={handleClear}
                   >
-                     <Text
-                        className={cn(
-                           'font-TenorSans-Regular pr-5 pl-3 py-2 leading-7 text-center',
-                        )}
-                     >
+                     <Text className="font-TenorSans-Regular pr-5 pl-3 py-2 leading-7 text-center">
                         Clear
                      </Text>
                      <MaterialIcon name="cleaning-services" size={18} />

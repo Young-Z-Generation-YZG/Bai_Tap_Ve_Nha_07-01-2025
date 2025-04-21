@@ -40,6 +40,7 @@ const CartScreen = () => {
                                     item.product_size +
                                     item.product_color
                                  }
+                                 product_id={item.product_id}
                                  product_slug={item.product_slug}
                                  product_img={item.product_img}
                                  product_name={item.product_name}

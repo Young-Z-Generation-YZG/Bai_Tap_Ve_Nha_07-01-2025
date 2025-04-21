@@ -60,7 +60,7 @@ const App = () => {
                            resizeMode: 'contain',
                         }}
                      />
-                     <View className="absolute flex items-center h-[90px] bottom-20 px-10 gap-6">
+                     <View className="absolute flex items-center h-[90px] bottom-[6%] px-10 gap-6">
                         <Button
                            title="LOGIN"
                            className="w-[200px] bg-white rounded-md"
@@ -74,7 +74,6 @@ const App = () => {
                            className="w-[260px] p-0 pb-1 bg-transparent rounded-md border-b border-slate-400"
                            textStyles="text-white font-TenorSans-Regular text-lg"
                            onPress={() => router.push('/home')}
-                           // onPress={() => router.push('/products')}
                         />
                      </View>
                   </View>
