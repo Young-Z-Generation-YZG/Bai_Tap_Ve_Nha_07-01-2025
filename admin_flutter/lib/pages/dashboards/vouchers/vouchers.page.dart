@@ -319,7 +319,10 @@ class VoucherPageState extends State<VoucherPage> {
         child: CupertinoButton(
           color: Color(0xFF9747FF),
           borderRadius: BorderRadius.circular(10),
-          child: Text('Create New Voucher'),
+          child: Text(
+            'Create New Voucher',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          ),
           onPressed: () {
             // Implement voucher creation
           },
