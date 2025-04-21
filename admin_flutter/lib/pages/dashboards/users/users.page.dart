@@ -82,60 +82,6 @@ class UserPageState extends State<UserPage> {
               ],
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(
-                  top: BorderSide(
-                    color: CupertinoColors.systemGrey5,
-                    width: 0.5,
-                  ),
-                ),
-              ),
-              child: SafeArea(
-                top: false,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 8.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildActionButton(
-                        CupertinoIcons.plus_circle_fill,
-                        onPressed: () {
-                          // Handle add user
-                        },
-                      ),
-                      _buildActionButton(
-                        CupertinoIcons.line_horizontal_3_decrease,
-                        onPressed: () {
-                          // Handle filter
-                        },
-                      ),
-                      _buildActionButton(
-                        CupertinoIcons.arrow_up_arrow_down,
-                        onPressed: () {
-                          // Handle sort
-                        },
-                      ),
-                      _buildActionButton(
-                        CupertinoIcons.search,
-                        onPressed: () {
-                          // Handle search
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
