@@ -1,16 +1,47 @@
-import 'package:admin_flutter/main.page.dart';
+import 'dart:convert';
+
+import 'package:admin_flutter/config/appConfig.dart';
+import 'package:admin_flutter/onboarding.dart';
+import 'package:admin_flutter/services/http.service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:admin_flutter/pages/dashboards/users.page.dart';
+import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:admin_flutter/providers/ui_provider.dart';
+import 'package:admin_flutter/services/socket.service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await loadConfig();
+  registerHTTPService();
+
+  // Initialize SocketService
+  SocketService socketService = SocketService();
+  socketService.initializeSocket();
+
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => UIProvider())],
       child: const MyApp(),
     ),
   );
+}
+
+Future<void> loadConfig() async {
+  String _configContent = await rootBundle.loadString(
+    "assets/config/config.json",
+  );
+  Map _configData = jsonDecode(_configContent);
+
+  GetIt.instance.registerSingleton<AppConfig>(
+    AppConfig(API_URL: _configData["API_URL"]),
+  );
+
+  GetIt.instance.registerSingleton<SocketService>(SocketService());
+}
+
+void registerHTTPService() {
+  GetIt.instance.registerSingleton<HttpService>(HttpService());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,48 +56,7 @@ class MyApp extends StatelessWidget {
         primaryColor: CupertinoColors.activeBlue,
         scaffoldBackgroundColor: Color(0xFFf6f6f6),
       ),
-      home: MainPage(),
-      onGenerateRoute: (settings) {
-        if (settings.name == '/users') {
-          // Hide bottom bar when navigating to Users page
-          Provider.of<UIProvider>(
-            context,
-            listen: false,
-          ).setBottomBarVisibility(false);
-
-          return CupertinoPageRoute(
-            fullscreenDialog: true,
-            builder:
-                (context) => CupertinoPageScaffold(
-                  navigationBar: CupertinoNavigationBar(
-                    middle: Text('Users'),
-                    backgroundColor: Color(0xFFf6f6f6),
-                    border: null,
-                    leading: CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      child: Text(
-                        'Close',
-                        style: TextStyle(
-                          color: CupertinoColors.activeBlue,
-                          fontSize: 17,
-                        ),
-                      ),
-                      onPressed: () {
-                        // Restore bottom bar visibility when returning
-                        Provider.of<UIProvider>(
-                          context,
-                          listen: false,
-                        ).setBottomBarVisibility(true);
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                  child: UserPage(),
-                ),
-          );
-        }
-        return null;
-      },
+      home: OnBoardingView(),
     );
   }
 }

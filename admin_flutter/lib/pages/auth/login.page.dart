@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:admin_flutter/main.page.dart';
+import 'package:admin_flutter/services/http.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,7 +17,18 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   double? _deviceWidth, _deviceHeight;
-  final TextEditingController _emailOrPhoneController = TextEditingController();
+
+  late HttpService? _http;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _http = GetIt.instance.get<HttpService>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,24 +103,49 @@ class LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Divider(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withAlpha(30),
                         thickness: 1,
                       ),
                     ),
                     SizedBox(height: 30),
 
-                    // Email/Phone input
+                    // Email input
                     Container(
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withAlpha(20),
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: CupertinoTextField(
-                        controller: _emailOrPhoneController,
+                        controller: _emailController,
                         placeholder: 'Email or Phone number',
                         placeholderStyle: TextStyle(
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withAlpha(70),
+                          fontSize: 16,
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        style: TextStyle(color: Colors.white),
+                        cursorColor: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+
+                    Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(20),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: CupertinoTextField(
+                        controller: _passwordController,
+                        placeholder: 'Password',
+                        obscureText: true,
+                        placeholderStyle: TextStyle(
+                          color: Colors.white.withAlpha(70),
                           fontSize: 16,
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -122,7 +163,10 @@ class LoginPageState extends State<LoginPage> {
                     CupertinoButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        // Handle sign in/sign up
+                        _handleLogin(
+                          _emailController.text,
+                          _passwordController.text,
+                        );
                       },
                       child: Container(
                         height: 50,
@@ -133,7 +177,7 @@ class LoginPageState extends State<LoginPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'Sign In or Sign up',
+                            'Sign In',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -239,9 +283,53 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  void _handleLogin(String email, String password) async {
+    final response = await _http!.post("/api/v1/auth/login", {
+      "email": email,
+      "password": password,
+    });
+
+    print(response);
+
+    // Check if the widget is still mounted before using context
+    if (!mounted) return;
+
+    if (response != null) {
+      Map<String, dynamic> data = jsonDecode(response.toString());
+
+      if (data.containsKey("data") && data["data"] is Map) {
+        String token = data["data"]["access_token"];
+
+        _http!.setToken(token);
+
+        Navigator.of(
+          context,
+        ).pushReplacement(CupertinoPageRoute(builder: (_) => const MainPage()));
+      }
+
+      // Handle successful login
+    } else {
+      // Handle login error
+      showCupertinoDialog(
+        context: context,
+        builder:
+            (context) => CupertinoAlertDialog(
+              title: Text('Login Failed'),
+              content: Text('Invalid email or password.'),
+              actions: [
+                CupertinoDialogAction(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+      );
+    }
+  }
+
   @override
   void dispose() {
-    _emailOrPhoneController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 }
