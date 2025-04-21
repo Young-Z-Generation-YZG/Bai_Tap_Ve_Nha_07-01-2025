@@ -3,7 +3,13 @@ import React from 'react';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { VoucherItemType } from '~/src/infrastructure/types/voucher.type';
 
-const VoucherItem = ({ item }: { item: VoucherItemType }) => {
+const VoucherItem = ({
+   item,
+   onSelect,
+}: {
+   item: VoucherItemType;
+   onSelect?: (item: VoucherItemType) => void;
+}) => {
    const formatDate = (dateString: string) => {
       const date = new Date(dateString);
       const day = date.getDate().toString().padStart(2, '0');
@@ -26,12 +32,18 @@ const VoucherItem = ({ item }: { item: VoucherItemType }) => {
       return `${item.value} OFF`;
    };
 
+   const handleSelect = () => {
+      if (item.isValid && !isExpired() && onSelect) {
+         onSelect(item);
+      }
+   };
+
    return (
       <TouchableOpacity
          key={item.id}
          // onPress={onPress}
-         activeOpacity={0.8}
-         className="mb-4 mx-2 rounded-xl overflow-hidden"
+         activeOpacity={1}
+         className="rounded-xl overflow-hidden w-[100%]"
          style={{
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
@@ -42,7 +54,9 @@ const VoucherItem = ({ item }: { item: VoucherItemType }) => {
       >
          {/* Top voucher details */}
          <View
-            className={'bg-secondary p-4 flex-row justify-between items-center'}
+            className={
+               'bg-secondary py-2 px-3 flex-row justify-between items-center'
+            }
          >
             <View className="flex-1 flex-row items-center">
                <MaterialCommunityIcons
@@ -52,13 +66,13 @@ const VoucherItem = ({ item }: { item: VoucherItemType }) => {
                />
                <View className="ml-3 flex-1 pr-2">
                   <Text
-                     className="text-white text-xl font-TenorSans-Regular uppercase"
+                     className="text-white text-lg font-TenorSans-Regular uppercase"
                      numberOfLines={1}
                   >
                      {item.name}
                   </Text>
                   <Text
-                     className="text-white font-TenorSans-Regular opacity-80"
+                     className="text-white text-sm font-TenorSans-Regular opacity-80"
                      numberOfLines={1}
                   >
                      {item.description}
@@ -75,7 +89,7 @@ const VoucherItem = ({ item }: { item: VoucherItemType }) => {
          </View>
 
          {/* Bottom voucher details */}
-         <View className="bg-white p-4">
+         <View className="bg-white py-2 px-3">
             {/* code and max discount */}
             <View className="flex-row justify-between mb-3">
                <View>
@@ -160,7 +174,7 @@ const VoucherItem = ({ item }: { item: VoucherItemType }) => {
                {item.isValid && !isExpired() && (
                   <TouchableOpacity
                      className={'bg-secondary py-2 px-4 rounded-lg'}
-                     // onPress={onPress}
+                     onPress={handleSelect}
                   >
                      <Text className="text-white font-TenorSans-Regular text-center">
                         USE NOW

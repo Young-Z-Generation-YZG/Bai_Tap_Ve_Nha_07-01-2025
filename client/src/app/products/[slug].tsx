@@ -9,7 +9,10 @@ import ProductItem from '@components/ui/product-item';
 import CarouselItems from '@components/ui/carousel-items';
 import CarouselItemsTest from '@components/ui/carousel-items-test';
 import { useDispatch } from 'react-redux';
-import { addItemToCart } from '~/src/infrastructure/redux/features/app/cart.slice';
+import {
+   addItemToCart,
+   clearCart,
+} from '~/src/infrastructure/redux/features/app/cart.slice';
 import { useGetProductsAsyncQuery } from '~/src/infrastructure/redux/apis/product.api';
 import {
    ProductCategoryType,
@@ -102,6 +105,7 @@ const ProductDetailScreen = () => {
 
    const handleAddToCart = () => {
       const {
+         productID,
          product_imgs,
          product_colors,
          product_sizes,
@@ -111,8 +115,10 @@ const ProductDetailScreen = () => {
       } = product;
 
       // console.log("ADD TO CART SUCCESSFULLY");
+      // dispatch(clearCart());
       dispatch(
          addItemToCart({
+            product_id: productID,
             product_img: product_imgs[0].secure_url,
             product_color: product_colors[selectedColor],
             product_size: product_sizes[selectedSize],

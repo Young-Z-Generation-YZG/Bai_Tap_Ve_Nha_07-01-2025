@@ -17,6 +17,7 @@ type CartItemProps = {
    // size?:string;
    // quantity?: number;
    // slug?:string;
+   product_id: string;
    product_slug: string;
    product_img: string;
    product_name: string;
@@ -37,6 +38,7 @@ const CartItem = (props: CartItemProps) => {
 
    const handleUpdateQuantity = (updateValue: number) => {
       const {
+         product_id,
          product_img,
          product_color,
          product_size,
@@ -52,6 +54,7 @@ const CartItem = (props: CartItemProps) => {
          // console.log("ADD SUCCESSFULLY")
          dispatch(
             addItemToCart({
+               product_id,
                product_img,
                product_color,
                product_size,
@@ -65,6 +68,7 @@ const CartItem = (props: CartItemProps) => {
          // console.log("DECREASE SUCCESSFULLY")
          dispatch(
             decreaseItemFromCart({
+               product_id,
                product_img,
                product_color,
                product_size,
@@ -101,7 +105,7 @@ const CartItem = (props: CartItemProps) => {
    }
 
    return (
-      <View>
+      <View className="">
          <View className="flex flex-row gap-3">
             <View>
                <Image
