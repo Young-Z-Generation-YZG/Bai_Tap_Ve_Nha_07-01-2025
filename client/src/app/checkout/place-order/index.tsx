@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, ScrollView, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CommonLayout from '@components/layouts/common.layout';
 import AppButton from '@components/ui/AppButton';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import CartItem from '@components/ui/cart-item';
 import AppPopupModal from '@components/ui/AppModel';
@@ -14,6 +14,8 @@ import {
 } from '~/src/infrastructure/redux/apis/user.api';
 import { PlaceOrderType } from '~/src/infrastructure/types/invoice.type';
 import { usePostInvoicdeAsyncMutation } from '~/src/infrastructure/redux/apis/invoice.api';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '~/src/infrastructure/redux/features/app/cart.slice';
 
 const PlaceOrderScreen = () => {
    const { payment_method } = useLocalSearchParams<{
@@ -35,6 +37,7 @@ const PlaceOrderScreen = () => {
          product_color: item.product_color,
          product_size: item.product_size,
          quantity: item.quantity,
+         is_reviewed: false,
       })),
       voucher_code: cart.discount.voucherCode,
    });
@@ -65,32 +68,18 @@ const PlaceOrderScreen = () => {
    }, [responseAddress, responseProfile]);
 
    const [postInvoice, result] = usePostInvoicdeAsyncMutation();
+
+   const dispatch = useDispatch();
    const onSubmitPlaceOrder = async () => {
       console.log('objPlaceOrder', objPlaceOrder);
-
       const res = await postInvoice(objPlaceOrder);
       if (res.data) {
          setModalVisible(true);
+         dispatch(clearCart());
       }
-      // else {
-      //    console.log(res.error);
-      // }
-      // if (res.data) {
-      //    setModalVisible(true);
-      // } else {
-      //    if ('data' in (res?.error || {})) {
-      //       if ('data' in res.error) {
-      //          if (
-      //             typeof res.error.data === 'object' &&
-      //             res.error.data !== null &&
-      //             'message' in res.error.data
-      //          ) {
-      //             console.log((res.error.data as { message: string }).message);
-      //          }
-      //       }
-      //    }
-      // }
    };
+
+   const navigation = useNavigation()
 
    return (
       <CommonLayout title="Place Order" className="h-full bg-white">

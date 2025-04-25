@@ -8,17 +8,16 @@ import DrawerContent from '@components/ui/drawer-content';
 
 // Get screen width
 const { width } = Dimensions.get('window');
-
-const HomeLayout = () => {
+const CartLayout = () => {
    return (
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1, marginBottom: 60 }}>
          <Drawer
             screenOptions={{
                headerShown: true,
                header: (props) => (
                   <Header
                      {...props}
-                     containerStyles="bg-[#E7EBF0]"
+                     containerStyles="bg-[#FFF]"
                      handleToggleDrawer={() => {
                         props.navigation.toggleDrawer();
                      }}
@@ -44,4 +43,4 @@ const HomeLayout = () => {
    );
 };
 
-export default HomeLayout;
+export default CartLayout;

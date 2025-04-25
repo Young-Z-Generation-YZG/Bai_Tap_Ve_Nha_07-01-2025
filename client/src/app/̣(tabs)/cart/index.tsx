@@ -17,7 +17,6 @@ const CartScreen = () => {
    return (
       <SafeAreaProvider>
          <SafeAreaView className="h-full bg-white">
-            <CommonLayout title="Cart">
                <View className="justify-between flex-1 px-3 py-2">
                   {cart.totalQuantity == 0 ? (
                      <View className="w-max flex-1 justify-center items-center">
@@ -29,6 +28,25 @@ const CartScreen = () => {
                         <Text className="text-2xl font-TenorSans-Regular">
                            EMPTY CART
                         </Text>
+                        <View className="mt-3 px-20 bg-black">
+                           <TouchableOpacity
+                                 onPress={() => {
+                                    router.push('/products');
+                                 }}
+                              >
+                              <View className="flex flex-row items-center justify-center py-3">
+                                    <FeatherIcon
+                                       name="shopping-bag"
+                                       size={24}
+                                       color="#ccc"
+                                    />
+                                    <Text className="ml-2 text-xl text-white uppercase font-TenorSans-Regular">
+                                       Continue to shopping
+                                    </Text>
+                                 </View>
+                           </TouchableOpacity>
+                        </View>
+
                      </View>
                   ) : (
                      <ScrollView className="w-full mt-5 h-[500px]">
@@ -76,45 +94,29 @@ const CartScreen = () => {
                         <View></View>
                      )}
                      <View className="mt-3 bg-black">
-                        {cart.items.length ? (
-                           <TouchableOpacity
-                              onPress={() => {
-                                 router.push('/checkout');
-                              }}
-                           >
-                              <View className="flex flex-row items-center justify-center py-3">
-                                 <FeatherIcon
-                                    name="shopping-bag"
-                                    size={24}
-                                    color="#ccc"
-                                 />
-                                 <Text className="ml-2 text-xl text-white uppercase font-TenorSans-Regular">
-                                    Checkout
-                                 </Text>
-                              </View>
-                           </TouchableOpacity>
-                        ) : (
-                           <TouchableOpacity
-                              onPress={() => {
-                                 router.push('/products');
-                              }}
-                           >
-                              <View className="flex flex-row items-center justify-center py-3">
-                                 <FeatherIcon
-                                    name="shopping-bag"
-                                    size={24}
-                                    color="#ccc"
-                                 />
-                                 <Text className="ml-2 text-xl text-white uppercase font-TenorSans-Regular">
-                                    Continue to shopping
-                                 </Text>
-                              </View>
-                           </TouchableOpacity>
-                        )}
+                        {
+                           cart.items.length && (
+                              <TouchableOpacity
+                                 onPress={() => {
+                                    router.push('/checkout');
+                                 }}
+                              >
+                                 <View className="flex flex-row items-center justify-center py-3">
+                                    <FeatherIcon
+                                       name="shopping-bag"
+                                       size={24}
+                                       color="#ccc"
+                                    />
+                                    <Text className="ml-2 text-xl text-white uppercase font-TenorSans-Regular">
+                                       Checkout
+                                    </Text>
+                                 </View>
+                              </TouchableOpacity>
+                           )
+                        }
                      </View>
                   </View>
                </View>
-            </CommonLayout>
          </SafeAreaView>
       </SafeAreaProvider>
    );

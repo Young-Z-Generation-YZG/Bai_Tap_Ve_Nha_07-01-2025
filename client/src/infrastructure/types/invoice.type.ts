@@ -27,6 +27,7 @@ export type InvoiceProductItemType = {
    product_image: string;
    product_price: number;
    quantity: number;
+   is_reviewed: boolean
 };
 
 export type InvoiceItemType = {
@@ -50,6 +51,7 @@ export type PlaceOrderItemType = {
    product_color: string;
    product_size: string;
    quantity: number;
+   is_reviewed: boolean;
 };
 
 export type PlaceOrderType = {

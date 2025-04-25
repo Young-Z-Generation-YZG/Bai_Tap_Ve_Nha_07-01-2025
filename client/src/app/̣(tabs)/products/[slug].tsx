@@ -54,15 +54,6 @@ const ProductDetailScreen = () => {
       refetch,
    } = useGetProductsAsyncQuery({ _page: 1, _limit: 10 });
 
-   //   const {
-   //     data: productsSameCategoryResponse,
-   //   } = useGetProductsByCategoryAsyncQuery(
-   //     product.product_category.category_slug ?
-   //       { slug: product.product_category.category_slug, queries: { _page: 1, _limit: 10 } }
-   //     :
-   //       skipToken
-   //   );
-
    const { data: reviewsResponse } = useGetReviewsByProductIdAsyncQuery(
       product.productID
          ? { productId: product.productID, _limit: 10, _page: 1 }
@@ -92,12 +83,6 @@ const ProductDetailScreen = () => {
       }
    }, [productsResponse]);
 
-   //   React.useEffect(() => {
-   //     if (productsSameCategoryResponse?.data?.items) {
-   //       setProductsSameCategory(productsSameCategoryResponse.data.items);
-   //     }
-   //   }, [productsSameCategoryResponse]);
-
    const dispatch = useDispatch();
 
    const [selectedColor, setSelectedColor] = useState(0);
@@ -114,8 +99,6 @@ const ProductDetailScreen = () => {
          product_slug,
       } = product;
 
-      // console.log("ADD TO CART SUCCESSFULLY");
-      // dispatch(clearCart());
       dispatch(
          addItemToCart({
             product_id: productID,
@@ -134,16 +117,11 @@ const ProductDetailScreen = () => {
       const stars = [];
       for (let i = 1; i <= 5; i++) {
          if (i <= value) {
-            // Ex: index < 4.5 => fill full star with yellow
             stars.push(<Icons.StarReviewIcon key={i} fill="#FFD700" />);
          } else if (i - value < 1) {
-            // Ex: 4.5 % 1 => 0.5 => fill 50% star with yellow
             const percentage = (value % 1) * 100;
             stars.push(
-               <View
-                  key={i}
-                  className="relative flex justify-center items-center"
-               >
+               <View key={i} className="relative flex justify-center items-center">
                   <Icons.StarReviewIcon fill="#E0E0E0" />
                   <View
                      className="absolute top-0 left-0 h-[100%] overflow-hidden"
