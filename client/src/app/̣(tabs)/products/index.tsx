@@ -24,11 +24,11 @@ var log = logger.createLogger();
 const FilterVariants: DropdownFilterVariants[] = [
    {
       name: 'brand',
-      variantValues: ['Prada', 'Chanel', 'Gucci', 'Louis Vuitton'],
+      variantValues: ['prada', 'chanel', 'gucci', 'louis vuitton'],
    },
    {
       name: 'gender',
-      variantValues: ['Woman', 'Man', 'Unisex'],
+      variantValues: ['woman', 'man', 'unisex'],
    },
    {
       name: 'sizes',
@@ -36,7 +36,7 @@ const FilterVariants: DropdownFilterVariants[] = [
    },
    {
       name: 'colors',
-      variantValues: ['Red', 'Pink', 'Yellow', 'Brown'],
+      variantValues: ['WHITE', 'YELLOW', 'GREEN'],
    },
 ];
 

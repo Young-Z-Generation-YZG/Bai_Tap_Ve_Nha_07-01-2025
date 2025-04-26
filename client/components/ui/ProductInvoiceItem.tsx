@@ -1,24 +1,13 @@
-import React, { useState } from 'react';
-import {
-   Alert,
-   Image,
-   Modal,
-   Text,
-   TouchableOpacity,
-   TouchableWithoutFeedback,
-} from 'react-native';
-import { View } from 'react-native-ui-lib';
-import { InvoiceProductItemType } from '~/src/infrastructure/types/invoice.type';
+import React, { useEffect, useState } from 'react';
+import { Image, Modal, Text, TouchableOpacity, TouchableWithoutFeedback, View  } from 'react-native';
+import { InvoiceItemType, InvoiceProductItemType } from '~/src/infrastructure/types/invoice.type';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { TextInput } from 'react-native';
 import { usePostReviewAsyncMutation } from '~/src/infrastructure/redux/apis/review.api';
 import AlertModal from '@components/ui/AlertModal';
+import { useGetInvoicesAsyncQuery } from '~/src/infrastructure/redux/apis/invoice.api';
 
-export default function ProductInvoiceItem({
-   item,
-}: {
-   item: InvoiceProductItemType;
-}) {
+export default function ProductInvoiceItem({ item, invoiceStatus }: { item: InvoiceProductItemType, invoiceStatus: string }) {
    const [modalVisible, setModalVisible] = useState(false);
    const [starsSelected, setStarsSelected] = useState(0);
    const [reviewText, setReviewText] = useState('');
@@ -27,6 +16,19 @@ export default function ProductInvoiceItem({
    const [txtErrorMessage, setTxtErrorMessage] = useState('');
 
    const [postReview, result] = usePostReviewAsyncMutation();
+
+   console.log("invoiceStatus", invoiceStatus)
+   // const {data: invoicesRes} = useGetInvoicesAsyncQuery({_page: 1, _limit: 100});
+   
+   // const [isReviewed, setReview] = useState()
+
+   // useEffect(() => {
+   //    invoice.invoice_products.
+   // },[])
+
+   // if (invoice.invoice_status === 'DELIVERED'){
+   //    setDeliver(true)
+   // }
 
    const onHandleReview = async () => {
       const res = await postReview({
@@ -49,13 +51,7 @@ export default function ProductInvoiceItem({
                   );
                }
             }
-            // else {
-            //    console.log('ERROR:::', res.error);
-            // }
          }
-         // else {
-         // console.log('ERROR:::', res?.error);
-         // }
          setIsVisibleError(true);
       }
       onResetModal();
@@ -71,7 +67,7 @@ export default function ProductInvoiceItem({
    return (
       <View
          key={item.product_id}
-         className="mb-[20px] rounded-xl bg-white px-6 py-4 gap-5"
+         className="mb-[20px] rounded-xl bg-slate-100 px-6 py-4 gap-5"
       >
          <View className="flex flex-row">
             <Image src={item.product_image} className="w-20 h-24 rounded-xl" />
@@ -97,15 +93,31 @@ export default function ProductInvoiceItem({
                </View>
             </View>
          </View>
-         <View>
-            <TouchableOpacity
-               className="rounded-lg bg-secondary py-3"
-               onPress={() => setModalVisible(true)}
-            >
-               <Text className="text-white text-center uppercase font-TenorSans-Regular ">
-                  Write Review
-               </Text>
-            </TouchableOpacity>
+         <View>            
+            { 
+               invoiceStatus === 'DELIVERED' ? (
+                  <>
+                  {
+                     item.is_reviewed ? (
+                        <TouchableOpacity className="rounded-lg bg-secondary/50 py-3" activeOpacity={1}>
+                           <Text className="text-white text-center uppercase font-TenorSans-Regular ">
+                              Already reviewed
+                           </Text>
+                        </TouchableOpacity>
+                     ) : (
+                        <TouchableOpacity className="rounded-lg bg-secondary py-3" onPress={() => setModalVisible(true)}>
+                           <Text className="text-white text-center uppercase font-TenorSans-Regular ">
+                              Write review
+                           </Text>
+                        </TouchableOpacity>
+                     )
+                  }
+                  </>
+               ) : (
+                  <></>
+               )
+               
+            }
          </View>
          <Modal
             animationType="fade"

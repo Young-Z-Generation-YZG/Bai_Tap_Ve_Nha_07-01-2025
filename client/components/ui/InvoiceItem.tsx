@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import { InvoiceItemType } from '~/src/infrastructure/types/invoice.type';
 
 export default function InvoiceItem({ item }: { item: InvoiceItemType }) {
+   
    const quatityTotal = item.invoice_products.reduce(
       (total, product) => (total += product.quantity),
       0,
@@ -44,7 +45,7 @@ export default function InvoiceItem({ item }: { item: InvoiceItemType }) {
       <TouchableOpacity
          key={item._id}
          onPress={() =>
-            router.push(`/profile/invoices/invoice-detail?_id=${item._id}`)
+            router.push(`/profile/invoices/invoice-detail?invoice_id=${item._id}`)
          }
          className="bg-gray-200 px-2 py-5 mb-3 rounded-[5px] flex flex-row gap-2 items-center"
       >

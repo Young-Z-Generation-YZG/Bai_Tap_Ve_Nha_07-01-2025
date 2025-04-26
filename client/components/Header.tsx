@@ -33,7 +33,7 @@ const Header = (props: HeaderProps) => {
    return (
       <View
          className={cn(
-            'pt-[59px] pb-3 bg-white h-[100px] flex items-center justify-center',
+            ' bg-white h-[70px] flex items-center justify-center',
             props.containerStyles,
          )}
       >

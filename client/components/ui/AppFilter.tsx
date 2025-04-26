@@ -26,7 +26,7 @@ const AppFilter = ({
    items,
    onSelected,
 }: FilterDropdownProps) => {
-   const [isOpen, setIsOpen] = useState(true);
+   const [isOpen, setIsOpen] = useState(false);
    const [placeholder, setPlaceholder] = useState('filter');
 
    //    const [items, setItems] = useState<DropdownFilterParams[]>(items ?? []);

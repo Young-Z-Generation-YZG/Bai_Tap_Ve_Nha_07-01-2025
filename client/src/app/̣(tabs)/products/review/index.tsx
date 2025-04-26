@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -29,10 +29,8 @@ const ReviewScreen = () => {
       const stars = [];
       for (let i = 1; i <= 5; i++) {
          if (i <= value) {
-            // Ex: index < 4.5 => fill full star with yellow
             stars.push(<Icons.StarReviewIcon key={i} fill="#FFD700" />);
          } else if (i - value < 1) {
-            // Ex: 4.5 % 1 => 0.5 => fill 50% star with yellow
             const percentage = (value % 1) * 100;
             stars.push(
                <View
@@ -80,22 +78,37 @@ const ReviewScreen = () => {
             </View>
 
             <View className="flex-1 flex flex-col">
-               {reviewsResponse?.data?.reviews &&
-               reviewsResponse.data.reviews.length > 0 ? (
-                  reviewsResponse.data.reviews.map((review, index) => (
-                     <ReviewItem
-                        key={review._id}
-                        _id={review._id}
-                        review_content={review.review_content}
-                        review_invoice={review.review_invoice}
-                        review_product={review.review_product}
-                        review_rating={review.review_rating}
-                        review_user={review.review_user}
+               {
+                  reviewsResponse?.data?.reviews && reviewsResponse.data.reviews.length > 0 ? (
+                  // reviewsResponse.data.reviews.map((review, index) => (
+                  //    <ReviewItem
+                  //       key={review._id}
+                  //       _id={review._id}
+                  //       review_content={review.review_content}
+                  //       review_invoice={review.review_invoice}
+                  //       review_product={review.review_product}
+                  //       review_rating={review.review_rating}
+                  //       review_user={review.review_user}
+                  //    />
+                  // ))
+                     <FlatList 
+                        data={reviewsResponse.data.reviews}
+                        renderItem={({item: review}) => (
+                           <ReviewItem
+                              key={review._id}
+                              _id={review._id}
+                              review_content={review.review_content}
+                              review_invoice={review.review_invoice}
+                              review_product={review.review_product}
+                              review_rating={review.review_rating}
+                              review_user={review.review_user}
+                           />
+                        )}
                      />
-                  ))
-               ) : (
-                  <></>
-               )}
+                  ) : (
+                     <></>
+                  )
+               }
             </View>
          </View>
       </ProductLayout>

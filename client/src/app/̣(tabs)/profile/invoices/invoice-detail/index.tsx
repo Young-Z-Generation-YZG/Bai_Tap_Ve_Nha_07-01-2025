@@ -8,16 +8,19 @@ import { useGetInvoicesAsyncQuery } from '~/src/infrastructure/redux/apis/invoic
 import { InvoiceProductItemType } from '~/src/infrastructure/types/invoice.type';
 
 export default function InvoiceDetailScreen() {
-   const { _id } = useLocalSearchParams();
+   const { invoice_id } = useLocalSearchParams<{ invoice_id: string }>();
    const { data: invoicesResponse } = useGetInvoicesAsyncQuery({
       _page: 1,
-      _limit: 10,
+      _limit: 100,
    });
 
+
    const detailInvoice = invoicesResponse?.data.items.find(
-      (item) => item._id === _id,
+      (item) => item._id === invoice_id,
    );
    var color = '';
+
+   
 
    switch (detailInvoice?.invoice_status) {
       case 'PENDING':
@@ -77,10 +80,7 @@ export default function InvoiceDetailScreen() {
                         numberOfLines={1}
                         ellipsizeMode="tail"
                      >
-                        Address: {detailInvoice?.shipping_address_line},{' '}
-                        {detailInvoice?.shipping_address_district},{' '}
-                        {detailInvoice?.shipping_address_province},{' '}
-                        {detailInvoice?.shipping_address_country}
+                        Address: {detailInvoice?.shipping_address_line}, {detailInvoice?.shipping_address_district}, {detailInvoice?.shipping_address_province}, {detailInvoice?.shipping_address_country}
                      </Text>
                   </View>
                   <ScrollView
@@ -88,7 +88,7 @@ export default function InvoiceDetailScreen() {
                      className="bg-transparent flex-1 flex flex-col gap-5"
                   >
                      {detailInvoice?.invoice_products.map((item, index) => (
-                        <ProductInvoiceItem key={item.product_id} item={item} />
+                        <ProductInvoiceItem key={index} item={item} invoiceStatus={detailInvoice.invoice_status} />
                      ))}
                   </ScrollView>
                </View>
