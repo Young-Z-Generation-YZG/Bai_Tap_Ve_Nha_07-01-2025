@@ -68,6 +68,7 @@ const SignUpScreen = () => {
                      name="email"
                      form={form}
                      required
+                     variant="outline"
                      placeholder="Email"
                      className="font-TenorSans-Regular"
                      errorStyles="text-sm"
@@ -80,6 +81,24 @@ const SignUpScreen = () => {
                      form={form}
                      required
                      placeholder="Password"
+                     className="font-TenorSans-Regular"
+                     errorStyles="text-sm"
+                     Icon={() => (
+                        <MaterialIcons
+                           name="password"
+                           size={24}
+                           className="opacity-50"
+                        />
+                     )}
+                  />
+               </View>
+
+               <View className="">
+                  <InputField<RegisterFormType>
+                     name="confirm_password"
+                     form={form}
+                     required
+                     placeholder="Confirm Password"
                      className="font-TenorSans-Regular"
                      errorStyles="text-sm"
                      Icon={() => (
