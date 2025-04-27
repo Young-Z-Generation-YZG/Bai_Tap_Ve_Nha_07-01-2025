@@ -20,7 +20,7 @@ import { useAppSelector } from '~/src/infrastructure/redux/store';
 const HomeScreen = () => {
    var log = logger.createLogger();
 
-   const { accessToken, isAuthenticated } = useAppSelector(
+   const { accessToken, isAuthenticated, user } = useAppSelector(
       (state) => state.auth,
    );
 
@@ -65,8 +65,8 @@ const HomeScreen = () => {
                   containerMarginHorizontal={40}
                   initialPage={0}
                   pageControlPosition={Carousel.pageControlPositions.UNDER}
-                  // allowAccessibleLayout
-                  // className="bg-green-200"
+               // allowAccessibleLayout
+               // className="bg-green-200"
                >
                   {Array.from({ length: 10 }).map((_, index) => (
                      <View key={index} className="h-[300px] w-full bg-red-300">
