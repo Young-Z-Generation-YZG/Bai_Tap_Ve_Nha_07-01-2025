@@ -11,6 +11,7 @@ import Button from '~/components/ui/Button';
 import { Link, router } from 'expo-router';
 import { LoginFormType, LoginResolver } from '~/src/domain/schemas/auth.schema';
 import { useLoginAsyncMutation } from '~/src/infrastructure/redux/apis/auth.api';
+import SocketService from '~/src/infrastructure/socket';
 
 const defaultValues: LoginFormType = {
    email: '',
@@ -38,9 +39,14 @@ const SignInScreen = () => {
       }
    }, [error]);
 
+
    useEffect(() => {
       if (isSuccess) {
          router.replace('/home');
+
+         // Socket connection
+         // SocketService.connect();
+         // SocketService.authenticate(user.user_id);
       }
    }, [isSuccess]);
 

@@ -3,8 +3,7 @@ import config from '~/src/infrastructure/config/env';
 
 
 class SocketService {
-  private socket: typeof Socket | null = null;
-  private listeners: Map<string, ((...args: any[]) => void)[]> = new Map();
+  socket: typeof Socket | null = null;
 
   constructor() {
     this.socket = null;
@@ -33,8 +32,6 @@ class SocketService {
 
     this.socket.on('connect', () => {
       console.log('Socket connected:', this.socket?.id);
-
-      this.authenticate("664439317954a1ae3c523650", "USER");
     });
 
 
@@ -43,31 +40,12 @@ class SocketService {
       console.log('Socket disconnected:');
     });
 
-    // this.socket.on('connect_error', (error) => {
-    //   console.error('Socket connection error:', error);
-    // });
-
-    // this.socket.on('reconnect', (attemptNumber) => {
-    //   console.log('Socket reconnected after', attemptNumber, 'attempts');
-    // });
-
-    // this.socket.on('reconnect_attempt', (attemptNumber) => {
-    //   console.log('Socket reconnection attempt:', attemptNumber);
-    // });
-
-    // this.socket.on('reconnect_error', (error) => {
-    //   console.error('Socket reconnection error:', error);
-    // });
-
-    // this.socket.on('reconnect_failed', () => {
-    //   console.error('Socket reconnection failed');
-    // });
   }
 
-  authenticate(userId: string, role: string) {
+  authenticate(userId: string) {
     if (this.socket) {
-      this.socket.emit('authenticate-user', { "userId": userId, "role": role });
-      console.log('Authenticated as', role, 'with ID:', userId);
+      this.socket.emit('authenticate-user', { "userId": userId });
+      console.log('Authenticated as', 'with ID:', userId);
     } else {
       console.warn('Socket not connected, cannot authenticate');
     }
@@ -79,50 +57,6 @@ class SocketService {
       this.socket = null;
     }
   }
-
-//   emit(event: string, ...args: any[]) {
-//     if (!this.socket || !this.socket.connected) {
-//       console.warn('Socket not connected, cannot emit', event);
-//       return false;
-//     }
-//     this.socket.emit(event, ...args);
-//     return true;
-//   }
-
-//   on(event: string, callback: (...args: any[]) => void) {
-//     if (!this.socket) {
-//       console.warn('Socket not initialized, cannot listen to', event);
-//       return () => {};
-//     }
-
-//     const eventListeners = this.listeners.get(event) || [];
-//     eventListeners.push(callback);
-//     this.listeners.set(event, eventListeners);
-
-//     this.socket.on(event, callback);
-
-//     // Return unsubscribe function
-//     return () => this.off(event, callback);
-//   }
-
-//   off(event: string, callback?: (...args: any[]) => void) {
-//     if (!this.socket) return;
-
-//     if (callback) {
-//       this.socket.off(event, callback);
-      
-//       // Remove specific callback from listeners
-//       const eventListeners = this.listeners.get(event) || [];
-//       this.listeners.set(
-//         event,
-//         eventListeners.filter((cb) => cb !== callback)
-//       );
-//     } else {
-//       // Remove all listeners for this event
-//       this.socket.off(event);
-//       this.listeners.delete(event);
-//     }
-//   }
 
   isConnected(): boolean {
     return !!this.socket?.connected;
