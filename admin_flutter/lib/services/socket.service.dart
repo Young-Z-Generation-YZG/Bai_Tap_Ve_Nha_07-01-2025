@@ -40,7 +40,6 @@ class SocketService {
       isConnected = true;
 
       authenticate("664439317954a1ae3c523650", "ADMIN");
-      _setupAdminListeners();
     });
 
     socket.onDisconnect((_) {
@@ -50,23 +49,11 @@ class SocketService {
 
   void authenticate(String userId, String role) {
     if (isConnected) {
-      socket.emit('authenticate', {'userId': userId, 'role': role});
+      socket.emit('authenticate-admin', {'userId': userId, 'role': role});
       print('Authenticated as $role with ID: $userId');
     } else {
       print('Cannot authenticate: Socket not connected');
     }
-  }
-
-  void _setupAdminListeners() {
-    // socket.on('admin-notification', (data) {
-    //   print('Admin notification received: $data');
-    //   _processNotification(data);
-    // });
-
-    // socket.on('notification', (data) {
-    //   print('General notification received: $data');
-    //   // _processNotification(data);
-    // });
   }
 
   AppNotification processNotification(dynamic res) {
