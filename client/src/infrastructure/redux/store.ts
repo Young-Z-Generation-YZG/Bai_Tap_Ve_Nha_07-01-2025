@@ -25,6 +25,7 @@ import authSlice from '~/src/infrastructure/redux/features/auth/auth.slice';
 import searchSlice from '~/src/infrastructure/redux/features/app/search.slice';
 import cartSlice from '~/src/infrastructure/redux/features/app/cart.slice';
 import bottomtabSlice from '~/src/infrastructure/redux/features/app/bottomtab.slice';
+import notificationSlice from '~/src/infrastructure/redux/features/app/notification.slice';
 import { categoryApi } from '~/src/infrastructure/redux/apis/category.api';
 import wishlistSlice from '~/src/infrastructure/redux/features/app/wishlist.slice';
 import { reviewsApi } from '~/src/infrastructure/redux/apis/review.api';
@@ -46,7 +47,7 @@ const persistConfig: PersistConfig<ReturnType<typeof reducers>> = {
       reviewsApi.reducerPath,
       voucherApi.reducerPath,
    ], // Exclude API reducers from persistence
-   whitelist: ['auth', 'search', 'cart', 'wishlist', 'bottomtab'], // Only persist auth and search slices
+   whitelist: ['auth', 'search', 'cart', 'wishlist', 'bottomtab', 'notification'], // Only persist auth and search slices
 };
 
 /**
@@ -75,6 +76,7 @@ const reducers = combineReducers({
    cart: cartSlice,
    wishlist: wishlistSlice,
    bottomtab: bottomtabSlice,
+   notification: notificationSlice,
    [authApi.reducerPath]: authApi.reducer,
    [productsApi.reducerPath]: productsApi.reducer,
    [categoryApi.reducerPath]: categoryApi.reducer,

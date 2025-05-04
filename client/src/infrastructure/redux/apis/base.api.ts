@@ -53,14 +53,15 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
             });
 
             if (refreshResponse.ok) {
-              const { access_token, expired_in } = (await refreshResponse.json()) as TRefreshTokenResponse;
+              const { access_token, expired_in, email, user_id } = (await refreshResponse.json()) as TRefreshTokenResponse;
 
               api.dispatch(setAccessToken({
                 accessToken: access_token,
                 refreshToken: refreshToken ?? null,
                 expiredIn: expired_in,
                 isAuthenticated: true,
-                user: null,
+                email: email,
+                userId: user_id,
               }));
 
               result = await baseQuery(args, api, extraOptions);

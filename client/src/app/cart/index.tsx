@@ -13,15 +13,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const CartScreen = () => {
    const cart = useAppSelector((state) => state.cart);
-   const user = useAppSelector((state) => state.auth.user);
-
-   // Demo socket connection
-   // useEffect(() => {
-   //    socketService.socket?.on(`user:${user.id}`, (message: any) => {
-   //       console.log('message', message);
-   //    });
-   // }, []);
-
+   
    return (
       <SafeAreaProvider>
          <SafeAreaView className="h-full bg-white">

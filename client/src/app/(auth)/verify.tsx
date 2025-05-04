@@ -3,62 +3,51 @@ import React, { useRef, useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AuthLayout from '@components/layouts/auth.layout';
 import Button from '~/components/ui/Button';
-import { Link } from 'expo-router';
+import { Link, router, useLocalSearchParams } from 'expo-router';
+import { useSendmailOtpAsyncQuery, useVerifiyEmailAsyncMutation } from '~/src/infrastructure/redux/apis/auth.api';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { setAccessToken } from '~/src/infrastructure/redux/features/auth/auth.slice';
+import AlertModal from '@components/ui/AlertModal';
 
 const VerifyOTPScreen = () => {
-   // Array for 6 OTP code
+   // OTP input state
    const [otp, setOtp] = useState(['', '', '', '', '', '']);
    const inputRefs = useRef<any>([]);
 
-   // Timer for resend OTP
-   const [timer, setTimer] = useState(60);
+   // Timer state
+   const [timer, setTimer] = useState(120);
    const [canResend, setCanResend] = useState(false);
 
-   // Handle input change and auto-focus
-   const handleOtpChange = (text: any, index: any) => {
-      // if (text.length > 0 && text.length < 2){
-      const newOtp = [...otp];
-      newOtp[index] = text.replace(/[^0-9]/g, '');
-      setOtp(newOtp);
+   // Alert modal state
+   const [alertModal, setAlertModal] = useState<{
+      message: string;
+      isVisible: boolean;
+      type: 'SUCCESS' | 'ERROR' | 'WARNING';
+      onClose: () => void
+   }>({
+      message: '',
+      isVisible: false,
+      type: 'SUCCESS',
+      onClose: () => {}
+   });
 
-      // console.log("text:",text.length);
+   const { _q, _verify_type } = useLocalSearchParams<{
+      _q: string,
+      _verify_type: string
+   }>();
 
-      // Move to next input if a digit is entered
+   const { data: verifiRes, refetch } = useSendmailOtpAsyncQuery(
+      _q && _verify_type 
+      ? {_q, _verify_type} 
+      : skipToken
+   );
 
-      // if (text.length>1 && index < otp.length - 1){
-      //   const newOtp = [...otp];
-      //   newOtp[index] = text[0];
-      //   newOtp[index+1] = text[1];
-      //   setOtp(newOtp);
-      //   if (index < otp.length - 2){
-      //     inputRefs.current[index + 2].focus();
-      //   }
-      // }else {
-      if (text && index < otp.length - 1) {
-         inputRefs.current[index + 1].focus();
-      }
-      // }
+   const [
+      verifyAsync,
+      { isLoading: isFetching, error: error, isSuccess, isError, reset },
+   ] = useVerifiyEmailAsyncMutation();
 
-      // Handle backspace or clearing input
-      if (!text && index > 0) {
-         inputRefs.current[index - 1].focus();
-      }
-      // } else {
-      //   const newOtp = [...otp];
-      //   newOtp[index] = text.replace(/[^0-9]/g, "");
-      //   setOtp(newOtp);
-      //   inputRefs.current[index + 1].focus();
-      // }
-   };
-
-   // Handle backspace or clearing input
-   const handleKeyPress = (e: any, index: any) => {
-      if (e.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
-         inputRefs.current[index - 1].focus();
-      }
-   };
-
-   // Timer countdown
+   // Timer countdown effect
    useEffect(() => {
       if (timer > 0) {
          const countdown = setInterval(() => {
@@ -70,30 +59,83 @@ const VerifyOTPScreen = () => {
       }
    }, [timer]);
 
-   // Handle submit verify OTP
-   const handleSubmit = () => {
-      const otpCode = otp.join('');
-      if (otpCode.length === 6) {
-         // Handle OTP verification logic here
-         console.log('OTP Submitted:', otpCode);
-      } else {
-         alert('Please enter a complete 6-digit OTP');
+   // OTP input handlers
+   const handleOtpChange = (text: any, index: any) => {
+      const newOtp = [...otp];
+      newOtp[index] = text.replace(/[^0-9]/g, '');
+      setOtp(newOtp);
+      if (text && index < otp.length - 1) {
+         inputRefs.current[index + 1].focus();
+      }
+      if (!text && index > 0) {
+         inputRefs.current[index - 1].focus();
       }
    };
-   // Handle resend verify OTP
+
+   const handleKeyPress = (e: any, index: any) => {
+      if (e.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
+         inputRefs.current[index - 1].focus();
+      }
+   };
+
+   // Action handlers
+   const handleSubmit = async () => {
+      const otpCode = otp.join('');
+      if (otpCode.length === 6) {
+         console.log('OTP Submitted:', otpCode);
+
+         if (_q && _verify_type) {
+            const res = await verifyAsync({
+               q: _q,
+               otp: otpCode,
+            })
+            if (res.data?.status == 200) {
+               setAlertModal({
+                  isVisible: true,
+                  message: 'Verify email successfully!',
+                  type: 'SUCCESS',
+                  onClose: () => router.navigate('sign-in')
+               })
+            }
+            if (res.data?.status == 400) {
+               setAlertModal({
+                  isVisible: true,
+                  message: 'OTP not match',
+                  type: 'ERROR',
+                  onClose: () => setAlertModal(prev => ({...prev, isVisible: false}))
+               })
+            }
+         }
+
+         
+      } else {
+         setAlertModal({
+            isVisible: true,
+            message: 'Please enter a complete 6-digit OTP',
+            type: 'WARNING',
+            onClose: () => setAlertModal(prev => ({...prev, isVisible: false}))
+         });
+      }
+   };
+   
    const handleResend = () => {
       if (canResend) {
-         // Add resend OTP API call here
-         setTimer(60);
+         setTimer(120);
          setCanResend(false);
-         console.log('Resending OTP...');
+         setAlertModal({
+            isVisible: true,
+            message: 'Resend OTP successfully. Check your email',
+            type: 'SUCCESS',
+            onClose: () => setAlertModal(prev => ({...prev, isVisible: false}))
+         });
+         refetch();
       }
    };
 
    return (
-      <AuthLayout className="">
-         <SafeAreaView className="">
-            <View className="h-full w-full flex justify-center items-center">
+      <AuthLayout>
+         <SafeAreaView className="h-screen">
+            <View className="flex-1 flex justify-center items-center">
                {/* Title OTP verify */}
                <Text className="text-3xl font-Poppins-SemiBold mb-2">
                   Verify Your Code
@@ -126,16 +168,22 @@ const VerifyOTPScreen = () => {
                />
 
                {/* Resend OTP Section */}
-               {/* <View className="flex flex-col items-center mt-7">
-            <Text className="text-base font-Poppins-Regular">
-              {timer > 0 ? `Resend in ${timer}s` : 'Can resend now'}
-            </Text>
-            <Button
-              title="Resend OTP"
-              onPress={handleResend}
-              className="text-base font-Poppins-Regular"
-            />
-          </View> */}
+               <View className="flex flex-col items-center mt-7">
+                  <Text className="text-base font-Poppins-Regular">
+                     {timer > 0 ? `Resend in ${timer}s` : 'Can resend now'}
+                  </Text>
+                  {
+                     timer == 0 ?
+                        <Button
+                        title="Resend OTP"
+                        onPress={handleResend}
+                        className="border px-10 py-3 rounded-md mt-7 text-base font-Poppins-Regular"
+                        />
+                     : 
+                        <>
+                        </>
+                  }
+               </View>
 
                {/* Back to Login Link */}
                <Link
@@ -145,6 +193,7 @@ const VerifyOTPScreen = () => {
                   <Text>Back to Login</Text>
                </Link>
             </View>
+            <AlertModal  message={alertModal.message} onClose={alertModal.onClose} type={alertModal.type} isVisible={alertModal.isVisible} />
          </SafeAreaView>
       </AuthLayout>
    );

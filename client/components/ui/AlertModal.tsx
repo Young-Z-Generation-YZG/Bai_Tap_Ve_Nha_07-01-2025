@@ -12,11 +12,14 @@ import {
    MaterialCommunityIcons,
 } from '@expo/vector-icons';
 
-type AlertModalProps = {
+export interface AlertModalProps {
    message: string;
-   visible: boolean;
+   isVisible: boolean;
    onClose: () => void;
    type: 'SUCCESS' | 'ERROR' | 'WARNING';
+   onSubmit?: () => void;
+   visibleSubmit?: boolean;
+   visibleClose?: boolean;
 };
 
 const AlertModal = (props: AlertModalProps) => {
@@ -52,7 +55,7 @@ const AlertModal = (props: AlertModalProps) => {
       <Modal
          animationType="fade"
          transparent={true}
-         visible={props.visible}
+         visible={props.isVisible}
          onRequestClose={props.onClose}
       >
          <TouchableWithoutFeedback onPress={props.onClose}>
@@ -63,6 +66,23 @@ const AlertModal = (props: AlertModalProps) => {
                      <Text className="text-lg font-TenorSans-Regular first-letter:uppercase text-center">
                         {props.message}
                      </Text>
+                        
+                     <View className='w-[80%] flex-row justify-end mx-10 gap-2'>
+                        {
+                           props.visibleClose &&
+                           <TouchableOpacity onPress={props.onClose} className=' border px-5 py-1 rounded-lg'>
+                              <Text className='text-lg font-TenorSans-Regular uppercase'>NO</Text>
+                           </TouchableOpacity>
+                        }
+                        {
+                           props.visibleSubmit &&
+                           <TouchableOpacity onPress={props.onSubmit} className=' border px-5 py-1 rounded-lg'>
+                              <Text className='text-lg font-TenorSans-Regular uppercase'>YES</Text>
+                           </TouchableOpacity>
+                        }
+
+                     </View>
+                             
                   </View>
                </TouchableWithoutFeedback>
             </View>

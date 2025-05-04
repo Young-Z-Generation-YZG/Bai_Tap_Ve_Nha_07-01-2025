@@ -14,7 +14,7 @@ type AppButtonProps = {
 const AppButton = (props: AppButtonProps) => {
    const isRenderIconRight = props.icon && props.iconPosition === 'right';
 
-   console.log('props', props.onPress);
+   // console.log('props', props.onPress);
 
    if (props.icon && props.iconPosition === 'right') {
       return (

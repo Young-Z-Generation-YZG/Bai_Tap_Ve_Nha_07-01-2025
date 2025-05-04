@@ -26,6 +26,7 @@ export type PaginationResponseType<T> = {
 };
 
 export type BaseResponseType<T> = {
+   params(params: any): unknown;
    message: string;
    status: number;
    data: T;

@@ -1,9 +1,10 @@
-import { Socket } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import config from '~/src/infrastructure/config/env';
-
+import { NotificationType } from '~/src/infrastructure/types/notification.type';
 
 class SocketService {
-  socket: typeof Socket | null = null;
+  socket: Socket | null = null;
+  // private notificationListeners: NotificationCallback[] = [];
 
   constructor() {
     this.socket = null;
@@ -14,7 +15,7 @@ class SocketService {
       console.log('Socket already connected');
       return;
     }
-
+    console.log('Socket connecting...');
     this.socket = io(config.api.url, {
       reconnection: true,
       reconnectionAttempts: 5,
@@ -34,8 +35,6 @@ class SocketService {
       console.log('Socket connected:', this.socket?.id);
     });
 
-
-
     this.socket.on('disconnect', () => {
       console.log('Socket disconnected:');
     });
@@ -44,7 +43,7 @@ class SocketService {
 
   authenticate(userId: string) {
     if (this.socket) {
-      this.socket.emit('authenticate-user', { "userId": userId });
+      this.socket.emit('authenticate', { "userId": userId });
       console.log('Authenticated as', 'with ID:', userId);
     } else {
       console.warn('Socket not connected, cannot authenticate');
@@ -65,6 +64,18 @@ class SocketService {
   getSocketId(): string | null {
     return this.socket?.id || null;
   }
+
+  // // Add method to register notification listeners
+  // onNotification(callback: NotificationCallback): () => void {
+  //   this.notificationListeners.push(callback);
+    
+  //   // Return a function to unregister the listener
+  //   return () => {
+  //     this.notificationListeners = this.notificationListeners.filter(
+  //       listener => listener !== callback
+  //     );
+  //   };
+  // }
 }
 
 // Create a singleton instance

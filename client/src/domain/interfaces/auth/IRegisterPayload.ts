@@ -4,5 +4,5 @@ export interface IRegisterPayload {
     email: string;
     password: string;
     confirm_password: string;
-    phone_number: string;
+    // phone_number: string;
 }

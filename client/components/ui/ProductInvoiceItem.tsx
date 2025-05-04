@@ -219,13 +219,13 @@ export default function ProductInvoiceItem({ item, invoiceStatus }: { item: Invo
             type="SUCCESS"
             message="Review successfully"
             onClose={() => setIsVisibleSuccess(false)}
-            visible={isVisibleSuccess}
+            isVisible={isVisibleSuccess}
          />
          <AlertModal
             type="ERROR"
             message={txtErrorMessage}
             onClose={() => setIsVisibleError(false)}
-            visible={isVisibleError}
+            isVisible={isVisibleError}
          />
          {/* <AlertComponent message='' onClose={} visible /> */}
       </View>

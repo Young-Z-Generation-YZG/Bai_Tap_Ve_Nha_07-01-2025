@@ -1,5 +1,4 @@
 import {
-   FlatList,
    Image,
    ScrollView,
    StyleSheet,
@@ -7,29 +6,14 @@ import {
    TouchableOpacity,
    View,
 } from 'react-native';
-import React, { useEffect } from 'react';
-import { logger } from 'react-native-logs';
+import React from 'react';
 import { router } from 'expo-router';
 import HomeLayout from '~/components/layouts/home.layout';
 import { Carousel } from 'react-native-ui-lib';
 import { images, svgIcons } from '~/constants';
 import Icons from '@constants/svg-icons';
-import Button from '@components/ui/Button';
-import { useAppSelector } from '~/src/infrastructure/redux/store';
 
 const HomeScreen = () => {
-   var log = logger.createLogger();
-
-   const { accessToken, isAuthenticated, user } = useAppSelector(
-      (state) => state.auth,
-   );
-
-   useEffect(() => {
-      console.log('============================================');
-      log.debug('[HomeScreen]::accessToken', accessToken);
-      log.debug('[HomeScreen]::isAuthenticated', isAuthenticated);
-   }, [accessToken, isAuthenticated]);
-
    return (
       <ScrollView>
          <HomeLayout>

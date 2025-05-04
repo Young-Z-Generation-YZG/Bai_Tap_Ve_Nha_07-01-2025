@@ -1,19 +1,22 @@
 import '~/global.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tabs } from "expo-router";
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Text, View } from 'react-native';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
 export default function RootLayout() {
+   const { total } = useAppSelector( state => state.notification);
    
    return (
       <Tabs
          initialRouteName='home'
          screenOptions={{
             tabBarShowLabel: false,
-            tabBarActiveTintColor: "white",
+            tabBarActiveTintColor: "#DD8560",
             tabBarInactiveTintColor: "#888",
             tabBarStyle: {
-               backgroundColor: "#000",
+               backgroundColor: "#f3f4f6",
                // marginHorizontal: 10,
                // marginVertical: 5,
                // borderRadius: 10,
@@ -44,11 +47,17 @@ export default function RootLayout() {
             }}
          />
          <Tabs.Screen
-            name="cart"
+            name="notification"
             options={{
                headerShown: false,
                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name="bell" color={color} size={24} />
+                  <View>
+                     <MaterialCommunityIcons name="bell" color={color} size={24} />
+                     <View className='absolute -top-1 -right-2 w-5 h-5 rounded-full bg-red-500 justify-center items-center'>
+                        <Text className='text-xs text-white'>{total}</Text>
+                     </View>
+                  </View>
+                 
                ),
             }}
          />

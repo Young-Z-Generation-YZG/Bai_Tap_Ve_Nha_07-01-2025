@@ -9,7 +9,7 @@ import DrawerContent from '@components/ui/drawer-content';
 // Get screen width
 const { width } = Dimensions.get('window');
 
-const HomeLayout = () => {
+const NotificationLayout = () => {
    return (
       <GestureHandlerRootView style={{ flex: 1, marginBottom: 50}}>
          <Drawer
@@ -44,4 +44,4 @@ const HomeLayout = () => {
    );
 };
 
-export default HomeLayout;
+export default NotificationLayout;
