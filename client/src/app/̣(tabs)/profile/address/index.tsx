@@ -218,7 +218,7 @@ const AddressScreen = () => {
                   )}
                </View>
                <AlertModal
-                  visible={isVisibleAlertModal}
+                  isVisible={isVisibleAlertModal}
                   message="Update successfully"
                   type="SUCCESS"
                   onClose={() => setIsVisibleAlertModal(false)}

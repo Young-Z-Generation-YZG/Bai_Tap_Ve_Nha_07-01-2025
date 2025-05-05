@@ -60,8 +60,6 @@ const ProductDetailScreen = () => {
          : skipToken,
    );
 
-   console.log(reviewsResponse?.data);
-
    React.useEffect(() => {
       if (productsResponse?.data?.items) {
          const findProduct = productsResponse.data.items.find(
@@ -142,7 +140,6 @@ const ProductDetailScreen = () => {
 
    return (
       <ProductLayout>
-         {/* CAROUSEL IMAGES */}
          <View className="flex items-center w-full mt-5">
             <CarouselItemsTest
                items={product.product_imgs.map((item) => {
@@ -158,7 +155,6 @@ const ProductDetailScreen = () => {
             />
          </View>
 
-         {/* INFO PRODUCT */}
          <View className="relative px-5">
             <Text className="text-2xl uppercase font-TenorSans-Regular">
                {product.product_name}
@@ -171,7 +167,6 @@ const ProductDetailScreen = () => {
             </Text>
          </View>
 
-         {/* CHOOSE SIZE AND COLOR */}
          <View className="flex flex-row items-center mb-2">
             <View className="flex flex-row items-center p-5">
                <Text className="mr-3 text-lg font-TenorSans-Regular">
@@ -208,14 +203,7 @@ const ProductDetailScreen = () => {
                               : '',
                         )}
                      >
-                        {/* // <View key={color} > */}
-                        <Icons.ColorCircle
-                           innerCircleColor={colorHex}
-                           // outerCircleColor={'#333'}
-                           width={30}
-                           height={30}
-                        />
-                        {/* // </View> */}
+                        <Icons.ColorCircle innerCircleColor={colorHex} width={30} height={30} />
                      </TouchableOpacity>
                   );
                })}
@@ -310,19 +298,7 @@ const ProductDetailScreen = () => {
                   />
                </View>
             </View>
-            {/* <View className="relative px-5">
-            <Text className="text-2xl uppercase font-TenorSans-Regular">
-               {product.title}
-            </Text>
-            <Text className="mt-2 text-lg font-TenorSans-Regular text-[#555555]">
-               {product.description}
-            </Text>
-            <Text className="mt-2 text-2xl font-TenorSans-Regular text-secondary">
-               ${product.price}
-            </Text>
-         </View> */}
 
-            {/* REVIEW PRODUCT */}
             <View className="flex items-center justify-end mt-10 mb-5">
                <Text className="mb-3 text-2xl text-center uppercase font-TenorSans-Regular">
                   REVIEW
@@ -349,7 +325,6 @@ const ProductDetailScreen = () => {
                   {reviewsResponse?.data?.reviews &&
                   reviewsResponse.data.reviews.length > 0 ? (
                      reviewsResponse.data.reviews.map((review, index) => {
-                        console.log('review', review);
                         if (index < 3) {
                            return (
                               <ReviewItem

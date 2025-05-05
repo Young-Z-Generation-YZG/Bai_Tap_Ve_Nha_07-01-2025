@@ -91,6 +91,7 @@ const ProductScreen = () => {
       if (productsResponse?.data?.items) {
          if (page === 1) {
             // Reset data on new sort/filter
+            console.log('[ProductScreen]::productsResponse.data.items::',productsResponse.data.items[0].product_imgs[0].secure_url)
             setProductsData(productsResponse.data.items);
          } else {
             // Append for pagination

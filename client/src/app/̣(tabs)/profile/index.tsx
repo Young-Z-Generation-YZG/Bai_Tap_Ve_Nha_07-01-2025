@@ -1,5 +1,5 @@
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AuthLayout from '@components/layouts/auth.layout';
 import { Link, router, Stack } from 'expo-router';
@@ -12,8 +12,18 @@ import {
    Feather,
    MaterialCommunityIcons,
 } from '@expo/vector-icons';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
+import { concat } from 'lodash';
 
 const ProfileScreen = () => {
+   const { userId } = useAppSelector(state => state.auth)
+
+   useEffect(() => {
+      if (!userId){
+         router.replace({ pathname: "sign-in", params: { prevScreen:  'profile' } });
+      }
+   },[userId])
+
    return (
       <AuthLayout>
          <SafeAreaView className="flex-1 bg-white">

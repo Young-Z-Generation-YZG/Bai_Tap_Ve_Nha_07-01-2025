@@ -11,7 +11,7 @@ const { width } = Dimensions.get('window');
 
 const ProductLayout = () => {
    return (
-      <GestureHandlerRootView style={{ flex: 1, marginBottom: 60}}>
+      <GestureHandlerRootView style={{ flex: 1, marginBottom: 50}}>
          <Drawer
             screenOptions={{
                headerShown: true,

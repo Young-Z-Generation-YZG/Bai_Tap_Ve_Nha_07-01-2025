@@ -13,6 +13,8 @@ import { useGetCategoriesAsyncQuery } from '~/src/infrastructure/redux/apis/cate
 import { CategoryItemType } from '~/src/infrastructure/types/category.type';
 import { useDispatch } from 'react-redux';
 import { logout } from '~/src/infrastructure/redux/features/auth/auth.slice';
+import { clearNotifications } from '~/src/infrastructure/redux/features/app/notification.slice';
+import { useAppSelector } from '~/src/infrastructure/redux/store';
 
 type TransformedCategory = {
    _id: string;
@@ -21,13 +23,11 @@ type TransformedCategory = {
    subcategories?: CategoryItemType[];
 };
 
-// Custom Drawer Content Component
 export default function DrawerContent(props: any) {
-   const [txtIdExpandCategory, setTxtIdExpandCategory] = useState(null);
-   const [categoriesData, setCategoriesData] = useState<TransformedCategory[]>(
-      [],
-   );
    const dispatch = useDispatch();
+   const { userId } = useAppSelector(state => state.auth);
+   const [txtIdExpandCategory, setTxtIdExpandCategory] = useState(null);
+   const [categoriesData, setCategoriesData] = useState<TransformedCategory[]>([]);
 
    const toggleCategory = (categoryId: any) => {
       setTxtIdExpandCategory(
@@ -37,6 +37,7 @@ export default function DrawerContent(props: any) {
 
    const handleLogout = () => {
       dispatch(logout());
+      dispatch(clearNotifications())
       router.push('/sign-in');
    };
 
@@ -78,7 +79,6 @@ export default function DrawerContent(props: any) {
 
    return (
       <View className="flex flex-col w-full h-full">
-         {/* HEADER MENU */}
          <View className="relative flex-none w-full h-fit">
             <View className="flex items-center">
                <svgIcons.LogoIcon width={140} height={70} />
@@ -90,7 +90,6 @@ export default function DrawerContent(props: any) {
             </View>
          </View>
 
-         {/* ALL CATEGORIES */}
          <ScrollView className="flex-1 w-full">
             {categoriesData.map((category, index) => (
                <View key={category._id} className="flex flex-col">
@@ -107,7 +106,6 @@ export default function DrawerContent(props: any) {
                      <Text className="text-2xl font-TenorSans-Regular">
                         {category.category_name}
                      </Text>
-                     {/* check if this have subcategories */}
                      {category.subcategories && (
                         <Text>
                            {txtIdExpandCategory === category._id ? (
@@ -118,7 +116,6 @@ export default function DrawerContent(props: any) {
                         </Text>
                      )}
                   </TouchableOpacity>
-                  {/* sub categories */}
                   {category.subcategories &&
                      txtIdExpandCategory === category._id && (
                         <View className="bg-gray-100 ">
@@ -141,7 +138,6 @@ export default function DrawerContent(props: any) {
             ))}
          </ScrollView>
 
-         {/* SHOP INFO */}
          <View className="flex flex-col flex-none w-full gap-5 py-5 px-7">
             <View className="flex flex-row items-center w-full gap-3">
                <svgIcons.TelephoneIcon width={25} height={25} />
@@ -162,20 +158,22 @@ export default function DrawerContent(props: any) {
             </View>
          </View>
 
-         {/* PROFILE */}
          <View className="flex flex-col flex-none w-full gap-5 py-5 px-7">
-            <Button
+            {/* <Button
                title="MY PROFILE"
                className="bg-black rounded-none"
                textStyles="text-white text-xl font-TenorSans-Regular"
                onPress={() => router.push('profile')}
-            />
-            <Button
-               title="SIGN OUT"
-               className="bg-black rounded-none"
-               textStyles="text-white text-xl font-TenorSans-Regular"
-               onPress={handleLogout}
-            />
+            /> */}
+            {
+               userId &&
+               <Button
+                  title="SIGN OUT"
+                  className="bg-black rounded-none"
+                  textStyles="text-white text-xl font-TenorSans-Regular"
+                  onPress={handleLogout}
+               />
+            }
          </View>
       </View>
    );

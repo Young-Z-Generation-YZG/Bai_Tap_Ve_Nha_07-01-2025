@@ -37,9 +37,9 @@ const registerSchema = z.object({
   confirm_password: z.string().min(1, {
     message: "Confirm password is required",
   }),
-  phone_number: z.string().min(1, {
-    message: "Phone number is required",
-  }),
+  // phone_number: z.string().min(1, {
+  //   message: "Phone number is required",
+  // }),
 } satisfies Record<keyof IRegisterPayload, any>);
 
 export type RegisterFormType = z.infer<typeof registerSchema>;

@@ -67,7 +67,7 @@ const CheckoutAddressScreen = () => {
    };
 
    const onSelectDropdow = (id: string | null) => {
-      console.log(id);
+      // console.log(id);
       if (id === '1') {
          setTxtPaymentMethod('COD');
       } else if (id === '2') {
@@ -162,7 +162,7 @@ const CheckoutAddressScreen = () => {
          </View>
          <AlertModal
             message="Please choose your payment method"
-            visible={isVisibleAlertModal}
+            isVisible={isVisibleAlertModal}
             onClose={() => setIsVisibleAlertModal(false)}
             type="ERROR"
          />

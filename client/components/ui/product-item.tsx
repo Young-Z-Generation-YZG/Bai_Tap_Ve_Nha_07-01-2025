@@ -22,6 +22,9 @@ type ProductItemProps = {
 };
 
 const ProductItem = (props: ProductItemProps) => {
+
+   console.log(props.imageUrl)
+
    const wishlist = useAppSelector((state) => state.wishlist);
 
    const dispatch = useDispatch();

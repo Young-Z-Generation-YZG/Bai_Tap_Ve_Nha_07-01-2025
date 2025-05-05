@@ -71,15 +71,12 @@ const PlaceOrderScreen = () => {
 
    const dispatch = useDispatch();
    const onSubmitPlaceOrder = async () => {
-      console.log('objPlaceOrder', objPlaceOrder);
       const res = await postInvoice(objPlaceOrder);
       if (res.data) {
          setModalVisible(true);
          dispatch(clearCart());
       }
    };
-
-   const navigation = useNavigation()
 
    return (
       <CommonLayout title="Place Order" className="h-full bg-white">
@@ -92,7 +89,7 @@ const PlaceOrderScreen = () => {
                   <Text className="mb-5 text-xl text-center uppercase font-TenorSans-Regular">
                      Payment Success
                   </Text>
-                  <Icons.SuccessPaymentIcon />
+                  {/* <Icons.SuccessPaymentIcon /> */}
                   <Text className="mt-5 text-xl font-TenorSans-Regular">
                      Your payment was success
                   </Text>
@@ -108,13 +105,13 @@ const PlaceOrderScreen = () => {
                      Rate your purchase
                   </Text>
                   <View className="flex flex-row">
-                     <Icons.SadIcon />
+                     {/* <Icons.SadIcon />
                      <Icons.HappyIcon />
-                     <Icons.LoveIcon />
+                     <Icons.LoveIcon /> */}
                   </View>
 
                   <View className="flex flex-row justify-between gap-5 mt-6 mb-3">
-                     <AppButton
+                     {/* <AppButton
                         title="Submit"
                         containerStyles="py-1 px-4"
                         textStyles="text-base tracking-widest"
@@ -132,7 +129,7 @@ const PlaceOrderScreen = () => {
                         }}
                         containerStyles="bg-white border border-black py-1 px-4"
                         textStyles="text-black text-base"
-                     />
+                     /> */}
                   </View>
                </View>
             </View>

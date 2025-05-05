@@ -41,8 +41,8 @@ export const productsApi = createApi({
 });
 
 export const {
-   useGetProductsAsyncQuery, // Use this when you want data to be fetched automatically as the component mounts or when the query parameters change.
-   useLazyGetProductsAsyncQuery, // Use this when you need more control over when the query runs, such as in response to a user action (e.g., clicking a button), conditional fetching, or specific events.
+   useGetProductsAsyncQuery,
+   useLazyGetProductsAsyncQuery,
    useGetProductBySlugAsyncQuery,
    useGetProductByIdAsyncQuery,
 } = productsApi;

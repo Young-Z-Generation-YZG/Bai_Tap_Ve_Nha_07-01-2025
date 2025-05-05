@@ -6,7 +6,7 @@ import Header from '@components/Header';
 
 const ProfileLayout = () => {
    return (
-      <GestureHandlerRootView style={{ flex: 1, marginBottom: 60}}>
+      <GestureHandlerRootView style={{ flex: 1, marginBottom: 50}}>
          <Drawer
             screenOptions={{
                headerShown: true,

@@ -6,7 +6,6 @@ import { View } from 'react-native';
 import { ReviewItemType } from '~/src/infrastructure/types/review.type';
 
 export default function ReviewItem(props: ReviewItemType) {
-   console.log('props', props.review_content);
 
    const renderStars = (count: number) => {
       const stars = [];

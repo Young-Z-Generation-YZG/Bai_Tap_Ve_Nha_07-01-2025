@@ -12,9 +12,34 @@ import { useEffect, useState } from 'react';
 import Swiper from 'react-native-swiper';
 
 const App = () => {
-   const token = useAppSelector((state) => state.auth.accessToken);
-
+   
    const [index, setIndex] = useState(0);
+   
+   // const email = useAppSelector((state) => state.auth.email);
+   // useEffect(() => {
+   //    socket.on('connect', () => {
+   //       console.log('Socket connected:', socket.id);
+   
+   //       socket.emit('authenticate', {
+   //          userId: email,
+   //          role: 'USER',
+   //       });
+
+   //       console.log('Authenticate emitted');
+   //    });
+  
+   //    socket.on('user-notification', (data) => {
+   //      console.log('Notification:', data);
+   //    });
+  
+   //    return () => {
+   //      socket.off('user-notification');
+   //      socket.disconnect();
+   //    };
+   // }, []);
+
+   
+  
 
    return (
       <SafeAreaView className="bg-[#111111] h-full">
