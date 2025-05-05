@@ -17,6 +17,7 @@ import { useAppSelector } from '~/src/infrastructure/redux/store';
 import { useDispatch } from 'react-redux';
 import { addNotification, clearNotifications } from '~/src/infrastructure/redux/features/app/notification.slice';
 import { InvoiceNotificationType, ReviewNotificationType } from '~/src/infrastructure/types/notification.type';
+import { useGetNotificationsAsyncQuery } from '~/src/infrastructure/redux/apis/notification.api';
 
 const defaultValues: LoginFormType = {
    email: 'foo@gmail.com',
@@ -68,9 +69,7 @@ const SignInScreen = () => {
          if (!SocketService.isConnected()) {
             SocketService.connect();
          }
-         
          SocketService.authenticate(userId);
-
          if (SocketService.socket) {
             SocketService.socket.off('user-notification');
 
@@ -131,23 +130,48 @@ const SignInScreen = () => {
       }
    }, [userId]);
 
+
+
    const onSubmit = async (data: LoginFormType) => {
       const res = await loginAsync(data).unwrap();
       if (res.data.verify_type === 'EMAIL_VERIFICATION'){
-         setAlertModal({
-            message: 'You not verify email yet. Verify for your shopping.',
-            isVisible: true,
-            type: 'WARNING',
-            onClose: () => setAlertModal(prev => ({...prev, isVisible: false})),
-            onSubmit: () => router.navigate(`verify?_q=${res.data.params._q}&_verify_type=${res.data.params._verify_type}`),
-            visibleClose: true,
-            visibleSubmit: true,
-         })
+      setAlertModal({
+         message: 'You not verify email yet. Verify for your shopping.',
+         isVisible: true,
+         type: 'WARNING',
+         onClose: () => setAlertModal(prev => ({...prev, isVisible: false})),
+         onSubmit: () => router.navigate(`verify?_q=${res.data.params._q}&_verify_type=${res.data.params._verify_type}`),
+         visibleClose: true,
+         visibleSubmit: true,
+      })
       }
-      if (res.data.verify_type === 'CREDENTIALS_VERIFICATION'){
+      if (res.data.verify_type === 'CREDENTIALS_VERIFICATION'){      
          router.replace('/home');
       }
    };
+   // const onSubmit = async (data: LoginFormType) => {
+   //    const res = await loginAsync(data).unwrap();
+   //    if (res.data.verify_type === 'EMAIL_VERIFICATION'){
+   //       setAlertModal({
+   //          message: 'You not verify email yet. Verify for your shopping.',
+   //          isVisible: true,
+   //          type: 'WARNING',
+   //          onClose: () => setAlertModal(prev => ({...prev, isVisible: false})),
+   //          onSubmit: () => router.navigate(`verify?_q=${res.data.params._q}&_verify_type=${res.data.params._verify_type}`),
+   //          visibleClose: true,
+   //          visibleSubmit: true,
+   //       })
+   //    }
+   //    if (res.data.verify_type === 'CREDENTIALS_VERIFICATION'){
+   //       await loadNotifications()
+   //       router.replace('/home');
+   //    }
+   // };
+
+   // const loadNotifications = async () => {
+   //    const {data : notificationRespone} = useGetNotificationsAsyncQuery({_page: 1, _limit: 100 })
+   //    console.log('[SIGNIN]::notificationRespone::',notificationRespone)
+   // }
 
    // useEffect(() => {
    //    if (isSuccess) {

@@ -31,6 +31,7 @@ import wishlistSlice from '~/src/infrastructure/redux/features/app/wishlist.slic
 import { reviewsApi } from '~/src/infrastructure/redux/apis/review.api';
 import { invoicesApi } from '~/src/infrastructure/redux/apis/invoice.api';
 import { voucherApi } from '~/src/infrastructure/redux/apis/voucher.api';
+import { notificationsApi } from '~/src/infrastructure/redux/apis/notification.api';
 
 const storage = createPersistStorage();
 
@@ -46,6 +47,7 @@ const persistConfig: PersistConfig<ReturnType<typeof reducers>> = {
       invoicesApi.reducerPath,
       reviewsApi.reducerPath,
       voucherApi.reducerPath,
+      notificationsApi.reducerPath,
    ], // Exclude API reducers from persistence
    whitelist: ['auth', 'search', 'cart', 'wishlist', 'bottomtab', 'notification'], // Only persist auth and search slices
 };
@@ -84,6 +86,7 @@ const reducers = combineReducers({
    [invoicesApi.reducerPath]: invoicesApi.reducer,
    [reviewsApi.reducerPath]: reviewsApi.reducer,
    [voucherApi.reducerPath]: voucherApi.reducer,
+   [notificationsApi.reducerPath]: notificationsApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -103,6 +106,7 @@ export const reduxStore = configureStore({
          invoicesApi.middleware,
          reviewsApi.middleware,
          voucherApi.middleware,
+         notificationsApi.middleware,
          rtkQueryLoggerMiddleware,
       ),
    enhancers: getEnhancers,
